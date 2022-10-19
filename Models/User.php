@@ -2,18 +2,17 @@
 
     namespace Models;
 
-    use Models\Address as Address;
-
     class User {
         private $id;
+        private $userType;
+        private $name;
+        private $surname;
         private $userName;
         private $password;
         private $email;
-        private $name;
-        private $surname;
-        private $typeUser;
-        private $idCellphone;
-        private $idAddress;
+        private $birthDay;
+        private $cellphone;
+        private $address;
 
         /**
          * Get the value of id
@@ -31,6 +30,66 @@
         public function setId($id)
         {
                 $this->id = $id;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of userType
+         */ 
+        public function getUserType()
+        {
+                return $this->userType;
+        }
+
+        /**
+         * Set the value of userType
+         *
+         * @return  self
+         */ 
+        public function setUserType($userType)
+        {
+                $this->userType = $userType;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of name
+         */ 
+        public function getName()
+        {
+                return $this->name;
+        }
+
+        /**
+         * Set the value of name
+         *
+         * @return  self
+         */ 
+        public function setName($name)
+        {
+                $this->name = $name;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of surname
+         */ 
+        public function getSurname()
+        {
+                return $this->surname;
+        }
+
+        /**
+         * Set the value of surname
+         *
+         * @return  self
+         */ 
+        public function setSurname($surname)
+        {
+                $this->surname = $surname;
 
                 return $this;
         }
@@ -96,81 +155,41 @@
         }
 
         /**
-         * Get the value of name
+         * Get the value of birthDay
          */ 
-        public function getName()
+        public function getBirthDay()
         {
-                return $this->name;
+                return $this->birthDay;
         }
 
         /**
-         * Set the value of name
+         * Set the value of birthDay
          *
          * @return  self
          */ 
-        public function setName($name)
+        public function setBirthDay($birthDay)
         {
-                $this->name = $name;
+                $this->birthDay = $birthDay;
 
                 return $this;
         }
 
         /**
-         * Get the value of surname
+         * Get the value of cellphone
          */ 
-        public function getSurname()
+        public function getCellphone()
         {
-                return $this->surname;
+                return $this->cellphone;
         }
 
         /**
-         * Set the value of surname
+         * Set the value of cellphone
          *
          * @return  self
          */ 
-        public function setSurname($surname)
+        public function setCellphone($cellphone)
         {
-                $this->surname = $surname;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of typeUser
-         */ 
-        public function getTypeUser()
-        {
-                return $this->typeUser;
-        }
-
-        /**
-         * Set the value of typeUser
-         *
-         * @return  self
-         */ 
-        public function setTypeUser($typeUser)
-        {
-                $this->typeUser = $typeUser;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of idCellphone
-         */ 
-        public function getIdCellphone()
-        {
-                return $this->idCellphone;
-        }
-
-        /**
-         * Set the value of idCellphone
-         *
-         * @return  self
-         */ 
-        public function setIdCellphone($idCellphone)
-        {
-                $this->idCellphone = $idCellphone;
+                $this->cellphone = $cellphone;
 
                 return $this;
         }
@@ -178,9 +197,9 @@
         /**
          * Get the value of address
          */ 
-        public function getIdAddress()
+        public function getAddress()
         {
-                return $this->idAddress;
+                return $this->address;
         }
 
         /**
@@ -188,9 +207,9 @@
          *
          * @return  self
          */ 
-        public function setIdAddress($idAddress)
+        public function setAddress($address)
         {
-                $this->idAddress = $idAddress;
+                $this->address = $address;
 
                 return $this;
         }

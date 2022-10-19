@@ -2,88 +2,88 @@
 
     namespace Models;
 
-    class Keeper extends User {
-        private $description;
-        private $size;
-        private $freeDays;
-        private $price;
+    class Keeper {
+        private $id;
+        private $userId;
+        private $petTypeId;
+        private $remuneration;
 
         /**
-         * Get the value of description
+         * Get the value of keeperId
          */ 
-        public function getDescription()
+        public function getId()
         {
-                return $this->description;
+                return $this->id;
         }
 
         /**
-         * Set the value of description
+         * Set the value of keeperId
          *
          * @return  self
          */ 
-        public function setDescription($description)
+        public function setId($id)
         {
-                $this->description = $description;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of size
-         */ 
-        public function getSize()
-        {
-                return $this->size;
-        }
-
-        /**
-         * Set the value of size
-         *
-         * @return  self
-         */ 
-        public function setSize($size)
-        {
-                $this->size = $size;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of freeDays
-         */ 
-        public function getFreeDays()
-        {
-                return $this->freeDays;
-        }
-
-        /**
-         * Set the value of freeDays
-         *
-         * @return  self
-         */ 
-        public function setFreeDays($freeDays)
-        {
-                $this->freeDays = $freeDays;
+                $this->id = $id;
 
                 return $this;
         }
         
         /**
-         * Get the value of price
+         * Get the value of userId
          */ 
-        public function getPrice()
+        public function getUserId()
         {
-                return $this->price;
+                return $this->userId;
         }
 
         /**
-         * Set the value of price
+         * Set the value of userId
          *
          * @return  self
          */ 
-        public function setPrice($price)
+        public function setUserId($userId)
         {
-                $this->price = $price;
+                $this->userId = $userId;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of petTypeId
+         */ 
+        public function getPetTypeId()
+        {
+                return $this->petTypeId;
+        }
+
+        /**
+         * Set the value of petTypeId
+         *
+         * @return  self
+         */ 
+        public function setPetTypeId($petTypeId)
+        {
+                $this->petTypeId = $petTypeId;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of remuneration
+         */ 
+        public function getRemuneration()
+        {
+                return $this->remuneration;
+        }
+
+        /**
+         * Set the value of remuneration
+         *
+         * @return  self
+         */ 
+        public function setRemuneration($remuneration)
+        {
+                $this->remuneration = $remuneration;
 
                 return $this;
         }

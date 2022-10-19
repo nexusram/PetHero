@@ -50,16 +50,9 @@
 
             foreach($this->keeperList as $keeper) {
                 $value["id"] = $keeper->getId();
-                $value["userName"] = $keeper->getName();
-                $value["password"] = $keeper->getPassword();
-                $value["email"] = $keeper->getEmail();
-                $value["name"] = $keeper->getName();
-                $value["surname"] = $keeper->getSurname();
-                $value["typeUser"] = $keeper->getTypeUser();
-                $value["idCellphone"] = $keeper->getIdCellphone();
-                $value["idAddress"] = $keeper->getIdAddress();
-                $value["description"] = $keeper->getDescription();
-                $value["size"] = $keeper->getSize();
+                $value["userId"] = $keeper->getuserId();
+                $value["petTypeId"] = $keeper->getPetTypeId();
+                $value["remuneration"] = $keeper->getRemuneration();
 
                 array_push($arrayEncode, $value);
             }
@@ -75,17 +68,13 @@
                 $arrayDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
 
                 foreach($arrayDecode as $value) {
-                    $user = new Keeper();
-                    $user->setId($value["id"]);
-                    $user->setUserName($value["userName"]);
-                    $user->setEmail($value["email"]);
-                    $user->setName($value["name"]);
-                    $user->setSurname($value["surname"]);
-                    $user->setTypeUser($value["typeUser"]);
-                    $user->setIdCellphone($value["idCellphone"]);
-                    $user->setIdAddress($value["idAddress"]);
+                    $keeper = new Keeper();
+                    $keeper->setId($value["id"]);
+                    $keeper->setUserId($value["userId"]);
+                    $keeper->setPetTypeId($value["petTypeId"]);
+                    $keeper->setRemuneration($value["remuneration"]);
 
-                    array_push($this->users, $user);
+                    array_push($this->users, $keeper);
                 }
             }
         }

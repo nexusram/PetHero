@@ -50,14 +50,15 @@
 
             foreach($this->users as $user) {
                 $value["id"] = $user->getId();
+                $value["userType"] = $user->getTypeUser();
+                $value["name"] = $user->getName();
+                $value["surname"] = $user->getSurname();
                 $value["userName"] = $user->getName();
                 $value["password"] = $user->getPassword();
                 $value["email"] = $user->getEmail();
-                $value["name"] = $user->getName();
-                $value["surname"] = $user->getSurname();
-                $value["typeUser"] = $user->getTypeUser();
-                $value["idCellphone"] = $user->getIdCellphone();
-                $value["idAddress"] = $user->getIdAddress();
+                $value["birthDay"] = $user->getBirthDay();
+                $value["cellphone"] = $user->getCellphone();
+                $value["address"] = $user->getAddress();
 
                 array_push($arrayEncode, $value);
             }
@@ -75,13 +76,15 @@
                 foreach($arrayDecode as $value) {
                     $user = new User();
                     $user->setId($value["id"]);
-                    $user->setUserName($value["userName"]);
-                    $user->setEmail($value["email"]);
+                    $user->setUserType($value["userType"]);
                     $user->setName($value["name"]);
                     $user->setSurname($value["surname"]);
-                    $user->setTypeUser($value["typeUser"]);
-                    $user->setIdCellphone($value["idCellphone"]);
-                    $user->setIdAddress($value["idAddress"]);
+                    $user->setUserName($value["userName"]);
+                    $user->setPassword($value["password"]);
+                    $user->setEmail($value["email"]);
+                    $user->setBirthDay($value["birthDay"]);
+                    $user->setCellphone($value["cellphone"]);
+                    $user->setAddress($value["address"]);
 
                     array_push($this->users, $user);
                 }

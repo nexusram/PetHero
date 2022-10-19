@@ -4,15 +4,15 @@
 
     class Pet {
         private $id;
-        private $idOwner;
+        private $userId;
         private $name;
         private $photo;
-        private $size;
-        private $petType;
+        private $petTypeId;
         private $breed;
         private $video;
         private $vacunationPlanPhoto;
         private $vacunationObservation;
+        private $details;
 
         /**
          * Get the value of id
@@ -35,21 +35,21 @@
         }
 
         /**
-         * Get the value of idOwner
+         * Get the value of userId
          */ 
-        public function getIdOwner()
+        public function getUserId()
         {
-                return $this->idOwner;
+                return $this->userId;
         }
 
         /**
-         * Set the value of idOwner
+         * Set the value of userId
          *
          * @return  self
          */ 
-        public function setIdOwner($idOwner)
+        public function setUserId($userId)
         {
-                $this->idOwner = $idOwner;
+                $this->userId = $userId;
 
                 return $this;
         }
@@ -95,41 +95,21 @@
         }
 
         /**
-         * Get the value of size
+         * Get the value of petTypeId
          */ 
-        public function getSize()
+        public function getPetTypeId()
         {
-                return $this->size;
+                return $this->petTypeId;
         }
 
         /**
-         * Set the value of size
+         * Set the value of petTypeId
          *
          * @return  self
          */ 
-        public function setSize($size)
+        public function setPetTypeId($petTypeId)
         {
-                $this->size = $size;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of petType
-         */ 
-        public function getPetType()
-        {
-                return $this->petType;
-        }
-
-        /**
-         * Set the value of petType
-         *
-         * @return  self
-         */ 
-        public function setPetType($petType)
-        {
-                $this->petType = $petType;
+                $this->petTypeId = $petTypeId;
 
                 return $this;
         }
@@ -210,6 +190,26 @@
         public function setVacunationObservation($vacunationObservation)
         {
                 $this->vacunationObservation = $vacunationObservation;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of details
+         */ 
+        public function getDetails()
+        {
+                return $this->details;
+        }
+
+        /**
+         * Set the value of details
+         *
+         * @return  self
+         */ 
+        public function setDetails($details)
+        {
+                $this->details = $details;
 
                 return $this;
         }
