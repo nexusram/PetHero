@@ -1,0 +1,175 @@
+<?php
+
+    namespace Models;
+
+    class Booking {
+        private $id;
+        private $idOwner;
+        private $idKeeper;
+        private $idMascota;
+        private $idCupon;
+        private $contratedDayList;
+        private $state;
+        private $total;
+
+        /**
+         * Get the value of id
+         */ 
+        public function getId()
+        {
+                return $this->id;
+        }
+
+        /**
+         * Set the value of id
+         *
+         * @return  self
+         */ 
+        public function setId($id)
+        {
+                $this->id = $id;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of idOwner
+         */ 
+        public function getIdOwner()
+        {
+                return $this->idOwner;
+        }
+
+        /**
+         * Set the value of idOwner
+         *
+         * @return  self
+         */ 
+        public function setIdOwner($idOwner)
+        {
+                $this->idOwner = $idOwner;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of idKeeper
+         */ 
+        public function getIdKeeper()
+        {
+                return $this->idKeeper;
+        }
+
+        /**
+         * Set the value of idKeeper
+         *
+         * @return  self
+         */ 
+        public function setIdKeeper($idKeeper)
+        {
+                $this->idKeeper = $idKeeper;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of idMascota
+         */ 
+        public function getIdMascota()
+        {
+                return $this->idMascota;
+        }
+
+        /**
+         * Set the value of idMascota
+         *
+         * @return  self
+         */ 
+        public function setIdMascota($idMascota)
+        {
+                $this->idMascota = $idMascota;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of idCupon
+         */ 
+        public function getIdCupon()
+        {
+                return $this->idCupon;
+        }
+
+        /**
+         * Set the value of idCupon
+         *
+         * @return  self
+         */ 
+        public function setIdCupon($idCupon)
+        {
+                $this->idCupon = $idCupon;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of contratedDayList
+         */ 
+        public function getContratedDayList()
+        {
+                return $this->contratedDayList;
+        }
+
+        /**
+         * Set the value of contratedDayList
+         *
+         * @return  self
+         */ 
+        public function setContratedDayList($contratedDayList)
+        {
+                $this->contratedDayList = $contratedDayList;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of state
+         */ 
+        public function getState()
+        {
+                return $this->state;
+        }
+
+        /**
+         * Set the value of state
+         *
+         * @return  self
+         */ 
+        public function setState($state)
+        {
+                $this->state = $state;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of total
+         */ 
+        public function getTotal()
+        {
+                return $this->total;
+        }
+
+        /**
+         * Set the value of total
+         *
+         * @return  self
+         */ 
+        public function setTotal($total)
+        {
+                $this->total = $total;
+
+                return $this;
+        }
+    }
+?>
