@@ -2,12 +2,10 @@
 
     namespace Models;
 
-    class Keeper {
+    class Keeper extends User {
         private $description;
         private $size;
-        private $reviews;
         private $freeDays;
-        private $bookings;
         private $price;
 
         /**
@@ -51,26 +49,6 @@
         }
 
         /**
-         * Get the value of reviews
-         */ 
-        public function getReviews()
-        {
-                return $this->reviews;
-        }
-
-        /**
-         * Set the value of reviews
-         *
-         * @return  self
-         */ 
-        public function setReviews($reviews)
-        {
-                $this->reviews = $reviews;
-
-                return $this;
-        }
-
-        /**
          * Get the value of freeDays
          */ 
         public function getFreeDays()
@@ -89,27 +67,7 @@
 
                 return $this;
         }
-
-        /**
-         * Get the value of bookings
-         */ 
-        public function getBookings()
-        {
-                return $this->bookings;
-        }
-
-        /**
-         * Set the value of bookings
-         *
-         * @return  self
-         */ 
-        public function setBookings($bookings)
-        {
-                $this->bookings = $bookings;
-
-                return $this;
-        }
-
+        
         /**
          * Get the value of price
          */ 
