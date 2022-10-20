@@ -60,10 +60,10 @@
 
             foreach($this->users as $user) {
                 $value["id"] = $user->getId();
-                $value["userType"] = $user->getTypeUser();
+                $value["userType"] = $user->getUserType();
                 $value["name"] = $user->getName();
                 $value["surname"] = $user->getSurname();
-                $value["userName"] = $user->getName();
+                $value["userName"] = $user->getUserName();
                 $value["password"] = $user->getPassword();
                 $value["email"] = $user->getEmail();
                 $value["birthDay"] = $user->getBirthDay();

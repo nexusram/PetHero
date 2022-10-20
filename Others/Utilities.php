@@ -2,13 +2,17 @@
 
     namespace Others;
 
+use DateTime;
+
     class Utilities {
         
-        public function getYearForDates($birtDate) {
-            $currentDate = date("Y-m-d");
-            $currentDate = date("Y", $currentDate);
-            $birtDate = date("Y", $birtDate);
-            return $currentDate - $birtDate;
+        public function getYearForDate($birthDate) {
+            $dateOfBirth = new DateTime($birthDate);
+            $now = new DateTime();
+
+            $diference = $now->diff($dateOfBirth);
+
+            return $diference->format("%y");
         }
     }
 
