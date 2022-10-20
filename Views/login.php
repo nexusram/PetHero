@@ -20,9 +20,8 @@
                     <a href="#">I forgot the password?</a>
                </div>
                <div class="form-group mt-2 mb-0 text-center">
-                    <a href="#">Do you not a user? Register now!</a>
+                    <a href="<?php echo FRONT_ROOT . "User/ShowRegisterView" ?>">Do you not a user? Register now!</a>
                </div>
           </form>
      </div>
-     
 </main>

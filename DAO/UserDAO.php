@@ -44,6 +44,16 @@
             return $this->users;
         }
 
+        public function GetByUserName($userName) {
+            $this->RetrieveData();
+
+            $array = array_filter($this->users, function($user) use($userName) {
+                return $user->getUserName() == $userName;
+            });
+
+            return (count($array) > 0) ? $array[0] : null;
+        }
+
         private function SaveData() {
             sort($this->users);
             $arrayEncode = array();

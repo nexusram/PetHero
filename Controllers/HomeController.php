@@ -5,7 +5,8 @@
     class HomeController {
         
         public function Index($message = "") {
-            require_once(VIEWS_PATH . "home.php");
-        }
+            $userController = new UserController();
+            require_once(VIEWS_PATH . "login.php");
+        }  
     }
 ?>
