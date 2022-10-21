@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "userType": 3,
+        "name": "Axel",
+        "surname": "Caceres",
+        "userName": "PapitoPrograma",
+        "password": "123",
+        "email": "axel@correo.com",
+        "birthDay": "2001-03-24",
+        "cellphone": "2236976480",
+        "address": "Av Colon 7520"
+    },
+    {
+        "id": 2,
+        "userType": 1,
+        "name": "Benito",
+        "surname": "Camela",
+        "userName": "Pijudo23x6",
+        "password": "123",
+        "email": "pijudo@correo.com",
+        "birthDay": "2002-03-21",
+        "cellphone": "2236976480",
+        "address": "Av Colon 75202"
+    }
+]

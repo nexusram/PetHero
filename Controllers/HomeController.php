@@ -29,32 +29,10 @@ class HomeController
 
     public function Register($name, $surname, $birthday, $username, $password, $password_two, $email, $cellphone, $address)
     {
-        if ($this->userDAO->CountUser() == 0) {
-            $type = 3;
-            $this->AddRegister($name, $surname, $birthday, $username, $password, $password_two, $email, $cellphone, $address, $type);
-        } else {
-            $type = 1;
-            $this->AddRegister($name, $surname, $birthday, $username, $password, $password_two, $email, $cellphone, $address, $type);
-        }
-    }
-    public function AddRegister($name, $surname, $birthday, $username, $password, $password_two, $email, $cellphone, $address, $type)
-    {
         if (!$this->userDAO->GetByUserName($username)) {
             if ($this->utilities->getYearForDate($birthday) > 18) {
                 if ($password === $password_two) {
-                    $user = new User();
-                    $user->setUserType($type);
-                    $user->setName($name);
-                    $user->setSurname($surname);
-                    $user->setBirthDay($birthday);
-                    $user->setUserName($username);
-                    $user->setPassword($password);
-                    $user->setEmail($email);
-                    $user->setCellphone($cellphone);
-                    $user->setAddress($address);
-
-                    $this->userDAO->Add($user);
-
+                    $this->AddUserRegister($name, $surname, $birthday, $username, $password, $email, $cellphone, $address);
                     $this->Index("Usuario registrado con exito", "success");
                 } else {
                     $this->ShowRegisterView("La contraseñas no coinciden");
@@ -66,24 +44,48 @@ class HomeController
             $this->ShowRegisterView("El usuario que se intenta registrar ya existe");
         }
     }
-    public function Login($userName, $password)
-    {
-        $user = $this->userDAO->GetByUserName($userName);
-        if (($user != null) && ($user->getPassword() === $password)) {
-            $_SESSION["loggedUser"] = $user;
-            $this->ShowPetListView();
+
+    public function AddUserRegister($name, $surname, $birthday, $username, $password, $email, $cellphone, $address) {
+        $type = 1;
+        if ($this->userDAO->CountUser() == 0) {
+            $type = 3;
+        }
+        $user = new User();
+        $user->setUserType($type);
+        $user->setName($name);
+        $user->setSurname($surname);
+        $user->setBirthDay($birthday);
+        $user->setUserName($username);
+        $user->setPassword($password);
+        $user->setEmail($email);
+        $user->setCellphone($cellphone);
+        $user->setAddress($address);
+
+        $this->userDAO->Add($user);
+    }
+
+    public function Login($userName="", $password="") {
+
+        if($userName != "" || $password != "") {
+            $user = $this->userDAO->GetByUserName($userName);
+            if (($user != null) && ($user->getPassword() === $password)) {
+                $_SESSION["loggedUser"] = $user;
+                $this->ShowPetListView();
+            } else {
+                $this->Index("Usuario y/o contraseña incorrecta");
+            }
         } else {
-            $this->Index("Usuario y/o contraseña incorrecta");
+            $this->Index();
         }
     }
-    public function Logout()
-    {
+
+    public function Logout() {
         require_once(VIEWS_PATH . "validate-session.php");
         session_destroy();
         $this->Index("session cerrada con exito", "success");
     }
-    public function ShowPetListView()
-    {
+
+    public function ShowPetListView() {
         require_once(VIEWS_PATH . "validate-session.php");
         require_once(VIEWS_PATH . "pet-list.php");
     }

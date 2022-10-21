@@ -15,7 +15,7 @@
                         </a>
                     </div>
                </div>
-               <h2 class="mb-4">My Pet´s<</h2>
+               <h2 class="mb-4">My Pet´s</h2>
                <table class="table bg-light-alpha">
                     <thead>
                          <th>Name</th>
