@@ -119,4 +119,9 @@ class UserDAO implements IUserDAO
 
         return $id + 1;
     }
+    public function CountUser()
+    {
+        $this->RetrieveData();
+        return count($this->users);
+    }
 }

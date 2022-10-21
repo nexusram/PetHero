@@ -29,12 +29,21 @@ class HomeController
 
     public function Register($name, $surname, $birthday, $username, $password, $password_two, $email, $cellphone, $address)
     {
-
+        if ($this->userDAO->CountUser() == 0) {
+            $type = 3;
+            $this->AddRegister($name, $surname, $birthday, $username, $password, $password_two, $email, $cellphone, $address, $type);
+        } else {
+            $type = 1;
+            $this->AddRegister($name, $surname, $birthday, $username, $password, $password_two, $email, $cellphone, $address, $type);
+        }
+    }
+    public function AddRegister($name, $surname, $birthday, $username, $password, $password_two, $email, $cellphone, $address, $type)
+    {
         if (!$this->userDAO->GetByUserName($username)) {
             if ($this->utilities->getYearForDate($birthday) > 18) {
                 if ($password === $password_two) {
                     $user = new User();
-                    $user->setUserType(1);
+                    $user->setUserType($type);
                     $user->setName($name);
                     $user->setSurname($surname);
                     $user->setBirthDay($birthday);
