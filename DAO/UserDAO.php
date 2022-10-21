@@ -52,12 +52,14 @@ class UserDAO implements IUserDAO
     public function GetByUserName($userName)
     {
         $this->RetrieveData();
-        foreach ($this->users as $user) {
-            if ($user->getUserName() === $userName) {
-                return $user;
-            }
-        }
-        return null;
+
+        $array = array_filter($this->users, function($user) use($userName) {
+            return $user->getUserName() == $userName;
+        });
+
+        array_values($array);
+
+        return (count($array) > 0) ? $array[0] : null;
     }
 
     private function SaveData()
