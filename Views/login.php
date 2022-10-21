@@ -17,7 +17,7 @@
                </div>
                <button class="btn btn-warning btn-block btn-lg" type="submit">Sign in</button>
                <div class="form-group mt-2 mb-0 text-center">
-                    <a href="#">I forgot the password?</a>
+                    <a href="<?php echo FRONT_ROOT . "Home/ShowForgetUserView" ?>">I forgot the password?</a>
                </div>
                <div class="form-group mt-2 mb-0 text-center">
                     <a href="<?php echo FRONT_ROOT . "Home/ShowRegisterView" ?>">Do you not a user? Register now!</a>

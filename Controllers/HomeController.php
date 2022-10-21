@@ -89,4 +89,18 @@ class HomeController
         require_once(VIEWS_PATH . "validate-session.php");
         require_once(VIEWS_PATH . "pet-list.php");
     }
+    public function ShowForgetUserView($message = "", $type = "")
+    {
+        require_once(VIEWS_PATH . "viewForgetUser.php");
+    }
+    public function ForgotUser($userName)
+    {
+        
+        if ($this->userDAO->GetByUserName($userName)) {
+            $user = $this->userDAO->GetByUserName($userName);
+            mail($user->getEmail(),"Olvide la contraseña","Este es su contraseña".$user->getPassword());
+            $this->Index("enviado con exito","success");
+        }
+        $this->ShowForgetUserView("nombre no encontrado",);
+    }
 }
