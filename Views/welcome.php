@@ -53,10 +53,4 @@ if(isset($_SESSION['loggedUser'])){
 	echo "window.location = '../index.php';
 		</script>";
 }
-
-?>
-
-
-<?php 
-include('footer.php')
 ?>

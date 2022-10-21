@@ -10,5 +10,17 @@
         "birthDay": "2001-03-24",
         "cellphone": "2236976480",
         "address": "Av Colon 7520"
+    },
+    {
+        "id": 2,
+        "userType": 1,
+        "name": "nahuel",
+        "surname": "suarez",
+        "userName": "naju",
+        "password": "gtasanandreas",
+        "email": "nahuelsuarez97@hotmail.com",
+        "birthDay": "1997-01-12",
+        "cellphone": "+5492235957926",
+        "address": "jacinto"
     }
 ]

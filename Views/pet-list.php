@@ -1,5 +1,6 @@
 <?php
     include_once(VIEWS_PATH . "nav-user.php");
+    include_once(VIEWS_PATH . "validate-session.php");
 ?>
 <main class="py-5">
      <section id="listado" class="mb-5">
