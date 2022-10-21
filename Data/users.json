@@ -22,5 +22,17 @@
         "birthDay": "1997-01-12",
         "cellphone": "+5492235957926",
         "address": "jacinto"
+    },
+    {
+        "id": 3,
+        "userType": 1,
+        "name": "Mauro Triaca",
+        "surname": "Triaca",
+        "userName": "mauro17",
+        "password": "1234",
+        "email": "maurotriaca7@gmail.com",
+        "birthDay": "2001-06-07",
+        "cellphone": "2235488254",
+        "address": "Balcarce 3667"
     }
 ]
