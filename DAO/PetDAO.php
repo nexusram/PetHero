@@ -44,6 +44,18 @@
             return $this->petList;
         }
 
+        public function Exist($userId, $name) {
+            $rta = false;
+            $this->RetrieveData();
+
+            foreach($this->petList as $pet) {
+                if($pet->getUserId() == $userId && $pet->getName() == $name) {
+                    $rta = true;
+                }
+            }
+            return $rta;
+        }
+
         public function SaveData() {
             sort($this->petList);
             $arrayEncode = array();
@@ -57,8 +69,7 @@
                 $value["breed"] = $pet->getBreed();
                 $value["video"] = $pet->getVideo();
                 $value["vacunationPlanPhoto"] = $pet->getVacunationPlanPhoto();
-                $value["vacunationObservation"] = $pet->getVacunationObservation();
-                $value["datails"] = $pet->getDetails();
+                $value["observation"] = $pet->getObservation();
 
                 array_push($arrayEncode, $value);
             }
@@ -83,8 +94,7 @@
                     $pet->setBreed($value["breed"]);
                     $pet->setVideo($value["video"]);
                     $pet->setVacunationPlanPhoto($value["vacunationPlanPhoto"]);
-                    $pet->setVacunationObservation($value["vacunationObservation"]);
-                    $pet->setDetails($value["datails"]);
+                    $pet->setObservation($value["observation"]);
                     
                     array_push($this->petList, $pet);
                 }

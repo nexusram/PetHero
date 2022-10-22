@@ -9,5 +9,6 @@
         function Remove($id);
         function Modify(Pet $pet);
         function GetAll();
+        function Exist($userId, $name);
     }
 ?>

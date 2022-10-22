@@ -11,8 +11,7 @@
         private $breed;
         private $video;
         private $vacunationPlanPhoto;
-        private $vacunationObservation;
-        private $details;
+        private $observation;
 
         /**
          * Get the value of id
@@ -175,29 +174,9 @@
         }
 
         /**
-         * Get the value of vacunationObservation
-         */ 
-        public function getVacunationObservation()
-        {
-                return $this->vacunationObservation;
-        }
-
-        /**
-         * Set the value of vacunationObservation
-         *
-         * @return  self
-         */ 
-        public function setVacunationObservation($vacunationObservation)
-        {
-                $this->vacunationObservation = $vacunationObservation;
-
-                return $this;
-        }
-
-        /**
          * Get the value of details
          */ 
-        public function getDetails()
+        public function getObservation()
         {
                 return $this->details;
         }
@@ -207,7 +186,7 @@
          *
          * @return  self
          */ 
-        public function setDetails($details)
+        public function setObservation($details)
         {
                 $this->details = $details;
 

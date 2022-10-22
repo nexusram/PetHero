@@ -23,14 +23,12 @@
                          <th>Size</th>
                          <th>Photo</th>
                          <th>Vacunation Plan</th>
-                         <th>Vacunation Observations</th>
-                         <th>Details</th>
+                         <th>Observation</th>
                          <th>Actions</th>           
                     </thead>
                     <tbody>
                          <form action="process/removeBeer.php" method="POST">
                                 <tr>
-                                    <td>x</td>
                                     <td>x</td>
                                     <td>x</td>
                                     <td>x</td>
@@ -51,5 +49,28 @@
                     </tbody>
                </table>
           </div>
+          <?php
+                    if($message != "") {
+                    ?>
+                         <div class='form-group text-center'>
+                    <?php
+                         if($type == "") {
+                              ?>
+                              <div class='alert alert-danger'>
+                                   <p><?php echo $message ?></p>
+                              </div>
+                         <?php
+                         } else {
+                              ?>
+                              <div class='alert alert-success'>
+                              <p><?php echo $message ?></p>
+                              </div>
+                         <?php
+                         }
+                    ?>
+                         </div>
+                    <?php
+                    }
+               ?>
      </section>
 </main>

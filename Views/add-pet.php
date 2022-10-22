@@ -11,7 +11,7 @@
                          <div class="col-lg-8">
                               <div class="form-group">
                                    <label for="">Name</label>
-                                   <input type="text" name="name" value="" class="form-control">
+                                   <input type="text" name="name" class="form-control">
                                    
                                    <label for="">Pet type</label>
                                    <select class="form-control" name="petTypeId" id="petTypeId">
@@ -21,22 +21,10 @@
                                    </select>
 
                                    <label for="">Breed</label>
-                                   <input type="text" name="breed" value="" class="form-control">
+                                   <input type="text" name="breed" class="form-control">
                                    
-                                   <label for="">Photo</label>
-                                   <input type="file" id="photo" name="photo" class="form-control">
-                                   
-                                   <label for="">Vacunation plan photo</label>
-                                   <input type="file" name="vacunationPlanPhoto" class="form-control">
-                                   
-                                   <label for="">Vacunation observation</label>
-                                   <input type="text" name="vacunationObservation" value="" class="form-control">
-                                   
-                                   <label for="">Details</label>
-                                   <input type="textarea" name="details" value="" class="form-control">
-                                   
-                                   <label for="">Video</label>
-                                   <input type="file" name="video" value="" class="form-control">
+                                   <label for="">Observation</label>
+                                   <input type="textarea" name="observation" class="form-control">
                               </div>
                          </div>
                     </div>
