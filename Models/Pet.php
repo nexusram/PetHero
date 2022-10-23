@@ -9,6 +9,7 @@
         private $photo;
         private $petTypeId;
         private $breed;
+        private $specie;
         private $video;
         private $vacunationPlanPhoto;
         private $observation;
@@ -134,6 +135,26 @@
         }
 
         /**
+         * Get the value of specie
+         */ 
+        public function getSpecie()
+        {
+                return $this->specie;
+        }
+
+        /**
+         * Set the value of specie
+         *
+         * @return  self
+         */ 
+        public function setSpecie($specie)
+        {
+                $this->specie = $specie;
+
+                return $this;
+        }
+
+        /**
          * Get the value of video
          */ 
         public function getVideo()
@@ -178,7 +199,7 @@
          */ 
         public function getObservation()
         {
-                return $this->details;
+                return $this->observation;
         }
 
         /**
@@ -186,9 +207,9 @@
          *
          * @return  self
          */ 
-        public function setObservation($details)
+        public function setObservation($observation)
         {
-                $this->details = $details;
+                $this->observation = $observation;
 
                 return $this;
         }

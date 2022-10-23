@@ -56,6 +56,26 @@
             return $rta;
         }
 
+        public function GetPetsOfUser($userId) {
+            $this->RetrieveData();
+
+            $array = array_filter($this->petList, function($pet) use($userId) {
+                return $pet->getUserId() == $userId;
+            });
+
+            return $array;
+        }
+
+        public function GetPetById($id) {
+            $this->RetrieveData();
+
+            $array = array_filter($this->petList, function($pet) use($id) {
+                return $pet->getId() == $id;
+            });
+
+            return (count($array) > 0) ? $array[0] : null;
+        }
+
         public function SaveData() {
             sort($this->petList);
             $arrayEncode = array();
@@ -67,6 +87,7 @@
                 $value["photo"] = $pet->getPhoto();
                 $value["petTypeId"] = $pet->getPetTypeId();
                 $value["breed"] = $pet->getBreed();
+                $value["specie"] = $pet->getSpecie();
                 $value["video"] = $pet->getVideo();
                 $value["vacunationPlanPhoto"] = $pet->getVacunationPlanPhoto();
                 $value["observation"] = $pet->getObservation();
@@ -78,7 +99,7 @@
         }
 
         public function RetrieveData() {
-            $this->users = array();
+            $this->petList = array();
 
             if(file_exists($this->fileName)) {
                 $jsonContent = file_get_contents($this->fileName);
@@ -92,6 +113,7 @@
                     $pet->setPhoto($value["photo"]);
                     $pet->setPetTypeId($value["petTypeId"]);
                     $pet->setBreed($value["breed"]);
+                    $pet->setSpecie($value["specie"]);
                     $pet->setVideo($value["video"]);
                     $pet->setVacunationPlanPhoto($value["vacunationPlanPhoto"]);
                     $pet->setObservation($value["observation"]);

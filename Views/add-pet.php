@@ -22,6 +22,9 @@
 
                                    <label for="">Breed</label>
                                    <input type="text" name="breed" class="form-control">
+
+                                   <label for="">Specie</label>
+                                   <input type="text" name="specie" class="form-control">
                                    
                                    <label for="">Observation</label>
                                    <input type="textarea" name="observation" class="form-control">

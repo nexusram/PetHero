@@ -22,5 +22,17 @@
         "birthDay": "2002-03-21",
         "cellphone": "2236976480",
         "address": "Av Colon 75202"
+    },
+    {
+        "id": 3,
+        "userType": 1,
+        "name": "Candela",
+        "surname": "Barbadillo",
+        "userName": "Cande",
+        "password": "123",
+        "email": "cande@cande.com",
+        "birthDay": "2001-08-29",
+        "cellphone": "2236",
+        "address": "Av cx"
     }
 ]

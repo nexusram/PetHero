@@ -16,36 +16,60 @@
                     </div>
                </div>
                <h2 class="mb-4">My Pet´s</h2>
-               <table class="table bg-light-alpha">
+               <?php
+                    if(!empty($petList)) {
+               ?>
+               <table class="table table-dark text-center">
                     <thead>
                          <th>Name</th>
                          <th>Breed</th>
-                         <th>Size</th>
+                         <th>Specie</th>
+                         <th>Pet type</th>
                          <th>Photo</th>
                          <th>Vacunation Plan</th>
                          <th>Observation</th>
-                         <th>Actions</th>           
+                         <th>Video</th>
+                         <th>Actions</th>
                     </thead>
                     <tbody>
-                         <form action="process/removeBeer.php" method="POST">
-                                <tr>
-                                    <td>x</td>
-                                    <td>x</td>
-                                    <td>x</td>
-                                    <td>x</td>
-                                    <td>x</td>
-                                    <td>x</td>
-                                    <td>
-                                        <a class="btn btn-info" href="">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                            </svg>
-                                        </a>
-                                        <button type="submit" name="btnRemove" class="btn btn-danger" value="1">X</button>
-                                    </td>
-                                </tr>
-                         </form>
+               <?php
+                    }
+               ?>
+               <?php
+                    if(!empty($petList)) {
+                         foreach($petList as $pet) {
+               ?>
+                    <form action="<?php echo FRONT_ROOT . "Pet/Remove"?>" method="post">
+                              <tr>
+                                   <td><?php echo $pet->getName() ?></td>
+                                   <td><?php echo $pet->getBreed() ?></td>
+                                   <td><?php echo $pet->getSpecie()?></td>
+                                   <td><?php echo $pet->getPetTypeId() ?></td>
+                                   <td><button class="btn btn-success">View</button></td>
+                                   <td><button class="btn btn-success">View</button></td>
+                                   <td><?php echo $pet->getObservation() ?></td>
+                                   <td><button class="btn btn-success">View</button></td>
+                                   <td>
+                                   <a class="btn btn-info" href="<?php echo FRONT_ROOT . "Pet/ShowModifyView/" . $pet->getId() ?>">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                        </svg>
+                                   </a>
+                                   <button type="submit" name="btnRemove" class="btn btn-danger" value="<?php echo $pet->getId() ?>">X</button>
+                                   </td>
+                              </tr>
+                              </form>
+               <?php
+                    }
+               } else {
+                    echo "<div class='container alert alert-warning'>
+                         <div class='content text-center'>
+                              <p><strong>Usted no cuenta con mascotas, para comezar agrege uno con el boton #Add</strong></p>
+                         </div>
+                    </div>";
+               }
+               ?>
                     </tbody>
                </table>
           </div>
@@ -56,14 +80,18 @@
                     <?php
                          if($type == "") {
                               ?>
-                              <div class='alert alert-danger'>
-                                   <p><?php echo $message ?></p>
+                              <div class="container">
+                                   <div class='alert alert-danger'>
+                                        <p><?php echo $message ?></p>
+                                   </div>
                               </div>
                          <?php
                          } else {
                               ?>
-                              <div class='alert alert-success'>
-                              <p><?php echo $message ?></p>
+                              <div class="container">
+                                   <div class='alert alert-success'>
+                                        <p><?php echo $message ?></p>
+                                   </div>
                               </div>
                          <?php
                          }

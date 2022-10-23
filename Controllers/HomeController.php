@@ -85,14 +85,16 @@ class HomeController
         $this->Index("session cerrada con exito", "success");
     }
 
-    public function ShowPetListView() {
-        require_once(VIEWS_PATH . "validate-session.php");
-        require_once(VIEWS_PATH . "pet-list.php");
+    public function ShowPetListView($message="", $type="") {
+        $petController = new PetController();
+        $petController->ShowPetListView();
     }
+    
     public function ShowForgetUserView($message = "", $type = "")
     {
         require_once(VIEWS_PATH . "viewForgetUser.php");
     }
+
     public function ForgotUser($userName)
     {
         
