@@ -3,7 +3,7 @@
         "id": 1,
         "userId": 1,
         "name": "Firulais",
-        "photo": null,
+        "photo": "Vmlld3MvaW1nL3BldC9wZXQtMTY2NjU4NTg4NS5qcGVn",
         "petTypeId": "3",
         "breed": "Ninguna",
         "specie": "Canino",
@@ -22,5 +22,17 @@
         "video": null,
         "vacunationPlanPhoto": null,
         "observation": "De unos 5 a\u00f1os, padecio de cancer"
+    },
+    {
+        "id": 3,
+        "userId": 1,
+        "name": "Simba",
+        "photo": null,
+        "petTypeId": "2",
+        "breed": "Border Coli",
+        "specie": "Canino",
+        "video": null,
+        "vacunationPlanPhoto": null,
+        "observation": "Pelo oscuro y obediente. Tiene unos 3 a\u00f1os"
     }
 ]

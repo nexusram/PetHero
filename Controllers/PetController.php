@@ -87,5 +87,17 @@
                 $this->ShowModifyView("Se intenta modificar algo que no existe");
             }
         }
+
+        public function UploadPhoto($id, $photo) {
+            require_once(VIEWS_PATH . "validate-session.php");
+            $pet = $this->petDAO->GetPetById($id);
+
+            if($pet) {
+                $file = $this->utilities->UploadImage($photo, "pet", "photo");
+                $pet->setPhoto(base64_encode($file));
+
+                $this->petDAO->Modify($pet);
+            }
+        }
     }
 ?>

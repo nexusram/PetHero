@@ -5,7 +5,7 @@
 <main class="py-5">
      <section id="listado" class="mb-5">
           <div class="container">
-               <div class="content mb-3">
+               <div class="mb-3">
                     <div>
                         <a class="btn btn-success" href="<?php echo FRONT_ROOT . "Pet/ShowAddView"?>">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
@@ -25,9 +25,9 @@
                          <th>Breed</th>
                          <th>Specie</th>
                          <th>Pet type</th>
+                         <th>Observation</th>
                          <th>Photo</th>
                          <th>Vacunation Plan</th>
-                         <th>Observation</th>
                          <th>Video</th>
                          <th>Actions</th>
                     </thead>
@@ -45,10 +45,15 @@
                                    <td><?php echo $pet->getBreed() ?></td>
                                    <td><?php echo $pet->getSpecie()?></td>
                                    <td><?php echo $pet->getPetTypeId() ?></td>
-                                   <td><button class="btn btn-success">View</button></td>
-                                   <td><button class="btn btn-success">View</button></td>
                                    <td><?php echo $pet->getObservation() ?></td>
-                                   <td><button class="btn btn-success">View</button></td>
+                                   <td>
+                                        <button type="button" value="<?php $pet->getId()?>" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#photo">View</button>
+                                   </td>
+                                   <td>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#vacunationPlan">View</button>
+                                   </td>
+                                   <td>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#video">View</button></td>
                                    <td>
                                    <a class="btn btn-info" href="<?php echo FRONT_ROOT . "Pet/ShowModifyView/" . $pet->getId() ?>">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -60,6 +65,130 @@
                                    </td>
                               </tr>
                               </form>
+                              <div class="modal fade" id="photo">
+                                   <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                             <div class="modal-header">
+                                                  <h5 class="modal-title text-dark" id="exModalLabel">Photo</h5>
+                                             </div>
+                                             <div class="modal-body">
+                                                  <div class="container-fluid">
+                                                       <div class="row">
+                                                            <div class="col">
+                                                                 <div class="card">
+                                                                      <a href="https://images3.alphacoders.com/857/857335.jpg" target="_blank">
+                                                                           <img class="card-img-top" src="https://images3.alphacoders.com/857/857335.jpg" alt="">
+                                                                      </a>
+                                                                      <div class="card-body">
+                                                                           Perro
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                 <form action="<?php echo FRONT_ROOT . "Pet/UploadPhoto"?>" method="post" enctype="multipart/form-data">
+                                                                      <div class="m-2">
+                                                                           <div class="m-2">
+                                                                                <input type="hidden" name="id" value="<?php echo $pet->getId() ?>">
+                                                                                <label for=""><strong>Select image</strong></label>
+                                                                                <input type="file" name="photo" required>
+                                                                           </div>
+                                                                           <div class="m-2">
+                                                                                <button type="submit" name="btn" class="btn btn-secondary">Upload</button>
+                                                                           </div>
+                                                                      </div>
+
+                                                                 </form>
+                                                            </div>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                             <div class="modal-footer">
+                                                  <button name="btn" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                             </div>
+                                        </div>
+                                   </div>
+                              </div>
+                              <div class="modal fade" id="vacunationPlan">
+                                   <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                             <div class="modal-header">
+                                                  <h5 class="modal-title text-dark" id="exModalLabel">Vacunation plan</h5>
+                                             </div>
+                                             <div class="modal-body">
+                                                  <div class="container-fluid">
+                                                       <div class="row">
+                                                            <div class="col">
+                                                                 <div class="card">
+                                                                      <a href="https://images3.alphacoders.com/857/857335.jpg" target="_blank">
+                                                                           <img class="card-img-top" src="https://images3.alphacoders.com/857/857335.jpg" alt="">
+                                                                      </a>
+                                                                      <div class="card-body">
+                                                                           Esquema
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                 <form action="<?php echo FRONT_ROOT . "Pet/UploadPhoto"?>" method="post">
+                                                                      <div class="m-2">
+                                                                           <div class="m-2">
+                                                                                <label for=""><strong>Select image</strong></label>
+                                                                                <input type="file">
+                                                                           </div>
+                                                                           <div class="m-2">
+                                                                                <button class="btn btn-secondary">Upload</button>
+                                                                           </div>
+                                                                      </div>
+
+                                                                 </form>
+                                                            </div>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                             <div class="modal-footer">
+                                                  <button name="btn" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                             </div>
+                                        </div>
+                                   </div>
+                              </div>
+                              <div class="modal fade" id="video">
+                                   <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                             <div class="modal-header">
+                                                  <h5 class="modal-title text-dark" id="exModalLabel">Video</h5>
+                                             </div>
+                                             <div class="modal-body">
+                                                  <div class="container-fluid">
+                                                       <div class="row">
+                                                            <div class="col">
+                                                                 <div class="card">
+                                                                      <video controls>
+                                                                           <source src="http://techslides.com/demos/sample-videos/small.mp4">
+                                                                      </video>
+                                                                 </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                 <form action="<?php echo FRONT_ROOT . "Pet/UploadPhoto"?>" method="post">
+                                                                      <div class="m-2">
+                                                                           <div class="m-2">
+                                                                                <label for=""><strong>Select video</strong></label>
+                                                                                <input type="file">
+                                                                           </div>
+                                                                           <div class="m-2">
+                                                                                <button class="btn btn-secondary">Upload</button>
+                                                                           </div>
+                                                                      </div>
+
+                                                                 </form>
+                                                            </div>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                             <div class="modal-footer">
+                                                  <button name="btn" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                             </div>
+                                        </div>
+                                   </div>
+                              </div>
                <?php
                     }
                } else {

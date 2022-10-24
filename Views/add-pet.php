@@ -11,20 +11,20 @@
                          <div class="col-lg-8">
                               <div class="form-group">
                                    <label for="">Name</label>
-                                   <input type="text" name="name" class="form-control">
+                                   <input type="text" name="name" class="form-control" required>
                                    
                                    <label for="">Pet type</label>
-                                   <select class="form-control" name="petTypeId" id="petTypeId">
+                                   <select class="form-control" name="petTypeId" id="petTypeId" required>
                                         <option value="1">Small</option>
                                         <option value="2">Medium</option>
                                         <option value="3">Largue</option>
                                    </select>
 
                                    <label for="">Breed</label>
-                                   <input type="text" name="breed" class="form-control">
+                                   <input type="text" name="breed" class="form-control" required>
 
                                    <label for="">Specie</label>
-                                   <input type="text" name="specie" class="form-control">
+                                   <input type="text" name="specie" class="form-control" required>
                                    
                                    <label for="">Observation</label>
                                    <input type="textarea" name="observation" class="form-control">
