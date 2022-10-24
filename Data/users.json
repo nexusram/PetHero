@@ -2,14 +2,14 @@
     {
         "id": 1,
         "userType": 3,
-        "name": "Axel",
-        "surname": "Caceres",
+        "name": "Axel Gabriel",
+        "surname": "Caceres Menendez",
         "userName": "PapitoPrograma",
         "password": "123",
         "email": "axel@correo.com",
         "birthDay": "2001-03-24",
         "cellphone": "2236976480",
-        "address": "Av Colon 7520"
+        "address": "Avenida Colon 7520"
     },
     {
         "id": 2,

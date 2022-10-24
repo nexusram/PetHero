@@ -33,7 +33,7 @@
             require_once(VIEWS_PATH . "modify-pet.php");
         }
 
-        public function Add($name, $petTypeId, $breed, $specie, $observation) {
+        public function Add($name, $petTypeId, $breed, $specie, $observation, $photo, $vacunationPlan, $video) {
             require_once(VIEWS_PATH . "validate-session.php");
 
             $userId = $_SESSION["loggedUser"]->getId();

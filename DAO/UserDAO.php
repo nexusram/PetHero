@@ -25,7 +25,7 @@ class UserDAO implements IUserDAO
         $this->RetrieveData();
 
         $this->users = array_filter($this->users, function ($user) use ($id) {
-            return $user->getId != $id;
+            return $user->getId() != $id;
         });
 
         $this->SaveData();
