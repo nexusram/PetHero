@@ -5,7 +5,7 @@
      <section id="listado" class="mb-5">
           <div class="container">
                <h2 class="mb-4">Pet</h2>
-               <form action="<?php echo FRONT_ROOT . "Pet/Add"?>" method="post" class="bg-light-alpha p-5">
+               <form action="<?php echo FRONT_ROOT . "Pet/Add"?>" method="post" enctype="multipart/form-data" class="bg-light-alpha p-5">
                     <div class="row">
                         <div class="col-lg-2"></div>
                          <div class="col-lg-8">
@@ -27,7 +27,16 @@
                                    <input type="text" name="specie" class="form-control" required>
                                    
                                    <label for="">Observation</label>
-                                   <input type="textarea" name="observation" class="form-control">
+                                   <input type="textarea" name="observation" class="form-control" required>
+
+                                   <label for="">Photo</label>
+                                   <input type="file" name="photo" class="form-control" required>
+
+                                   <label for="">Vacunation Plan</label>
+                                   <input type="file" name="vacunationPlan" class="form-control" required>
+
+                                   <label for="">Video</label>
+                                   <input type="file" name="video" class="form-control">
                               </div>
                          </div>
                     </div>

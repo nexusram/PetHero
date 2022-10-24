@@ -1,9 +1,9 @@
 [
     {
-        "id": 1,
+        "id": "1",
         "userId": 1,
         "name": "Firulais",
-        "photo": "Vmlld3MvaW1nL3BldC9wZXQtMTY2NjU4NTg4NS5qcGVn",
+        "photo": null,
         "petTypeId": "3",
         "breed": "Ninguna",
         "specie": "Canino",
@@ -24,7 +24,7 @@
         "observation": "De unos 5 a\u00f1os, padecio de cancer"
     },
     {
-        "id": 3,
+        "id": "3",
         "userId": 1,
         "name": "Simba",
         "photo": null,

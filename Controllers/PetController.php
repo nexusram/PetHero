@@ -35,6 +35,7 @@
 
         public function Add($name, $petTypeId, $breed, $specie, $observation) {
             require_once(VIEWS_PATH . "validate-session.php");
+
             $userId = $_SESSION["loggedUser"]->getId();
 
             if(!($this->petDAO->Exist($userId, $name))) {
@@ -66,7 +67,7 @@
             }
         }
 
-        public function Modify($name, $petTypeId, $breed, $observation, $id) {
+        public function Modify($id, $name, $petTypeId, $breed, $specie, $observation) {
             require_once(VIEWS_PATH . "validate-session.php");
             $userId = $_SESSION["loggedUser"]->getId();
 
@@ -83,8 +84,6 @@
                 $this->petDAO->Modify($pet);
 
                 $this->ShowPetListView("Se modifico de forma exitosa", "success");
-            } else {
-                $this->ShowModifyView("Se intenta modificar algo que no existe");
             }
         }
 

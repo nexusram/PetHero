@@ -73,6 +73,8 @@
                 return $pet->getId() == $id;
             });
 
+            $array = array_values($array);
+
             return (count($array) > 0) ? $array[0] : null;
         }
 
