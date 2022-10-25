@@ -14,18 +14,6 @@
     {
         "id": 2,
         "userType": 1,
-        "name": "Benito",
-        "surname": "Camela",
-        "userName": "Pijudo23x6",
-        "password": "123",
-        "email": "pijudo@correo.com",
-        "birthDay": "2002-03-21",
-        "cellphone": "2236976480",
-        "address": "Av Colon 75202"
-    },
-    {
-        "id": 3,
-        "userType": 1,
         "name": "Candela",
         "surname": "Barbadillo",
         "userName": "Cande",

@@ -89,6 +89,7 @@
                 $value["name"] = $pet->getName();
                 $value["petType"] = $pet->getPetType()->getId();
                 $value["breed"] = $pet->getBreed();
+                $value["petSize"] = $pet->getPetSize()->getId();
                 $value["observation"] = $pet->getObservation();
                 $value["picture"] = $pet->getPicture();
                 $value["vacunationPlan"] = $pet->getVacunationPlan();
@@ -121,11 +122,15 @@
                     $pet->setVideo($value["video"]);
                     $pet->setActive($value["active"]);
 
-                    // Set petType
+                    // Set petType and petSize
 
                     $petTypeDAO = new PetTypeDAO();
                     $petType = $petTypeDAO->GetById($value["petType"]);
                     $pet->setPetType($petType);
+
+                    $petSizeDAO = new PetSizeDAO();
+                    $petSize = $petSizeDAO->GetById($value["petSize"]);
+                    $pet->setPetSize($petSize);
                     
                     array_push($this->petList, $pet);
                 }

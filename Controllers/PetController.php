@@ -3,15 +3,17 @@
     namespace Controllers;
 
     use DAO\PetDAO;
+    use DAO\PetSizeDAO;
+    use DAO\PetTypeDAO;
     use Others\Utilities;
     use Models\Pet;
+use Models\PetSize;
+use Models\PetType;
 
     class PetController {
-        private $utilities;
         private $petDAO;
 
         public function __construct() {
-            $this->utilities = new Utilities();
             $this->petDAO = new PetDAO();
         }
 
@@ -24,6 +26,12 @@
 
         public function ShowAddView($message="", $type="") {
             require_once(VIEWS_PATH . "validate-session.php");
+            $petTypeDAO = new PetTypeDAO();
+            $petTypeList = $petTypeDAO->GetAll();
+
+            $petSizeDAO = new PetSizeDAO();
+            $petSizeList = $petSizeDAO->GetAll();
+
             require_once(VIEWS_PATH . "add-pet.php");
         }
 
@@ -33,24 +41,26 @@
             require_once(VIEWS_PATH . "modify-pet.php");
         }
 
-        public function Add($name, $petTypeId, $breed, $specie, $observation, $photo, $vacunationPlan, $video) {
+        public function Add($name, $petType, $breed, $petSize, $observation, $photo, $vacunationPlan, $video) {
             require_once(VIEWS_PATH . "validate-session.php");
 
             $userId = $_SESSION["loggedUser"]->getId();
+            $petTypeDAO = new PetTypeDAO();
+            $petSizeDAO = new PetSizeDAO();
 
             if(!($this->petDAO->Exist($userId, $name))) {
                 $pet = new Pet();
 
                 $pet->setUserId($userId);
                 $pet->setName($name);
-                $pet->setPetTypeId($petTypeId);
+                $pet->setPetType($petTypeDAO->GetById($petType));
                 $pet->setBreed($breed);
-                $pet->setSpecie($specie);
+                $pet->setPetSize($petSizeDAO->GetById($petSize));
                 $pet->setObservation($observation);
 
                 // Add images
-                $pet->setPhoto($this->UploadImage($photo, "pet", "photo"));
-                $pet->setVacunationPlanPhoto($this->UploadImage($vacunationPlan, "pet", "vacunationPlan"));
+                $pet->setPicture($this->UploadImage($photo, "pet", "photo"));
+                $pet->setVacunationPlan($this->UploadImage($vacunationPlan, "pet", "vacunationPlan"));
 
                 // Add video
                 // TODO

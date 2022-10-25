@@ -14,17 +14,29 @@
                                    <input type="text" name="name" class="form-control" required>
                                    
                                    <label for="">Pet type</label>
-                                   <select class="form-control" name="petTypeId" id="petTypeId" required>
-                                        <option value="1">Small</option>
-                                        <option value="2">Medium</option>
-                                        <option value="3">Largue</option>
+                                   <select class="form-control" name="petType" id="petType" required>
+                                        <?php
+                                             foreach($petTypeList as $petType) {
+                                                  echo "<option value=". $petType->getId() .">
+                                                       " . $petType->getName() . "
+                                                  </option>";
+                                             }
+                                        ?>
                                    </select>
 
                                    <label for="">Breed</label>
                                    <input type="text" name="breed" class="form-control" required>
 
-                                   <label for="">Specie</label>
-                                   <input type="text" name="specie" class="form-control" required>
+                                   <label for="">Pet Size</label>
+                                   <select class="form-control" name="petSize" id="petSize" required>
+                                        <?php
+                                             foreach($petSizeList as $petSize) {
+                                                  echo "<option value=". $petSize->getId() .">
+                                                       " . $petSize->getName() . "
+                                                  </option>";
+                                             }
+                                        ?>
+                                   </select>
                                    
                                    <label for="">Observation</label>
                                    <input type="textarea" name="observation" class="form-control" required>

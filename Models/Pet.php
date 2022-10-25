@@ -8,6 +8,7 @@
         private $name;
         private $petType;
         private $breed;
+        private $petSize;
         private $observation;
         private $picture;
         private $vacunationPlan;
@@ -87,7 +88,7 @@
          *
          * @return  self
          */ 
-        public function setPetType($petType)
+        public function setPetType(PetType $petType)
         {
                 $this->petType = $petType;
 
@@ -110,6 +111,26 @@
         public function setBreed($breed)
         {
                 $this->breed = $breed;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of size
+         */ 
+        public function getPetSize()
+        {
+                return $this->petSize;
+        }
+
+        /**
+         * Set the value of size
+         *
+         * @return  self
+         */ 
+        public function setPetSize(PetSize $petSize)
+        {
+                $this->petSize = $petSize;
 
                 return $this;
         }
@@ -213,5 +234,6 @@
 
                 return $this;
         }
-    }
+}
+
 ?>
