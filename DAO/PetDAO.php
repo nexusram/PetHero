@@ -32,6 +32,8 @@
         public function Modify(Pet $pet) {
             $this->RetrieveData();
 
+            var_dump($pet);
+            die;
             $this->Remove($pet->getId());
 
             array_push($this->petList, $pet);
@@ -57,11 +59,11 @@
             return $rta;
         }
 
-        public function GetPetsOfUser($userId) {
+        public function GetActivePetsOfUser($userId) {
             $this->RetrieveData();
 
             $array = array_filter($this->petList, function($pet) use($userId) {
-                return $pet->getUserId() == $userId;
+                return ($pet->getUserId() == $userId && $pet->getActive() == 1) ? $pet : null;
             });
 
             return $array;

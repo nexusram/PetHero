@@ -1,15 +1,15 @@
 [
     {
-        "id": 1,
+        "id": "1",
         "userId": 1,
-        "name": "Firulais",
-        "petType": "1",
-        "breed": "Ninguna",
-        "petSize": {},
+        "name": "Firulais11222323",
+        "petType": 1,
+        "breed": "2",
+        "petSize": 1,
         "observation": "Perro de la calle, un crack el firu",
-        "picture": "L1BldEhlcm8vVmlld3MvaW1nL3BldC9wZXQtMTY2NjY2ODM1Ny5qcGVn",
-        "vacunationPlan": "L1BldEhlcm8vVmlld3MvaW1nL3BldC9wZXQtMTY2NjY2ODM1Ny5wbmc=",
+        "picture": null,
+        "vacunationPlan": null,
         "video": null,
-        "active": null
+        "active": 1
     }
 ]

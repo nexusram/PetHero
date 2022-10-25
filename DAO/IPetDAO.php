@@ -10,7 +10,6 @@
         function Modify(Pet $pet);
         function GetAll();
         function Exist($userId, $name);
-        function GetPetsOfUser($userId);
         function GetPetById($id);
     }
 ?>

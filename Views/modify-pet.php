@@ -5,7 +5,7 @@
      <section id="listado" class="mb-5">
           <div class="container">
                <h2 class="mb-4">Pet | Modify</h2>
-               <form action="<?php echo FRONT_ROOT . "Pet/Modify"?>" method="post" class="bg-light-alpha p-5">
+               <form action="<?php echo FRONT_ROOT . "Pet/Modify"?>" method="post" enctype="multipart/form-data" class="bg-light-alpha p-5">
                     <div class="row">
                         <div class="col-lg-2"></div>
                          <div class="col-lg-8">
@@ -16,42 +16,53 @@
                                    <input type="text" name="name" value="<?php echo $pet->getName() ?>" class="form-control">
                                    
                                    <label for="">Pet type</label>
-                                   <select class="form-control" name="petTypeId" id="petTypeId">
-                                    <?php
-                                        switch($pet->getPetTypeId()) {
-                                            case 1:
-                                                ?>
-                                                <option selected value="1">Small</option>
-                                                <option value="2">Medium</option>
-                                                <option value="3">Largue</option>
-                                                <?php
-                                                break;
-                                            case 2:
-                                                ?>
-                                                <option value="1">Small</option>
-                                                <option selected value="2">Medium</option>
-                                                <option value="3">Largue</option>
-                                                <?php
-                                                break;
-                                            case 3:
-                                                ?>
-                                                <option value="1">Small</option>
-                                                <option value="2">Medium</option>
-                                                <option selected value="3">Largue</option>
-                                                <?php
-                                                break;
-                                        }
-                                    ?>
+                                   <select class="form-control" name="petType" id="petType" required>
+                                        <?php
+                                             foreach($petTypeList as $petType) {
+                                                  if($petType->getId() == $pet->getPetType()->getId()) {
+                                                       echo "<option selected value=". $petType->getId() .">
+                                                       " . $petType->getName() . "
+                                                       </option>";
+                                                  } else {
+                                                       echo "<option value=". $petType->getId() .">
+                                                       " . $petType->getName() . "
+                                                       </option>";
+                                                  }
+                                             }
+                                        ?>
+                                   </select>
+
+                                   <label for="">Pet Size</label>
+                                   <select class="form-control" name="petSize" id="petSize" required>
+                                        <?php
+                                             foreach($petSizeList as $petSize) {
+                                                  if($petSize->getId() == $pet->getPetSize()->getId()) {
+                                                       echo "<option selected value=". $petSize->getId() .">
+                                                       " . $petSize->getName() . "
+                                                       </option>";
+                                                  } else {
+                                                       echo "<option value=". $petSize->getId() .">
+                                                       " . $petSize->getName() . "
+                                                       </option>";
+                                                  }
+                                             }
+                                        ?>
                                    </select>
 
                                    <label for="">Breed</label>
                                    <input type="text" name="breed" class="form-control" value="<?php echo $pet->getBreed() ?>">
-
-                                   <label for="">Specie</label>
-                                   <input type="text" name="specie" class="form-control" value="<?php echo $pet->getSpecie() ?>">
                                    
                                    <label for="">Observation</label>
                                    <input type="textarea" name="observation" class="form-control" value="<?php echo $pet->getObservation() ?>">
+
+                                   <label for="">Picture</label>
+                                   <input type="file" name="picture" value="" class="form-control">
+
+                                   <label for="">Vacunation Plan</label>
+                                   <input type="file" name="vacunationPlan" value="" class="form-control">
+
+                                   <label for="">Video</label>
+                                   <input type="file" name="video" value="" class="form-control">
                               </div>
                          </div>
                     </div>

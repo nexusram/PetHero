@@ -41,8 +41,8 @@
                                    <label for="">Observation</label>
                                    <input type="textarea" name="observation" class="form-control" required>
 
-                                   <label for="">Photo</label>
-                                   <input type="file" name="photo" class="form-control" required>
+                                   <label for="">Picture</label>
+                                   <input type="file" name="picture" class="form-control" required>
 
                                    <label for="">Vacunation Plan</label>
                                    <input type="file" name="vacunationPlan" class="form-control" required>

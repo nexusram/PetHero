@@ -5,10 +5,10 @@
     use DAO\PetDAO;
     use DAO\PetSizeDAO;
     use DAO\PetTypeDAO;
-    use Others\Utilities;
+    use Exception;
     use Models\Pet;
-use Models\PetSize;
-use Models\PetType;
+    use Models\PetSize;
+    use Models\PetType;
 
     class PetController {
         private $petDAO;
@@ -20,7 +20,8 @@ use Models\PetType;
         public function ShowPetListView($message="", $type="") {
             require_once(VIEWS_PATH . "validate-session.php");
 
-            $petList = $this->petDAO->GetPetsOfUser($_SESSION["loggedUser"]->getId());
+            $petList = $this->petDAO->GetActivePetsOfUser($_SESSION["loggedUser"]->getId());
+
             require_once(VIEWS_PATH . "pet-list.php");
         }
 
@@ -37,99 +38,173 @@ use Models\PetType;
 
         public function ShowModifyView($id, $message="", $type="") {
             require_once(VIEWS_PATH . "validate-session.php");
+            $petTypeDAO = new PetTypeDAO();
+            $petTypeList = $petTypeDAO->GetAll();
+
+            $petSizeDAO = new PetSizeDAO();
+            $petSizeList = $petSizeDAO->GetAll();
+
             $pet = $this->petDAO->GetPetById($id);
             require_once(VIEWS_PATH . "modify-pet.php");
         }
 
-        public function Add($name, $petType, $breed, $petSize, $observation, $photo, $vacunationPlan, $video) {
+        // Añade un pet
+        public function Add($name="", $petType="", $breed="", $petSize="", $observation="", $picture="", $vacunationPlan="", $video="") {
+            // Comprobamos si existe una session, caso contrario te redirije al Index()
             require_once(VIEWS_PATH . "validate-session.php");
 
-            $userId = $_SESSION["loggedUser"]->getId();
-            $petTypeDAO = new PetTypeDAO();
-            $petSizeDAO = new PetSizeDAO();
+            // Si todas las variables necesarias no estan vacias
+            if($name != "" && $petType != "" && $breed != "" && $petSize != "" && $observation != "" && $picture != "" && $vacunationPlan != "") {
+                // Guardamos el id del user para mas tarde setearlo al pet.
+                $userId = $_SESSION["loggedUser"]->getId();
 
-            if(!($this->petDAO->Exist($userId, $name))) {
-                $pet = new Pet();
+                // Comprobamos que el pet que se desea agregar no exista(lo hacemos comparando el nombre y el id del usuario, ya que puede existir otro usuario con una mascota del mismo nombre)
+                if(!($this->petDAO->Exist($userId, $name))) {
+                    // Si no existe, instanciamos un pet y lo seteamos
+                    $pet = new Pet();
 
-                $pet->setUserId($userId);
-                $pet->setName($name);
-                $pet->setPetType($petTypeDAO->GetById($petType));
-                $pet->setBreed($breed);
-                $pet->setPetSize($petSizeDAO->GetById($petSize));
-                $pet->setObservation($observation);
+                    $pet->setUserId($userId);
+                    $pet->setName($name);
 
-                // Add images
-                $pet->setPicture($this->UploadImage($photo, "pet", "photo"));
-                $pet->setVacunationPlan($this->UploadImage($vacunationPlan, "pet", "vacunationPlan"));
+                    $petTypeObj = new PetType();
+                    $petTypeObj->setId(intval($petType));
+                    $pet->setPetType($petTypeObj);
 
-                // Add video
-                // TODO
+                    $pet->setBreed($breed);
 
-                $this->petDAO->Add($pet);
+                    $petSizeObj = new PetSize();
+                    $petSizeObj->setId(intval($petSize));
+                    $pet->setPetSize($petSizeObj);
 
-                $this->ShowPetListView("Se añadio a " . $name . " de forma correcta!", "success");
+                    $pet->setObservation($observation);
+                    //Por defecto es 1, significa que esta activo
+                    $pet->setActive(1);
+
+                    // Add images
+                    $pet->setPicture($this->UploadImage($picture));
+                    $pet->setVacunationPlan($this->UploadImage($vacunationPlan));
+
+                    // Add video
+                    $pet->setVideo(null);
+                    // TODO
+
+                    // Llama la funcion Add del dao
+                    $this->petDAO->Add($pet);
+
+                    // Se envia un mensaje por pantalla.
+                    $this->ShowPetListView("The pet ". $pet->getName() . " was added successfully", "success");
+                } else {
+                    // Si la mascota ya existe se arroja este mensaje por pantalla;
+                    $this->ShowAddView("The pet already exists, try again");
+                }
             } else {
-                $this->ShowAddView("La mascota que intenta ingresar, ya existe");
+                // Si alguna de las variables requeridas estan vacias, se lo envia al listado de mascotas
+                $this->ShowPetListView();
             }
         }
 
-        public function Remove($id) {
+        // Hace que un pet este inactivo
+        public function Unsubscribe($id) {
+            // Comprobamos si existe una session, caso contrario te redirije al Index()
             require_once(VIEWS_PATH . "validate-session.php");
+            // Comprobamos que la id recibida no sea nula
             if($id != null) {
-                $this->petDAO->Remove($id);
+                $pet = $this->petDAO->GetPetById($id); // Traemos el pet
+                $pet->setActive(0); // cambiamos el valor del atributo active a 0
 
-                $this->ShowPetListView("Eliminado con exito", "success");
+                $this->petDAO->Modify($pet); // usamos el Modify del Dao
+                $this->ShowPetListView("Successfully unsubscribed", "success");
             } else {
-                $this->ShowPetListView("Hubo un error al intentar eliminar la mascota");
+                $this->ShowPetListView("There was an error trying to unsubscribe the pet");
             }
         }
 
-        public function Modify($id, $name, $petTypeId, $breed, $specie, $observation, $photo, $vacunationPlan, $video) {
+        public function Modify($id, $name, $petType, $breed, $petSize, $observation, $picture="", $vacunationPlan="", $video="") {
             require_once(VIEWS_PATH . "validate-session.php");
             $userId = $_SESSION["loggedUser"]->getId();
 
             if($this->petDAO->GetPetById($id) != null) {
-                $pet  = new Pet();
+                $pet = new Pet();
+
                 $pet->setId($id);
                 $pet->setUserId($userId);
                 $pet->setName($name);
-                $pet->setPetTypeId($petTypeId);
-                $pet->setBreed($breed);
-                $pet->setSpecie($specie);
-                $pet->setObservation($observation);
 
+                $petTypeObj = new PetType();
+                $petTypeObj->setId(intval($petType));
+                $pet->setPetType($petTypeObj);
+
+                $pet->setBreed($breed);
+
+                $petSizeObj = new PetSize();
+                $petSizeObj->setId(intval($petSize));
+                var_dump($petSizeObj);
+                die;
+                $pet->setPetSize($petSizeObj);
+
+                $pet->setObservation($observation);
+                //Por defecto es 1, significa que esta activo
+                $pet->setActive(1);
+
+                // Add images
+                $pet->setPicture(null);
+                $pet->setVacunationPlan(null);
+                //Por defecto es 1, significa que esta activo
+
+                // Add images
+                /*
+                if($picture != "") {
+                    unlink(base64_decode($pet->getPicture()));
+                    $pet->setPicture($this->UploadImage($picture));
+                }
+                if($vacunationPlan != "") {
+                    unlink(base64_decode($pet->getVacunationPlan()));
+                    $pet->setVacunationPlan($this->UploadImage($vacunationPlan));
+                }
+                if($video != "") {
+                    unlink(base64_decode($pet->getVideo()));
+                    $pet->setVideo(null);
+                }*/
+                var_dump($pet);
                 $this->petDAO->Modify($pet);
 
-                $this->ShowPetListView("Se modifico de forma exitosa", "success");
+                $this->ShowPetListView("Successfully modified", "success");
+            } else {
+                $this->ShowPetListView("There was an error trying to modify the pet");
             }
         }
 
-        public function UploadImage($file, $fileName, $inputName) {
-            $base64 = "";
-            $file = $_FILES[$inputName]["name"];
+        public function UploadImage($file) {
+            $message = "";
+            try {
+                $time = time();
+                $fileName = $time . "-" . $file["name"];
+                $tempFileName = $file["tmp_name"];
+                $type = $file["type"];
 
-            //Si el archivo contiene algo y es diferente de vacio
-            if(isset($file) && $file != "") {
-                //Obtenemos algunos datos necesarios sobre el archivo
-                $type = $_FILES[$inputName]["type"];
-                $size = $_FILES[$inputName]["size"];
-                $temp = $_FILES[$inputName]["tmp_name"];
+                $filePath = UPLOADS_PATH . basename($fileName);
+                $fileType = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+                $imageSize = getimagesize($tempFileName);
 
-                $explode = explode("/", $type);
-                $file = $fileName . "-" . time() . "." . $explode[1];
-
-                //Se comprueba si el archivo a cargar es correcto observando su extensión y tamaño
-                if(!((strpos($type, "gif") || strpos($type, "jpeg") || strpos($type, "png")))) {
-                    $this->ShowAddView("El formato o el tamaño es incompatible");
-                } else {
-                    if(move_uploaded_file($temp, IMG_PATH . $fileName . "/" . $file)) {
-                        chmod(IMG_PATH . $fileName . "/" . $file, 0777);
+                if($imageSize !== false) {
+                    if (move_uploaded_file($tempFileName, $filePath))
+                    {
+                        chmod($filePath,0777);
+                    } else {
+                        $message = "Ocurrió un error al intentar subir la imagen";
                     }
+                } else {
+                    $message = "El archivo no corresponde a una imágen";
                 }
-
-                $base64 = base64_encode(FRONT_ROOT . IMG_PATH . $fileName . "/" . $file);
+            } catch(Exception $ex) {
+                $message = $ex->getMessage();
             }
-            return $base64;
-        }
+
+            if($message != "") {
+                $this->ShowAddView($message);
+            }
+            
+            return base64_encode($filePath);
+        } 
     }
 ?>

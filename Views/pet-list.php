@@ -22,11 +22,11 @@
                <table class="table table-dark text-center">
                     <thead>
                          <th>Name</th>
+                         <th>PetType</th>
                          <th>Breed</th>
-                         <th>Specie</th>
-                         <th>Type</th>
+                         <th>PetSize</th>
                          <th>Observation</th>
-                         <th>Photo</th>
+                         <th>Picture</th>
                          <th>Vacunation</th>
                          <th>Video</th>
                          <th>Actions</th>
@@ -39,25 +39,53 @@
                     if(!empty($petList)) {
                          foreach($petList as $pet) {
                ?>
-                    <form action="<?php echo FRONT_ROOT . "Pet/Remove"?>" method="post">
+                    <form action="<?php echo FRONT_ROOT . "Pet/Unsubscribe"?>" method="post">
                               <tr>
                                    <td><?php echo $pet->getName() ?></td>
+                                   <td><?php echo $pet->getPetType()->getName() ?></td>
                                    <td><?php echo $pet->getBreed() ?></td>
-                                   <td><?php echo $pet->getSpecie()?></td>
-                                   <td><?php echo $pet->getPetTypeId() ?></td>
+                                   <td><?php echo $pet->getPetSize()->getName()?></td>
                                    <td><?php echo $pet->getObservation() ?></td>
                                    <td>
-                                        <a href="<?php echo base64_decode($pet->getPhoto())?>" target="_blank">
-                                             <img widht="50px" height="50px" src="<?php echo base64_decode($pet->getPhoto())?>" alt="">
+                                        <?php
+                                             if($pet->getPicture() != null) {
+                                        ?>
+                                        <a href="<?php echo FRONT_ROOT . base64_decode($pet->getPicture())?>" target="_blank">
+                                             <img widht="50px" height="50px" src="<?php echo FRONT_ROOT . base64_decode($pet->getPicture())?>" alt="">
                                         </a>
+                                        <?php
+                                             } else {
+                                                  echo "Without image";
+                                             }
+                                        ?>
                                    </td>
                                    <td>
-                                        <a href="<?php echo base64_decode($pet->getVacunationPlanPhoto())?>" target="_blank">
-                                             <img widht="50px" height="50px" src="<?php echo base64_decode($pet->getVacunationPlanPhoto())?>" alt="">
+                                        <?php
+                                             if($pet->getVacunationPlan() != null) {
+                                        ?>
+                                        <a href="<?php echo FRONT_ROOT . base64_decode($pet->getVacunationPlan())?>" target="_blank">
+                                             <img widht="50px" height="50px" src="<?php echo FRONT_ROOT . base64_decode($pet->getVacunationPlan())?>" alt="">
                                         </a>
+                                        <?php
+                                             } else {
+                                                  echo "Without image";
+                                             }
+                                        ?>
                                    </td>
                                    <td>
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#video">View</button></td>
+                                        <?php
+                                             if($pet->getVideo() != null) {
+                                        ?>
+                                        <a href="<?php echo base64_decode($pet->getVideo())?>" target="_blank">
+                                             <video widht="50px" height="50px" controls>
+                                                  <source src="<?php echo base64_decode($pet->getVideo()) ?>">
+                                             </video>
+                                        </a>
+                                        <?php
+                                             } else {
+                                                  echo "Without video";
+                                             }
+                                        ?>
                                    <td>
                                    <a class="btn btn-info" href="<?php echo FRONT_ROOT . "Pet/ShowModifyView/" . $pet->getId() ?>">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -65,7 +93,7 @@
                                              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                                         </svg>
                                    </a>
-                                   <button type="submit" name="btnRemove" class="btn btn-danger" value="<?php echo $pet->getId() ?>">X</button>
+                                   <button type="submit" name="btnUnsubscribe" class="btn btn-danger" value="<?php echo $pet->getId() ?>">X</button>
                                    </td>
                               </tr>
                               </form>
@@ -74,7 +102,7 @@
                } else {
                     echo "<div class='container alert alert-warning'>
                          <div class='content text-center'>
-                              <p><strong>Usted no cuenta con mascotas, para comezar agrege uno con el boton #Add</strong></p>
+                              <p><strong>You do not have pets, to start add one with the #Add Pet button</strong></p>
                          </div>
                     </div>";
                }
