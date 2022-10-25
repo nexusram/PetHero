@@ -6,13 +6,13 @@
         private $id;
         private $userId;
         private $name;
-        private $photo;
-        private $petTypeId;
+        private $petType;
         private $breed;
-        private $specie;
-        private $video;
-        private $vacunationPlanPhoto;
         private $observation;
+        private $picture;
+        private $vacunationPlan;
+        private $video;
+        private $active;
 
         /**
          * Get the value of id
@@ -33,7 +33,7 @@
 
                 return $this;
         }
-
+        
         /**
          * Get the value of userId
          */ 
@@ -75,41 +75,21 @@
         }
 
         /**
-         * Get the value of photo
+         * Get the value of petType
          */ 
-        public function getPhoto()
+        public function getPetType()
         {
-                return $this->photo;
+                return $this->petType;
         }
 
         /**
-         * Set the value of photo
+         * Set the value of petType
          *
          * @return  self
          */ 
-        public function setPhoto($photo)
+        public function setPetType($petType)
         {
-                $this->photo = $photo;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of petTypeId
-         */ 
-        public function getPetTypeId()
-        {
-                return $this->petTypeId;
-        }
-
-        /**
-         * Set the value of petTypeId
-         *
-         * @return  self
-         */ 
-        public function setPetTypeId($petTypeId)
-        {
-                $this->petTypeId = $petTypeId;
+                $this->petType = $petType;
 
                 return $this;
         }
@@ -135,21 +115,61 @@
         }
 
         /**
-         * Get the value of specie
+         * Get the value of observation
          */ 
-        public function getSpecie()
+        public function getObservation()
         {
-                return $this->specie;
+                return $this->observation;
         }
 
         /**
-         * Set the value of specie
+         * Set the value of observation
          *
          * @return  self
          */ 
-        public function setSpecie($specie)
+        public function setObservation($observation)
         {
-                $this->specie = $specie;
+                $this->observation = $observation;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of picture
+         */ 
+        public function getPicture()
+        {
+                return $this->picture;
+        }
+
+        /**
+         * Set the value of picture
+         *
+         * @return  self
+         */ 
+        public function setPicture($picture)
+        {
+                $this->picture = $picture;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of vacunationPlan
+         */ 
+        public function getVacunationPlan()
+        {
+                return $this->vacunationPlan;
+        }
+
+        /**
+         * Set the value of vacunationPlan
+         *
+         * @return  self
+         */ 
+        public function setVacunationPlan($vacunationPlan)
+        {
+                $this->vacunationPlan = $vacunationPlan;
 
                 return $this;
         }
@@ -175,41 +195,21 @@
         }
 
         /**
-         * Get the value of vacunationPlanPhoto
+         * Get the value of active
          */ 
-        public function getVacunationPlanPhoto()
+        public function getActive()
         {
-                return $this->vacunationPlanPhoto;
+                return $this->active;
         }
 
         /**
-         * Set the value of vacunationPlanPhoto
+         * Set the value of active
          *
          * @return  self
          */ 
-        public function setVacunationPlanPhoto($vacunationPlanPhoto)
+        public function setActive($active)
         {
-                $this->vacunationPlanPhoto = $vacunationPlanPhoto;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of details
-         */ 
-        public function getObservation()
-        {
-                return $this->observation;
-        }
-
-        /**
-         * Set the value of details
-         *
-         * @return  self
-         */ 
-        public function setObservation($observation)
-        {
-                $this->observation = $observation;
+                $this->active = $active;
 
                 return $this;
         }

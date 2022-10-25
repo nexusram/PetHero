@@ -3,6 +3,7 @@
     namespace DAO;
 
     use Models\Pet;
+    use DAO\PetTypeDAO;
 
     class PetDAO implements IPetDAO {
         private $fileName = ROOT . "/Data/pets.json";
@@ -86,13 +87,14 @@
                 $value["id"] = $pet->getId();
                 $value["userId"] = $pet->getuserId();
                 $value["name"] = $pet->getName();
-                $value["photo"] = $pet->getPhoto();
-                $value["petTypeId"] = $pet->getPetTypeId();
+                $value["petType"] = $pet->getPetType()->getId();
                 $value["breed"] = $pet->getBreed();
-                $value["specie"] = $pet->getSpecie();
-                $value["video"] = $pet->getVideo();
-                $value["vacunationPlanPhoto"] = $pet->getVacunationPlanPhoto();
                 $value["observation"] = $pet->getObservation();
+                $value["picture"] = $pet->getPicture();
+                $value["vacunationPlan"] = $pet->getVacunationPlan();
+                $value["video"] = $pet->getVideo();
+                $value["active"] = $pet->getActive();
+
 
                 array_push($arrayEncode, $value);
             }
@@ -112,13 +114,18 @@
                     $pet->setId($value["id"]);
                     $pet->setUserId($value["userId"]);
                     $pet->setName($value["name"]);
-                    $pet->setPhoto($value["photo"]);
-                    $pet->setPetTypeId($value["petTypeId"]);
                     $pet->setBreed($value["breed"]);
-                    $pet->setSpecie($value["specie"]);
-                    $pet->setVideo($value["video"]);
-                    $pet->setVacunationPlanPhoto($value["vacunationPlanPhoto"]);
                     $pet->setObservation($value["observation"]);
+                    $pet->setPicture($value["picture"]);
+                    $pet->setVacunationPlan($value["vacunationPlan"]);
+                    $pet->setVideo($value["video"]);
+                    $pet->setActive($value["active"]);
+
+                    // Set petType
+
+                    $petTypeDAO = new PetTypeDAO();
+                    $petType = $petTypeDAO->GetById($value["petType"]);
+                    $pet->setPetType($petType);
                     
                     array_push($this->petList, $pet);
                 }

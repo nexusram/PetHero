@@ -47,10 +47,14 @@
                                    <td><?php echo $pet->getPetTypeId() ?></td>
                                    <td><?php echo $pet->getObservation() ?></td>
                                    <td>
-                                        <button type="button" value="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#photo">View</button>
+                                        <a href="<?php echo base64_decode($pet->getPhoto())?>" target="_blank">
+                                             <img widht="50px" height="50px" src="<?php echo base64_decode($pet->getPhoto())?>" alt="">
+                                        </a>
                                    </td>
                                    <td>
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#vacunationPlan">View</button>
+                                        <a href="<?php echo base64_decode($pet->getVacunationPlanPhoto())?>" target="_blank">
+                                             <img widht="50px" height="50px" src="<?php echo base64_decode($pet->getVacunationPlanPhoto())?>" alt="">
+                                        </a>
                                    </td>
                                    <td>
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#video">View</button></td>
