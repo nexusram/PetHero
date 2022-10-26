@@ -76,9 +76,9 @@
                                         <?php
                                              if($pet->getVideo() != null) {
                                         ?>
-                                        <a href="<?php echo base64_decode($pet->getVideo())?>" target="_blank">
-                                             <video widht="50px" height="50px" controls>
-                                                  <source src="<?php echo base64_decode($pet->getVideo()) ?>">
+                                        <a href="<?php echo FRONT_ROOT . base64_decode($pet->getVideo())?>" target="_blank">
+                                             <video widht="50px" height="50px">
+                                                  <source src="<?php echo FRONT_ROOT . base64_decode($pet->getVideo()) ?>">
                                              </video>
                                         </a>
                                         <?php

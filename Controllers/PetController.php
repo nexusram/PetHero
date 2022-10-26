@@ -53,57 +53,81 @@
             // Comprobamos si existe una session, caso contrario te redirije al Index()
             require_once(VIEWS_PATH . "validate-session.php");
 
-            // Si todas las variables necesarias no estan vacias
-            if($name != "" && $petType != "" && $breed != "" && $petSize != "" && $observation != "" && $picture != "" && $vacunationPlan != "") {
-                // Guardamos el id del user para mas tarde setearlo al pet.
-                $userId = $_SESSION["loggedUser"]->getId();
+            // Guardamos el id del user para mas tarde setearlo al pet.
+            $userId = $_SESSION["loggedUser"]->getId();
 
-                // Comprobamos que el pet que se desea agregar no exista(lo hacemos comparando el nombre y el id del usuario, ya que puede existir otro usuario con una mascota del mismo nombre)
-                if(!($this->petDAO->Exist($userId, $name))) {
-                    // Si no existe, instanciamos un pet y lo seteamos
-                    $pet = new Pet();
+            // Comprobamos que el pet que se desea agregar no exista(lo hacemos comparando el nombre y el id del usuario, ya que puede existir otro usuario con una mascota del mismo nombre)
+            if(!($this->petDAO->Exist($userId, $name))) {
+                // Si no existe, instanciamos un pet y lo seteamos
+                $pet = new Pet();
 
-                    $pet->setUserId($userId);
-                    $pet->setName($name);
+                $pet->setUserId($userId);
+                $pet->setName($name);
 
-                    $petTypeObj = new PetType();
-                    $petTypeObj->setId(intval($petType));
-                    $pet->setPetType($petTypeObj);
+                $petTypeObj = new PetType();
+                $petTypeObj->setId(intval($petType));
+                $pet->setPetType($petTypeObj);
 
-                    $pet->setBreed($breed);
+                $pet->setBreed($breed);
 
-                    $petSizeObj = new PetSize();
-                    $petSizeObj->setId(intval($petSize));
-                    $pet->setPetSize($petSizeObj);
+                $petSizeObj = new PetSize();
+                $petSizeObj->setId(intval($petSize));
+                $pet->setPetSize($petSizeObj);
 
-                    $pet->setObservation($observation);
-                    //Por defecto es 1, significa que esta activo
-                    $pet->setActive(1);
+                $pet->setObservation($observation);
+                //Por defecto es 1, significa que esta activo
+                $pet->setActive(1);
 
-                    // Add images
-                    try {
-                        $pet->setPicture($this->UploadImage($picture));
-                        $pet->setVacunationPlan($this->UploadImage($vacunationPlan));
-                        $pet->setVideo(null);
-                    } catch (Exception $ex){
-                        $this->ShowAddView($ex->getMessage());
+                // Add images and video
+                if($this->ValidateImage($picture) && $this->ValidateImage($vacunationPlan)) {
+                    $pet->setPicture($this->Upload($picture));
+                    $pet->setVacunationPlan($this->Upload($vacunationPlan));
+
+                    if($video["name"] == "") {
+                        $this->petDAO->Add($pet);
+                        $this->ShowPetListView("The pet " . $pet->getName() . " has add successfully", "success");
+                    } else {
+                        if($this->ValidateVideo($video)) {
+                            $pet->setVideo($this->Upload($video));
+                            $this->petDAO->Add($pet);
+                            $this->ShowPetListView("The pet " . $pet->getName() . " has add successfully", "success");
+                        } else {
+                            $this->ShowAddView("ERROR<br>The extension or the size of the video is not correct.<br>Compatible formats: .mp4, .mkv, .mov and .avi");
+                        }
                     }
-
-                    // Llama la funcion Add del dao
-                    $this->petDAO->Add($pet);
-
-                    // Se envia un mensaje por pantalla.
-                    $this->ShowPetListView("The pet ". $pet->getName() . " was added successfully", "success");
                 } else {
-                    // Si la mascota ya existe se arroja este mensaje por pantalla;
-                    $this->ShowAddView("The pet already exists, try again");
+                    $this->ShowAddView("ERROR<br>The extension or the size of the image(s) is not correct.<br>Compatible formats: .jpg .jpeg, .gif and .png");
                 }
             } else {
-                // Si alguna de las variables requeridas estan vacias, se lo envia al listado de mascotas
-                $this->ShowPetListView();
+                // Si la mascota ya existe se arroja este mensaje por pantalla;
+                $this->ShowAddView("ERROR<br>The pet already exists, try again");
             }
         }
 
+        public function ValidateImage($image) {
+            $type = $image["type"];
+            $size = $image["size"];
+
+            $rta = false;
+            if (((strpos($type, "gif") || strpos($type, "jpeg") || strpos($type, "jpg") || strpos($type, "png")) && ($size < 200000000))) {
+                $rta = true;
+            }
+
+            return $rta;
+        }
+
+        public function ValidateVideo($video) {
+            $type = $video["type"];
+            $size = $video["size"];
+
+            $rta = false;
+            if (((strpos($type, "mp4") || strpos($type, "mkv") || strpos($type, "mov") || strpos($type, "avi")) && ($size < 200000000))) {
+                $rta = true;
+            }
+
+            return $rta;
+        }
+        
         // Hace que un pet este inactivo
         public function Unsubscribe($id) {
             // Comprobamos si existe una session, caso contrario te redirije al Index()
@@ -144,29 +168,33 @@
                 //Por defecto es 1, significa que esta activo
 
                 // Comprobamos que los archivos lleguen
+
                 if($picture["name"] != "") {
-                    if($pet->getPicture() != null) {
+                    if($this->ValidateImage($picture)) {
                         unlink(base64_decode($pet->getPicture()));
-                        $pet->setPicture($this->UploadImage($picture));
+                        $pet->setPicture($this->Upload($picture));
+                    } else{ 
+                        $this->ShowModifyView($pet->getId(), "ERROR<br>The extension or the size of the image(s) is not correct.<br>Compatible formats: .jpg .jpeg, .gif and .png");
                     }
                 }
-
-                // Comprobamos que los archivos lleguen
                 if($vacunationPlan["name"] != "") {
-                    if($pet->getVacunationPlan() != null) {
+                    if($this->ValidateImage($vacunationPlan)) {
                         unlink(base64_decode($pet->getVacunationPlan()));
-                        $pet->setVacunationPlan($this->UploadImage($vacunationPlan));
+                        $pet->setVacunationPlan($this->Upload($vacunationPlan));
+                    }
+                    else {
+                        $this->ShowModifyView($pet->getId(), "ERROR<br>The extension or the size of the image(s) is not correct.<br>Compatible formats: .jpg .jpeg, .gif and .png");
                     }
                 }
-
-                // Comprobamos que los archivos lleguen
                 if($video["name"] != "") {
-                    if($pet->getVideo() != null) {
+                    if($this->ValidateVideo($video)) {
                         unlink(base64_decode($pet->getVideo()));
-                        $pet->setVideo(null);
+                        $pet->setVideo($this->Upload($video));
+                    } else {
+                        $this->ShowModifyView($pet->getId(), "ERROR<br>The extension or the size of the video is not correct.<br>Compatible formats: .mp4, .mkv, .mov and .avi");
                     }
                 }
-
+                
                 $this->petDAO->Modify($pet);
                 $this->ShowPetListView("Successfully modified", "success");
             } else {
@@ -174,37 +202,22 @@
             }
         }
 
-        public function UploadImage($file) {
-            $message = "";
+        public function Upload($file) {
             try {
                 $time = time();
                 $fileName = $time . "-" . $file["name"];
                 $tempFileName = $file["tmp_name"];
-                $type = $file["type"];
 
                 $filePath = UPLOADS_PATH . basename($fileName);
-                $fileType = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
-                $imageSize = getimagesize($tempFileName);
 
-                if($imageSize !== false) {
-                    if (move_uploaded_file($tempFileName, $filePath))
-                    {
-                        chmod($filePath,0777);
-                    } else {
-                        $message = "Ocurrió un error al intentar subir la imagen";
-                    }
-                } else {
-                    $message = "El archivo no corresponde a una imágen";
+                if(move_uploaded_file($tempFileName, $filePath)) {
+                    chmod($filePath,0777);
                 }
             } catch(Exception $ex) {
-                $message = $ex->getMessage();
+                $this->ShowPetListView($ex->getMessage());
             }
 
-            if($message != "") {
-                $this->ShowPetListView($message);
-            }
-            
             return base64_encode($filePath);
-        } 
+        }
     }
 ?>
