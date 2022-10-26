@@ -61,6 +61,18 @@ class UserDAO implements IUserDAO
         
         return (count($array) > 0) ? $array[0] : null;
     }
+    public function CheckHotmail($userName)
+    {
+        $this->RetrieveData();
+
+        $array = array_filter($this->users, function($user) use($userName) {
+            return $user->getEmail() == $userName;
+        });
+
+        $array = array_values($array);
+        
+        return (count($array) > 0) ? $array[0] : null;
+    }
 
     private function SaveData()
     {

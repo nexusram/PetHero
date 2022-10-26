@@ -27,7 +27,16 @@
 
             $this->SaveData();
         }
-
+        public function Seache($id) {
+            $rta= false;
+            $this->RetrieveData();
+            foreach($this->keeperList as $keeper) {
+                if($keeper->getUserId() == $id) {
+                    $rta = true;
+                }
+            }
+            return $rta;
+        }
         public function Modify(Keeper $keeper) {
             $this->RetrieveData();
 
@@ -50,7 +59,7 @@
 
             foreach($this->keeperList as $keeper) {
                 $value["id"] = $keeper->getId();
-                $value["userId"] = $keeper->getuserId();
+                $value["userId"] = $keeper->getUserId();
                 $value["petTypeId"] = $keeper->getPetTypeId();
                 $value["remuneration"] = $keeper->getRemuneration();
 
@@ -61,7 +70,7 @@
         }
 
         public function RetrieveData() {
-            $this->users = array();
+            $this->keeperList = array();
 
             if(file_exists($this->fileName)) {
                 $jsonContent = file_get_contents($this->fileName);
@@ -74,11 +83,10 @@
                     $keeper->setPetTypeId($value["petTypeId"]);
                     $keeper->setRemuneration($value["remuneration"]);
 
-                    array_push($this->users, $keeper);
+                    array_push($this->keeperList, $keeper);
                 }
             }
         }
-
         private function GetNextId() {
             $id = 0;
 

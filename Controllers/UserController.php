@@ -11,7 +11,7 @@
             $this->userDAO = new UserDAO();
         }
 
-        public function ShowProfileView() {
+        public function ShowProfileView($message = "", $type = "") {
             require_once(VIEWS_PATH . "validate-session.php");
             require_once(VIEWS_PATH . "profile.php");
         }
