@@ -103,30 +103,6 @@
                 $this->ShowAddView("ERROR<br>The pet already exists, try again");
             }
         }
-
-        public function ValidateImage($image) {
-            $type = $image["type"];
-            $size = $image["size"];
-
-            $rta = false;
-            if (((strpos($type, "gif") || strpos($type, "jpeg") || strpos($type, "jpg") || strpos($type, "png")) && ($size < 200000000))) {
-                $rta = true;
-            }
-
-            return $rta;
-        }
-
-        public function ValidateVideo($video) {
-            $type = $video["type"];
-            $size = $video["size"];
-
-            $rta = false;
-            if (((strpos($type, "mp4") || strpos($type, "mkv") || strpos($type, "mov") || strpos($type, "avi")) && ($size < 200000000))) {
-                $rta = true;
-            }
-
-            return $rta;
-        }
         
         // Hace que un pet este inactivo
         public function Unsubscribe($id) {
@@ -146,7 +122,8 @@
 
         public function Modify($id="", $name="", $petType="", $breed="", $petSize="", $observation="", $picture="", $vacunationPlan="", $video="") {
             require_once(VIEWS_PATH . "validate-session.php");
-            $userId = $_SESSION["loggedUser"]->getId();
+
+            $control = true;
 
             $pet = $this->petDAO->GetPetById(intval($id));
 
@@ -195,14 +172,42 @@
                     }
                 }
                 
-                $this->petDAO->Modify($pet);
-                $this->ShowPetListView("Successfully modified", "success");
+                if($control) {
+                    $this->petDAO->Modify($pet);
+                    $this->ShowPetListView("Successfully modified", "success");
+                }
             } else {
                 $this->ShowPetListView("There was an error trying to modify the pet");
             }
         }
 
-        public function Upload($file) {
+        private function ValidateImage($image) {
+            $type = $image["type"];
+            $size = $image["size"];
+
+            $rta = false;
+            if (((strpos($type, "gif") || strpos($type, "jpeg") || strpos($type, "jpg") || strpos($type, "png")) && ($size < 200000000))) {
+                $rta = true;
+            }
+            return $rta;
+        }
+
+        private function ValidateVideo($video) {
+            $type = $video["type"];
+            $size = $video["size"];
+
+            $rta = false;
+            if (((strpos($type, "mp4") || strpos($type, "mkv") || strpos($type, "mov") || strpos($type, "avi")) && ($size < 200000000))) {
+                $rta = true;
+            }
+            return $rta;
+        }
+
+        private function DeleteFile($filePath) {
+            return unlink($filePath);
+        }
+
+        private function Upload($file) {
             try {
                 $time = time();
                 $fileName = $time . "-" . $file["name"];
