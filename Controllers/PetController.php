@@ -36,7 +36,7 @@
             require_once(VIEWS_PATH . "add-pet.php");
         }
 
-        public function ShowModifyView($id, $message="", $type="") {
+        public function ShowModifyView($id="", $message="", $type="") {
             require_once(VIEWS_PATH . "validate-session.php");
             $petTypeDAO = new PetTypeDAO();
             $petTypeList = $petTypeDAO->GetAll();
@@ -81,12 +81,13 @@
                     $pet->setActive(1);
 
                     // Add images
-                    $pet->setPicture($this->UploadImage($picture));
-                    $pet->setVacunationPlan($this->UploadImage($vacunationPlan));
-
-                    // Add video
-                    $pet->setVideo(null);
-                    // TODO
+                    try {
+                        $pet->setPicture($this->UploadImage($picture));
+                        $pet->setVacunationPlan($this->UploadImage($vacunationPlan));
+                        $pet->setVideo(null);
+                    } catch (Exception $ex){
+                        $this->ShowAddView($ex->getMessage());
+                    }
 
                     // Llama la funcion Add del dao
                     $this->petDAO->Add($pet);
@@ -119,15 +120,14 @@
             }
         }
 
-        public function Modify($id, $name, $petType, $breed, $petSize, $observation, $picture="", $vacunationPlan="", $video="") {
+        public function Modify($id="", $name="", $petType="", $breed="", $petSize="", $observation="", $picture="", $vacunationPlan="", $video="") {
             require_once(VIEWS_PATH . "validate-session.php");
             $userId = $_SESSION["loggedUser"]->getId();
 
-            if($this->petDAO->GetPetById($id) != null) {
-                $pet = new Pet();
+            $pet = $this->petDAO->GetPetById(intval($id));
 
-                $pet->setId($id);
-                $pet->setUserId($userId);
+            if($pet != null) {
+
                 $pet->setName($name);
 
                 $petTypeObj = new PetType();
@@ -138,36 +138,36 @@
 
                 $petSizeObj = new PetSize();
                 $petSizeObj->setId(intval($petSize));
-                var_dump($petSizeObj);
-                die;
                 $pet->setPetSize($petSizeObj);
 
                 $pet->setObservation($observation);
                 //Por defecto es 1, significa que esta activo
-                $pet->setActive(1);
 
-                // Add images
-                $pet->setPicture(null);
-                $pet->setVacunationPlan(null);
-                //Por defecto es 1, significa que esta activo
+                // Comprobamos que los archivos lleguen
+                if($picture["name"] != "") {
+                    if($pet->getPicture() != null) {
+                        unlink(base64_decode($pet->getPicture()));
+                        $pet->setPicture($this->UploadImage($picture));
+                    }
+                }
 
-                // Add images
-                /*
-                if($picture != "") {
-                    unlink(base64_decode($pet->getPicture()));
-                    $pet->setPicture($this->UploadImage($picture));
+                // Comprobamos que los archivos lleguen
+                if($vacunationPlan["name"] != "") {
+                    if($pet->getVacunationPlan() != null) {
+                        unlink(base64_decode($pet->getVacunationPlan()));
+                        $pet->setVacunationPlan($this->UploadImage($vacunationPlan));
+                    }
                 }
-                if($vacunationPlan != "") {
-                    unlink(base64_decode($pet->getVacunationPlan()));
-                    $pet->setVacunationPlan($this->UploadImage($vacunationPlan));
+
+                // Comprobamos que los archivos lleguen
+                if($video["name"] != "") {
+                    if($pet->getVideo() != null) {
+                        unlink(base64_decode($pet->getVideo()));
+                        $pet->setVideo(null);
+                    }
                 }
-                if($video != "") {
-                    unlink(base64_decode($pet->getVideo()));
-                    $pet->setVideo(null);
-                }*/
-                var_dump($pet);
+
                 $this->petDAO->Modify($pet);
-
                 $this->ShowPetListView("Successfully modified", "success");
             } else {
                 $this->ShowPetListView("There was an error trying to modify the pet");
@@ -201,7 +201,7 @@
             }
 
             if($message != "") {
-                $this->ShowAddView($message);
+                $this->ShowPetListView($message);
             }
             
             return base64_encode($filePath);

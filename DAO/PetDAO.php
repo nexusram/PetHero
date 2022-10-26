@@ -32,8 +32,6 @@
         public function Modify(Pet $pet) {
             $this->RetrieveData();
 
-            var_dump($pet);
-            die;
             $this->Remove($pet->getId());
 
             array_push($this->petList, $pet);
