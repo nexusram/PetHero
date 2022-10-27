@@ -3,6 +3,14 @@
         "id": 2,
         "user": 2,
         "petSize": 2,
-        "remuneration": "500"
+        "remuneration": "500",
+        "description": "experiencia en cuidados especiales de mascotas de tama\u00f1o medio"
+    },
+    {
+        "id": 3,
+        "user": 1,
+        "petSize": 3,
+        "remuneration": "1000",
+        "description": "123"
     }
 ]

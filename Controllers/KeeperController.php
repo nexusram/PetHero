@@ -4,6 +4,7 @@ namespace Controllers;
 
 use DAO\KeeperDAO;
 use DAO\PetSizeDAO;
+use DAO\UserDAO;
 use Models\Keeper;
 use Models\PetSize;
 
@@ -16,6 +17,7 @@ class KeeperController
         $this->keeperDAO = new KeeperDAO();
     }
 
+    // Muestra vista de add keeper
     public function ShowAddView()
     {
         require_once(VIEWS_PATH . "validate-session.php");
@@ -26,6 +28,7 @@ class KeeperController
         require_once(VIEWS_PATH . "add-keeper.php");
     }
 
+    // Muestra un listado de keepers
     public function ShowListView() {
         require_once(VIEWS_PATH . "validate-session.php");
 
@@ -34,28 +37,33 @@ class KeeperController
         require_once(VIEWS_PATH . "keeper-list.php");
     }
 
-    public function CheckKeeper($idUser)
+    // Chequea que un usuario sea keeper
+    public function CheckKeeper($userId)
     {
-        return $this->keeperDAO->GetById($idUser);
+        return $this->keeperDAO->GetByUserId($userId);
     }
     
-    public function Add($cant, $value)
+    // Agrega un keeper
+    public function Add($remuneration, $petSize, $description)
     {
         require_once(VIEWS_PATH . "validate-session.php");
-        $message = "";$type = "";
-        if ($value == 1) {
-            $keeper = new Keeper();
-            $keeper->setUser($_SESSION["loggedUser"]->getId());
-            $keeper->setRemuneration($cant);
-            $keeper->setPetSize($petSize = new PetSize());
-            $this->listKeeper->Add($keeper);
-            $message = "session de Keeper exitosa";
-            $type= "success";
-        }else
-        {
-            $message = "No se pudo crear";
-        }
-        $user = new UserController();
-        $user->ShowProfileView($message,$type);
+
+        $keeper = new Keeper();
+
+        $userDAO = new UserDAO();
+        $user = $userDAO->GetById($_SESSION["loggedUser"]->getId());
+
+        $keeper->setUser($user);
+        $keeper->setRemuneration($remuneration);
+
+        $petSizeDAO = new PetSizeDAO();
+        $petSizeObj = $petSizeDAO->GetById($petSize);
+
+        $keeper->setPetSize($petSizeObj);
+        $keeper->setDescription($description);
+
+        $this->keeperDAO->Add($keeper);
+
+        $this->ShowListView();
     }
 }

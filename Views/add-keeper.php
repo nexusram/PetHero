@@ -5,15 +5,15 @@ include_once(VIEWS_PATH . "nav-user.php");
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
-            <h2 class="mb-4">Owner to Keeper</h2>
+            <h2 class="mb-4">Keeper Register</h2>
             <form action="<?php echo FRONT_ROOT . "Keeper/Add" ?>" method="post" class="bg-light-alpha p-5">
                 <div class="row">
-                    <div class="col-lg-3">
+                    <div class="col-lg-6">
                         <div class="form-group">
-                            <label for="">Remuneration</label>
-                            <input type="number" name="remuneration" min=0 class="form-control mb-3" placeholder="valor a ingresar" required>
+                            <label for="">Remuneration*</label>
+                            <input type="number" name="remuneration" min=0 class="form-control mb-3" placeholder="Expected remuneration" required>
 
-                            <label for="">Size of pet to care</label>
+                            <label for="">Size of pet to care*</label>
                             <select class="form-control mb-3" name="petSize" id="petSize" required>
                                 <?php
                                         foreach($petSizeList as $petSize) {
@@ -24,12 +24,11 @@ include_once(VIEWS_PATH . "nav-user.php");
                                 ?>
                             </select>
 
-                            <label>Activar session Keeper??</label>
+                            <label for="">Description*</label>
+                            <input type="textarea" name="description" class="form-control mb-3" placeholder="Enter your description" required>
+
                             <div>
-                            <input type="radio" id="si" value=1 name="option" >
-                            <label for="Si">Si</label>
-                            <input type="radio" id="no" value=0 name="option" checked>
-                            <label for="No">No</label>
+                                <a class="btn btn-danger" href="<?php echo FRONT_ROOT . "Pet/ShowPetListView"?>">Cancel</a>
                             </div>
                         </div>
                     </div>

@@ -11,14 +11,21 @@
             $this->userDAO = new UserDAO();
         }
 
-        public function ShowProfileView($message = "", $type = "") {
+        public function ShowProfileView($id="", $message = "", $type = "") {
             require_once(VIEWS_PATH . "validate-session.php");
-            require_once(VIEWS_PATH . "profile.php");
+            $user = $this->userDAO->GetById($id);
+            require_once(VIEWS_PATH . "profile-user.php");
         }
 
         public function ShowUpdateView() {
             require_once(VIEWS_PATH . "validate-session.php");
             require_once(VIEWS_PATH . "update-profile.php");
+        }
+
+        public function ShowContactView($id="") {
+            require_once(VIEWS_PATH . "validate-session.php");
+            $user = $this->userDAO->GetById($id);
+            require_once(VIEWS_PATH . "contact.php");
         }
 
         public function Update($name, $surname, $birthday, $username, $email, $cellphone, $address) {

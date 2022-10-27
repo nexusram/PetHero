@@ -7,6 +7,7 @@
         private $user;
         private $petSize;
         private $remuneration;
+        private $description;
 
         /**
          * Get the value of keeperId
@@ -84,6 +85,26 @@
         public function setRemuneration($remuneration)
         {
                 $this->remuneration = $remuneration;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of description
+         */ 
+        public function getDescription()
+        {
+                return $this->description;
+        }
+
+        /**
+         * Set the value of description
+         *
+         * @return  self
+         */ 
+        public function setDescription($description)
+        {
+                $this->description = $description;
 
                 return $this;
         }

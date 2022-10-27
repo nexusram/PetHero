@@ -1,4 +1,7 @@
 <?php
+
+use Controllers\KeeperController;
+
 include_once(VIEWS_PATH . "validate-session.php");
 include_once(VIEWS_PATH . "nav-user.php");
 ?>
@@ -10,34 +13,35 @@ include_once(VIEWS_PATH . "nav-user.php");
                     <thead>
                          <tr>
                               <th>Name</th>
-                              <td><?php echo $_SESSION["loggedUser"]->getName(); ?></td>
+                              <td><?php echo $user->getName(); ?></td>
                          </tr>
                          <tr>
                               <th>Surname</th>
-                              <td><?php echo $_SESSION["loggedUser"]->getSurName(); ?></td>
+                              <td><?php echo $user->getSurName(); ?></td>
                          </tr>
                          <tr>
                               <th>Birthday</th>
-                              <td><?php echo $_SESSION["loggedUser"]->getBirthday(); ?></td>
+                              <td><?php echo $user->getBirthday(); ?></td>
                          </tr>
                          <tr>
                               <th>Username</th>
-                              <td><?php echo $_SESSION["loggedUser"]->getUserName(); ?></td>
+                              <td><?php echo $user->getUserName(); ?></td>
                          </tr>
                          <tr>
                               <th>Email</th>
-                              <td><?php echo $_SESSION["loggedUser"]->getEmail(); ?></td>
+                              <td><?php echo $user->getEmail(); ?></td>
                          </tr>
                          <tr>
                               <th>Cellphone</th>
-                              <td><?php echo $_SESSION["loggedUser"]->getCellphone(); ?></td>
+                              <td><?php echo $user->getCellphone(); ?></td>
                          </tr>
                          <tr>
                               <th>Address</th>
-                              <td><?php echo $_SESSION["loggedUser"]->getAddress(); ?></td>
+                              <td><?php echo $user->getAddress(); ?></td>
                          </tr>
                     </thead>
                     <tbody>
+                        <!-- 
                          <td>
                               <a class="btn btn-info" href="<?php echo FRONT_ROOT . "User/ShowUpdateView" ?>">
                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -46,6 +50,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                                    </svg>
                               </a>
                          </td>
+                         --->
                     </tbody>
                     <?php
                     if ($message != "") {

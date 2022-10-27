@@ -28,17 +28,6 @@
             $this->SaveData();
         }
 
-        public function Seache($id) {
-            $rta= false;
-            $this->RetrieveData();
-            foreach($this->keeperList as $keeper) {
-                if($keeper->getUserId() == $id) {
-                    $rta = true;
-                }
-            }
-            return $rta;
-        }
-
         public function Modify(Keeper $keeper) {
             $this->RetrieveData();
 
@@ -61,6 +50,18 @@
             return (count($array) > 0) ? $array[0] : null;
         }
 
+        public function GetByUserId($userId) {
+            $this->RetrieveData();
+
+            $array = array_filter($this->keeperList, function($keeper) use($userId) {
+                return $keeper->getUser()->getId() == $userId;
+            });
+
+            $array = array_values($array);
+
+            return (count($array) > 0) ? $array[0] : null;
+        }
+
         public function GetAll() {
             $this->RetrieveData();
 
@@ -76,6 +77,7 @@
                 $value["user"] = $keeper->getUser()->getId();
                 $value["petSize"] = $keeper->getPetSize()->getId();
                 $value["remuneration"] = $keeper->getRemuneration();
+                $value["description"] = $keeper->getDescription();
 
                 array_push($arrayEncode, $value);
             }
@@ -94,6 +96,7 @@
                     $keeper = new Keeper();
                     $keeper->setId($value["id"]);
                     $keeper->setRemuneration($value["remuneration"]);
+                    $keeper->setDescription($value["description"]);
 
                     //
                     $userDAO = new UserDAO();
