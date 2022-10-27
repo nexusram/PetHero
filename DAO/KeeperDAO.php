@@ -27,6 +27,7 @@
 
             $this->SaveData();
         }
+
         public function Seache($id) {
             $rta= false;
             $this->RetrieveData();
@@ -37,6 +38,7 @@
             }
             return $rta;
         }
+
         public function Modify(Keeper $keeper) {
             $this->RetrieveData();
 
@@ -45,6 +47,18 @@
             array_push($this->keeperList, $keeper);
 
             $this->SaveData();
+        }
+
+        public function GetById($id) {
+            $this->RetrieveData();
+
+            $array = array_filter($this->keeperList, function($keeper) use($id) {
+                return $keeper->getId() == $id;
+            });
+
+            $array = array_values($array);
+
+            return (count($array) > 0) ? $array[0] : null;
         }
 
         public function GetAll() {
@@ -59,8 +73,8 @@
 
             foreach($this->keeperList as $keeper) {
                 $value["id"] = $keeper->getId();
-                $value["userId"] = $keeper->getUserId();
-                $value["petTypeId"] = $keeper->getPetTypeId();
+                $value["user"] = $keeper->getUser()->getId();
+                $value["petSize"] = $keeper->getPetSize()->getId();
                 $value["remuneration"] = $keeper->getRemuneration();
 
                 array_push($arrayEncode, $value);
@@ -79,9 +93,17 @@
                 foreach($arrayDecode as $value) {
                     $keeper = new Keeper();
                     $keeper->setId($value["id"]);
-                    $keeper->setUserId($value["userId"]);
-                    $keeper->setPetTypeId($value["petTypeId"]);
                     $keeper->setRemuneration($value["remuneration"]);
+
+                    //
+                    $userDAO = new UserDAO();
+                    $user = $userDAO->GetById($value["user"]);
+                    $keeper->setUser($user);
+
+                    //
+                    $petSizeDAO = new PetSizeDAO();
+                    $petSize = $petSizeDAO->GetById($value["petSize"]);
+                    $keeper->setPetSize($petSize);
 
                     array_push($this->keeperList, $keeper);
                 }

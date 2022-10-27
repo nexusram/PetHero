@@ -16,10 +16,7 @@
                     <input type="password" name="password" class="form-control form-control-lg" placeholder="Enter password" required>
                </div>
                <button class="btn btn-warning btn-block btn-lg" type="submit">Sign in</button>
-               <div class="form-group mt-2 mb-0 text-center">
-                    <a href="<?php echo FRONT_ROOT . "Home/ShowForgetUserView" ?>">I forgot the password?</a>
-               </div>
-               <div class="form-group mt-2 mb-0 text-center">
+               <div class="form-group mt-3 mb-0 text-center">
                     <a href="<?php echo FRONT_ROOT . "Home/ShowRegisterView" ?>">Do you not a user? Register now!</a>
                </div>
                <?php

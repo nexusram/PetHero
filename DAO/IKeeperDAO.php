@@ -8,6 +8,7 @@
         function Add(Keeper $keeper);
         function Remove($id);
         function Modify(Keeper $keeper);
+        function GetById($id);
         function GetAll();
     }
 ?>

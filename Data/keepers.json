@@ -1,8 +1,14 @@
 [
     {
         "id": 1,
-        "userId": 1,
-        "petTypeId": 0,
-        "remuneration": "30"
+        "user": 1,
+        "petSize": 1,
+        "remuneration": "100"
+    },
+    {
+        "id": 2,
+        "user": 2,
+        "petSize": 2,
+        "remuneration": "500"
     }
 ]

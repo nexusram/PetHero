@@ -49,6 +49,18 @@ class UserDAO implements IUserDAO
         return $this->users;
     }
 
+    public function GetById($id) {
+        $this->RetrieveData();
+
+        $array = array_filter($this->users, function($user) use($id) {
+            return $user->getId() == $id;
+        });
+
+        $array = array_values($array);
+
+        return (count($array) > 0) ? $array[0] : null;
+    }
+
     public function GetByUserName($userName)
     {
         $this->RetrieveData();
@@ -61,6 +73,7 @@ class UserDAO implements IUserDAO
         
         return (count($array) > 0) ? $array[0] : null;
     }
+
     public function CheckHotmail($userName)
     {
         $this->RetrieveData();

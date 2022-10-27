@@ -4,8 +4,8 @@
 
     class Keeper {
         private $id;
-        private $userId;
-        private $petTypeId;
+        private $user;
+        private $petSize;
         private $remuneration;
 
         /**
@@ -31,9 +31,9 @@
         /**
          * Get the value of userId
          */ 
-        public function getUserId()
+        public function getUser()
         {
-                return $this->userId;
+                return $this->user;
         }
 
         /**
@@ -41,9 +41,9 @@
          *
          * @return  self
          */ 
-        public function setUserId($userId)
+        public function setUser(User $user)
         {
-                $this->userId = $userId;
+                $this->user = $user;
 
                 return $this;
         }
@@ -51,9 +51,9 @@
         /**
          * Get the value of petTypeId
          */ 
-        public function getPetTypeId()
+        public function getPetSize()
         {
-                return $this->petTypeId;
+                return $this->petSize;
         }
 
         /**
@@ -61,9 +61,9 @@
          *
          * @return  self
          */ 
-        public function setPetTypeId($petTypeId)
+        public function setPetSize(PetSize $petSize)
         {
-                $this->petTypeId = $petTypeId;
+                $this->petSize = $petSize;
 
                 return $this;
         }

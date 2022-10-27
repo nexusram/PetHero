@@ -3,40 +3,50 @@
 namespace Controllers;
 
 use DAO\KeeperDAO;
+use DAO\PetSizeDAO;
 use Models\Keeper;
+use Models\PetSize;
 
 class KeeperController
 {
-    private $listKeeper;
+    private $keeperDAO;
+
     public function __construct()
     {
-        $this->listKeeper = new KeeperDAO();
-    }
-    public function ShowKeeperListView()
-    {
-        require_once(VIEWS_PATH . "validate-session.php");
+        $this->keeperDAO = new KeeperDAO();
     }
 
     public function ShowAddView()
     {
         require_once(VIEWS_PATH . "validate-session.php");
+
+        $petSizeDAO = new PetSizeDAO();
+        $petSizeList = $petSizeDAO->GetAll();
+
+        require_once(VIEWS_PATH . "add-keeper.php");
     }
-    public function CheckUser($idUser)
+
+    public function ShowListView() {
+        require_once(VIEWS_PATH . "validate-session.php");
+
+        $keeperList = $this->keeperDAO->GetAll();
+
+        require_once(VIEWS_PATH . "keeper-list.php");
+    }
+
+    public function CheckKeeper($idUser)
     {
-        return $this->listKeeper->Seache($idUser);
+        return $this->keeperDAO->GetById($idUser);
     }
-    public function Check()
-    {
-        require_once(VIEWS_PATH . "validate-keeper.php");
-    }
+    
     public function Add($cant, $value)
     {
         $message = "";$type = "";
         if ($value == 1) {
             $keeper = new Keeper();
-            $keeper->setUserId($_SESSION["loggedUser"]->getId());
+            $keeper->setUser($_SESSION["loggedUser"]->getId());
             $keeper->setRemuneration($cant);
-            $keeper->setPetTypeId(0);
+            $keeper->setPetSize($petSize = new PetSize());
             $this->listKeeper->Add($keeper);
             $message = "session de Keeper exitosa";
             $type= "success";
