@@ -41,6 +41,7 @@ class KeeperController
     
     public function Add($cant, $value)
     {
+        require_once(VIEWS_PATH . "validate-session.php");
         $message = "";$type = "";
         if ($value == 1) {
             $keeper = new Keeper();
