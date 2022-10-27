@@ -11,28 +11,28 @@ include_once(VIEWS_PATH . "validate-session.php");
                          <th>Name</th>
                          <th>Description</th>
                          <th>Type</th>
-                        
+
                     </thead>
                     <tbody>
                          <form action="process/removeBeer.php" method="POST">
-                         <?php
-                              if(isset($arrayBeers)){
-                                   foreach($arrayBeers as $beer){
-                                   
-                                        ?>
-                                             <tr>
-                                                  <td><?php echo $beer->getCode(); ?></td>
-                                                  <td><?php echo $beer->getName(); ?></td>
-                                                  <td><?php echo $beer->getDescription(); ?></td>
-                                                  <td><?php echo $beer->getType(); ?></td>
-                                                  <td> 
-                                                       <button type="submit" name="btnRemove" class="btn btn-danger" value="<?php echo $beer->getCode(); ?>"> Eliminar </button>
-                                                  </td>
-                                             </tr>
-                                        <?php
+                              <?php
+                              if (isset($arrayBeers)) {
+                                   foreach ($arrayBeers as $beer) {
+
+                              ?>
+                                        <tr>
+                                             <td><?php echo $beer->getCode(); ?></td>
+                                             <td><?php echo $beer->getName(); ?></td>
+                                             <td><?php echo $beer->getDescription(); ?></td>
+                                             <td><?php echo $beer->getType(); ?></td>
+                                             <td>
+                                                  <button type="submit" name="btnRemove" class="btn btn-danger" value="<?php echo $beer->getCode(); ?>"> Eliminar </button>
+                                             </td>
+                                        </tr>
+                              <?php
                                    }
                               }
-                         ?>
+                              ?>
                          </form>
                     </tbody>
                </table>

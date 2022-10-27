@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
      <!-- Required meta tags -->
      <meta charset="utf-8">
@@ -7,6 +8,7 @@
 
      <!-- Bootstrap CSS -->
      <link rel="stylesheet" href="<?php echo CSS_PATH ?>bootstrap.min.css">
-     <link rel="stylesheet" href="<?php echo CSS_PATH?>estilos.css">
+     <link rel="stylesheet" href="<?php echo CSS_PATH ?>estilos.css">
 </head>
+
 <body>

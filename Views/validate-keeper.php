@@ -1,6 +1,6 @@
 <?php
-include('header.php');
-include('nav-user.php');
+include_once(VIEWS_PATH . "validate-session.php");
+include_once(VIEWS_PATH . "nav-user.php");
 ?>
 <main class="py-5">
     <section id="listado" class="mb-5">
@@ -11,13 +11,13 @@ include('nav-user.php');
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label for="">cantidad a abonar</label>
-                            <input type="number" name="count" value="" class="form-control" >
+                            <input type="number" name="count" value="" class="form-control">
                             <label>Activar session Keeper??</label>
                             <div>
-                            <input type="radio" id="si" value=1 name="user_sex" >
-                            <label for="Si">Si</label>
-                            <input type="radio" id="no" value=0 name="user_sex" checked>
-                            <label for="No">No</label>
+                                <input type="radio" id="si" value=1 name="user_sex">
+                                <label for="Si">Si</label>
+                                <input type="radio" id="no" value=0 name="user_sex" checked>
+                                <label for="No">No</label>
                             </div>
                         </div>
                     </div>
