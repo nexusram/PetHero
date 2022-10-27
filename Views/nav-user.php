@@ -1,15 +1,10 @@
 <?php
-<<<<<<< HEAD
      use Controllers\KeeperController;
      $keeperController = new KeeperController();
-=======
-include_once(VIEWS_PATH . "validate-session.php");
+     include_once(VIEWS_PATH . "validate-session.php");
 
-use Controllers\KeeperController;
-
-$keeperController = new KeeperController();
-$returnKeeper = $keeperController->CheckUser($_SESSION["loggedUser"]->getId());
->>>>>>> 32ed3c12e2ff0d23502360a2b93732a08461cdf1
+     $keeperController = new KeeperController();
+     $returnKeeper = $keeperController->CheckKeeper($_SESSION["loggedUser"]->getId());
 ?>
 <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
      <span class="navbar-text">
@@ -91,11 +86,7 @@ $returnKeeper = $keeperController->CheckUser($_SESSION["loggedUser"]->getId());
           </li>
      </ul>
      <?php
-<<<<<<< HEAD
           if(!$keeperController->CheckKeeper($_SESSION["loggedUser"]->getId())) {
-=======
-     if ($returnKeeper == false) {
->>>>>>> 32ed3c12e2ff0d23502360a2b93732a08461cdf1
      ?>
           <ul class="navbar-nav">
                <li class="nav-item">

@@ -1,11 +1,5 @@
 [
     {
-        "id": 1,
-        "user": 1,
-        "petSize": 1,
-        "remuneration": "100"
-    },
-    {
         "id": 2,
         "user": 2,
         "petSize": 2,
