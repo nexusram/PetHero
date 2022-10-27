@@ -1,10 +1,12 @@
 <?php
-     use Controllers\KeeperController;
-     $keeperController = new KeeperController();
-     include_once(VIEWS_PATH . "validate-session.php");
 
-     $keeperController = new KeeperController();
-     $returnKeeper = $keeperController->CheckKeeper($_SESSION["loggedUser"]->getId());
+use Controllers\KeeperController;
+
+$keeperController = new KeeperController();
+include_once(VIEWS_PATH . "validate-session.php");
+
+$keeperController = new KeeperController();
+$returnKeeper = $keeperController->CheckKeeper($_SESSION["loggedUser"]->getId());
 ?>
 <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
      <span class="navbar-text">
@@ -30,14 +32,20 @@
                                              <?php echo $_SESSION["loggedUser"]->getUserName() ?>
                                         </a>
                                    </li>
-                                   <li>
-                                        <a class="dropdown-item" href="<?php echo FRONT_ROOT . "Keeper/ShowListView"?>">
-                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                                             </svg>
-                                             Search Keeper
-                                        </a>
-                                   </li>
+                                   <?php
+                                   if ($returnKeeper != true) {
+                                   ?>
+                                        <li>
+                                             <a class="dropdown-item" href="<?php echo FRONT_ROOT . "Keeper/ShowListView" ?>">
+                                                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                                       <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                                  </svg>
+                                                  Search Keeper
+                                             </a>
+                                        </li>
+                                   <?php
+                                   }
+                                   ?>
                                    <li>
                                         <a class="dropdown-item" href="<?php echo FRONT_ROOT . "Pet/ShowPetListView" ?>">
                                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-valentine" viewBox="0 0 16 16">
@@ -86,7 +94,7 @@
           </li>
      </ul>
      <?php
-          if(!$keeperController->CheckKeeper($_SESSION["loggedUser"]->getId())) {
+     if ($returnKeeper!=true) {
      ?>
           <ul class="navbar-nav">
                <li class="nav-item">

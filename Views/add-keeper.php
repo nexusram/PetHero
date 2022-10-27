@@ -11,7 +11,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label for="">Remuneration</label>
-                            <input type="number" name="remuneration" min=0 class="form-control mb-3" placeholder="500" required>
+                            <input type="number" name="remuneration" min=0 class="form-control mb-3" placeholder="valor a ingresar" required>
 
                             <label for="">Size of pet to care</label>
                             <select class="form-control mb-3" name="petSize" id="petSize" required>
