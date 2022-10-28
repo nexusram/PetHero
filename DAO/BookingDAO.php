@@ -76,7 +76,7 @@
                     $booking->setId($value["id"]);
                     $booking->setIdOwner($value["idOwner"]);
                     $booking->setIdKeeper($value["idKeeper"]);
-                    $booking->setIdMascota($value["idMascota"]);
+                    $booking->setIdPet($value["idPet"]);
                     $booking->setIdCoupon($value["idCoupon"]);
                     $booking->setStartDate($value["startDate"]);
                     $booking->setEndDate($value["endDate"]);
@@ -97,7 +97,7 @@
                 $value["id"] = $booking->getId();
                 $value["idOwner"] = $booking->getIdOwner();
                 $value["idKeeper"] = $booking->getIdKeeper();
-                $value["idMascota"] = $booking->getIdMascota();
+                $value["idPet"] = $booking->getIdPet();
                 $value["idCoupon"] = $booking->getIdCoupon();
                 $value["startDate"] = $booking->getStartDate();
                 $value["endDate"] = $booking->getEndDate();

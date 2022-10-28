@@ -86,7 +86,7 @@
          *
          * @return  self
          */ 
-        public function setIdMascota($idPet)
+        public function setIdPet($idPet)
         {
                 $this->idPet = $idPet;
 
