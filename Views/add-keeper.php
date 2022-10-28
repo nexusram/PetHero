@@ -27,6 +27,8 @@ include_once(VIEWS_PATH . "nav-user.php");
                             <label for="">Description*</label>
                             <input type="textarea" name="description" class="form-control mb-3" placeholder="Enter your description" required>
 
+                            <!--agregar campos de start y end fecha-->
+
                             <div>
                                 <a class="btn btn-danger" href="<?php echo FRONT_ROOT . "Pet/ShowPetListView"?>">Cancel</a>
                             </div>
