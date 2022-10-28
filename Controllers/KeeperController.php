@@ -29,7 +29,8 @@ class KeeperController
     }
 
     // Muestra un listado de keepers
-    public function ShowListView() {
+    public function ShowListView()
+    {
         require_once(VIEWS_PATH . "validate-session.php");
 
         $keeperList = $this->keeperDAO->GetAll();
@@ -42,7 +43,7 @@ class KeeperController
     {
         return $this->keeperDAO->GetByUserId($userId);
     }
-    
+
     // Agrega un keeper
     public function Add($remuneration, $petSize, $description, $startDate, $endDate)
     {
@@ -61,7 +62,7 @@ class KeeperController
 
         $keeper->setPetSize($petSizeObj);
         $keeper->setDescription($description);
-
+        die(var_dump($startDate, $endDate));
         $keeper->setStartDate($startDate);
         $keeper->setEndDate($endDate);
 

@@ -10,31 +10,27 @@ include_once(VIEWS_PATH . "nav-user.php");
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label for="">Remuneration*</label>
-                            <input type="number" name="remuneration" min=0 class="form-control mb-3" placeholder="Expected remuneration" required>
+                            <label>Remuneration*</label>
+                            <input type="number" name="remuneration" min=0 class="form-control mb-3"  placeholder="Expected remuneration" required>
 
-                            <label for="">Size of pet to care*</label>
+                            <label>Size of pet to care*</label>
                             <select class="form-control mb-3" name="petSize" id="petSize" required>
                                 <?php
-                                        foreach($petSizeList as $petSize) {
-                                            echo "<option value=". $petSize->getId() .">
+                                foreach ($petSizeList as $petSize) {
+                                    echo "<option value=" . $petSize->getId() . ">
                                                 " . $petSize->getName() . "
                                             </option>";
-                                        }
+                                }
                                 ?>
                             </select>
-
-                            <label for="">Description*</label>
-                            <input type="textarea" name="description" class="form-control mb-3" placeholder="Enter your description" required>
-
-                            <label for="">Start Date</label>
-                            <input type="date" class="form-control mb-3" name="startDate"  placeholder="Introduce una fecha de inicio" required min="2022-10-28"/>
-
-                            <label for="">End Date</label>
-                            <input type="date" class="form-control mb-3" name="endDate"  placeholder="Introduce una fecha de finalizacion" required min="2022-10-29"/>
-
+                            <label>Description*</label>
+                            <input type="String" name="Description" class="form-control mb-3" placeholder="description of the animal" required>
+                            <label>Start Date</label>
+                            <?php echo "<input class='form-control mb-3' type='date' name='startDate' min='" . date('Y-m-d') ."'required>"; ?>
+                            <label>End Date</label>
+                            <?php echo "<input class='form-control mb-3' type='date' name='endDate' min='" . date('Y-m-d') . "required'>"; ?>
                             <div>
-                                <a class="btn btn-danger" href="<?php echo FRONT_ROOT . "Pet/ShowPetListView"?>">Cancel</a>
+                                <a class="btn btn-danger" href="<?php echo FRONT_ROOT . "Pet/ShowPetListView" ?>">Cancel</a>
                             </div>
                         </div>
                     </div>

@@ -6,6 +6,7 @@ include_once(VIEWS_PATH . "nav-user.php");
      <section id="listado" class="mb-5">
           <div class="container">
                <h2 class="mb-4">My Profile | Update</h2>
+               <a href="javascript:window.history.back();">back</a>
                <table class="table bg-light-alpha">
                     <form action="<?php echo FRONT_ROOT . "User/Update" ?>">
                          <thead>
