@@ -6,8 +6,8 @@
         private $id;
         private $idOwner;
         private $idKeeper;
-        private $idMascota;
-        private $idCupon;
+        private $idPet;
+        private $idCoupon;
         private $startDate;
         private $endDate;
         private $state;
@@ -76,9 +76,9 @@
         /**
          * Get the value of idMascota
          */ 
-        public function getIdMascota()
+        public function getIdPet()
         {
-                return $this->idMascota;
+                return $this->idPet;
         }
 
         /**
@@ -86,9 +86,9 @@
          *
          * @return  self
          */ 
-        public function setIdMascota($idMascota)
+        public function setIdMascota($idPet)
         {
-                $this->idMascota = $idMascota;
+                $this->idPet = $idPet;
 
                 return $this;
         }
@@ -96,9 +96,9 @@
         /**
          * Get the value of idCupon
          */ 
-        public function getIdCupon()
+        public function getIdCoupon()
         {
-                return $this->idCupon;
+                return $this->idCoupon;
         }
 
         /**
@@ -106,9 +106,9 @@
          *
          * @return  self
          */ 
-        public function setIdCupon($idCupon)
+        public function setIdCoupon($idCoupon)
         {
-                $this->idCupon = $idCupon;
+                $this->idCoupon = $idCoupon;
 
                 return $this;
         }
