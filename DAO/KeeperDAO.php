@@ -78,6 +78,8 @@
                 $value["petSize"] = $keeper->getPetSize()->getId();
                 $value["remuneration"] = $keeper->getRemuneration();
                 $value["description"] = $keeper->getDescription();
+                $value["startDate"] = $keeper->getStartDate();
+                $value["endDate"] = $keeper->getEndDate();
 
                 array_push($arrayEncode, $value);
             }
@@ -97,6 +99,8 @@
                     $keeper->setId($value["id"]);
                     $keeper->setRemuneration($value["remuneration"]);
                     $keeper->setDescription($value["description"]);
+                    $keeper->setStartDate($value["startDate"]);
+                    $keeper->setEndDate($value["endDate"]);
 
                     //
                     $userDAO = new UserDAO();

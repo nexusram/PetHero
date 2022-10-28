@@ -1,0 +1,15 @@
+[
+    {
+        "id": 1,
+        "userId": 3,
+        "name": "Peter",
+        "petType": 1,
+        "breed": "Gran Danes",
+        "petSize": 3,
+        "observation": "Los ruidos fuertes le hacen mal",
+        "picture": "VXBsb2Fkcy8xNjY2OTMyOTUzLWdyYW4gRGFuZXMuanBn",
+        "vacunationPlan": "VXBsb2Fkcy8xNjY2OTMyOTUzLXBsYW4gdmFjdW5hY2lvbi5qcGc=",
+        "video": null,
+        "active": 0
+    }
+]

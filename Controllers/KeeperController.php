@@ -44,7 +44,7 @@ class KeeperController
     }
     
     // Agrega un keeper
-    public function Add($remuneration, $petSize, $description)
+    public function Add($remuneration, $petSize, $description, $startDate, $endDate)
     {
         require_once(VIEWS_PATH . "validate-session.php");
 
@@ -61,6 +61,9 @@ class KeeperController
 
         $keeper->setPetSize($petSizeObj);
         $keeper->setDescription($description);
+
+        $keeper->setStartDate($startDate);
+        $keeper->setEndDate($endDate);
 
         $this->keeperDAO->Add($keeper);
 
