@@ -27,7 +27,11 @@ include_once(VIEWS_PATH . "nav-user.php");
                             <label for="">Description*</label>
                             <input type="textarea" name="description" class="form-control mb-3" placeholder="Enter your description" required>
 
-                            <!--agregar campos de start y end fecha-->
+                            <label for="">Start Date</label>
+                            <input type="date" class="form-control mb-3" name="startDate"  placeholder="Introduce una fecha de inicio" required min="2022-10-28"/>
+
+                            <label for="">End Date</label>
+                            <input type="date" class="form-control mb-3" name="endDate"  placeholder="Introduce una fecha de finalizacion" required min="2022-10-29"/>
 
                             <div>
                                 <a class="btn btn-danger" href="<?php echo FRONT_ROOT . "Pet/ShowPetListView"?>">Cancel</a>

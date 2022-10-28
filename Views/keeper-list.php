@@ -6,14 +6,15 @@ include_once(VIEWS_PATH . "nav-user.php");
      <section id="listado" class="mb-5">
           <div class="container">
                <h2 class="mb-4">Keepers</h2>
-               <table class="table table-dark text-center">
+               <table class="table table-dark text-center"> 
                     <thead>
                          <th>Name</th>
                          <th>Surname</th>
-                         <th>Birthday</th>
                          <th>Address</th>
                          <th>Pet Size to Keep</th>
                          <th>Description</th>
+                         <th>Start Date</th>
+                         <th>End Date</th>
                          <th>Remuneration</th>
                          <th>Actions</th>
                     </thead>
@@ -25,10 +26,12 @@ include_once(VIEWS_PATH . "nav-user.php");
                                              <tr>
                                                   <td><?php echo $keeper->getUser()->getName(); ?></td>
                                                   <td><?php echo $keeper->getUser()->getSurname(); ?></td>
-                                                  <td><?php echo $keeper->getUser()->getBirthday(); ?></td>
+                                                  <!--<td><//?php// echo $keeper->getUser()->getBirthday(); ?></td>-->
                                                   <td><?php echo $keeper->getUser()->getAddress(); ?></td>
                                                   <td><?php echo $keeper->getPetSize()->getName(); ?></td>
                                                   <td><?php echo $keeper->getDescription(); ?></td>
+                                                  <td><?php echo $keeper->getStartDate(); ?></td>
+                                                  <td><?php echo $keeper->getEndDate(); ?></td>
                                                   <td><?php echo $keeper->getRemuneration(); ?></td>
                                                   <td>
                                                        <a class="btn btn-info" href="<?php echo FRONT_ROOT . "User/ShowContactView/" . $keeper->getId(); ?>">

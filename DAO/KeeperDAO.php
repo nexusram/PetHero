@@ -100,7 +100,7 @@
                     $keeper->setRemuneration($value["remuneration"]);
                     $keeper->setDescription($value["description"]);
                     $keeper->setStartDate($value["startDate"]);
-                    $keeper->setEndDate($value["EndDate"]);
+                    $keeper->setEndDate($value["endDate"]);
 
                     //
                     $userDAO = new UserDAO();
