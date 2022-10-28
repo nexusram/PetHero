@@ -6,9 +6,10 @@
         private $id;
         private $idOwner;
         private $idKeeper;
-        private $idMascota;
-        private $idCupon;
-        private $contratedDayList;
+        private $idPet;
+        private $idCoupon;
+        private $startDate;
+        private $endDate;
         private $state;
         private $total;
 
@@ -75,9 +76,9 @@
         /**
          * Get the value of idMascota
          */ 
-        public function getIdMascota()
+        public function getIdPet()
         {
-                return $this->idMascota;
+                return $this->idPet;
         }
 
         /**
@@ -85,9 +86,9 @@
          *
          * @return  self
          */ 
-        public function setIdMascota($idMascota)
+        public function setIdPet($idPet)
         {
-                $this->idMascota = $idMascota;
+                $this->idPet = $idPet;
 
                 return $this;
         }
@@ -95,9 +96,9 @@
         /**
          * Get the value of idCupon
          */ 
-        public function getIdCupon()
+        public function getIdCoupon()
         {
-                return $this->idCupon;
+                return $this->idCoupon;
         }
 
         /**
@@ -105,9 +106,9 @@
          *
          * @return  self
          */ 
-        public function setIdCupon($idCupon)
+        public function setIdCoupon($idCoupon)
         {
-                $this->idCupon = $idCupon;
+                $this->idCoupon = $idCoupon;
 
                 return $this;
         }
@@ -168,6 +169,46 @@
         public function setTotal($total)
         {
                 $this->total = $total;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of startDate
+         */ 
+        public function getStartDate()
+        {
+                return $this->startDate;
+        }
+
+        /**
+         * Set the value of startDate
+         *
+         * @return  self
+         */ 
+        public function setStartDate($startDate)
+        {
+                $this->startDate = $startDate;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of endDate
+         */ 
+        public function getEndDate()
+        {
+                return $this->endDate;
+        }
+
+        /**
+         * Set the value of endDate
+         *
+         * @return  self
+         */ 
+        public function setEndDate($endDate)
+        {
+                $this->endDate = $endDate;
 
                 return $this;
         }
