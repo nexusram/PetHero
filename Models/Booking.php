@@ -11,6 +11,7 @@
         private $startDate;
         private $endDate;
         private $state;
+        private $validate;
         private $total;
 
         /**
@@ -209,6 +210,26 @@
         public function setEndDate($endDate)
         {
                 $this->endDate = $endDate;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of validate
+         */ 
+        public function getValidate()
+        {
+                return $this->validate;
+        }
+
+        /**
+         * Set the value of validate
+         *
+         * @return  self
+         */ 
+        public function setValidate($validate)
+        {
+                $this->validate = $validate;
 
                 return $this;
         }
