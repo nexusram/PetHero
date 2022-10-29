@@ -81,6 +81,7 @@
                     $booking->setStartDate($value["startDate"]);
                     $booking->setEndDate($value["endDate"]);
                     $booking->setState($value["state"]);
+                    $booking->setValidate($value["validate"]);
                     $booking->setTotal($value["total"]);
 
                     array_push($this->bookingList, $booking);
@@ -102,6 +103,7 @@
                 $value["startDate"] = $booking->getStartDate();
                 $value["endDate"] = $booking->getEndDate();
                 $value["state"] = $booking->getState();
+                $value["validate"] = $booking->getValidate();
                 $value["total"] = $booking->getTotal();
 
                 array_push($arrayEncode, $value);
@@ -109,6 +111,16 @@
 
             $jsonContent = json_encode($arrayEncode, JSON_PRETTY_PRINT);
             file_get_contents($this->fileName, $jsonContent);
+        }
+
+        public function GetActiveBookingOfUser($userId){
+            $this->RetrieveData();
+
+            $arrayBooking = array_filter($this->bookingList, function($booking) use($userId) {
+                return ($booking->getUserId() == $userId && $booking->getState() == true) ? $booking : null;
+            });
+
+            return $arrayBooking;
         }
 
         private function GetNextId(){

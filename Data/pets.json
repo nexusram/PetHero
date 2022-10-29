@@ -11,5 +11,18 @@
         "vacunationPlan": "VXBsb2Fkcy8xNjY2OTMyOTUzLXBsYW4gdmFjdW5hY2lvbi5qcGc=",
         "video": null,
         "active": 0
+    },
+    {
+        "id": 2,
+        "userId": 4,
+        "name": "Charly",
+        "petType": 1,
+        "breed": "Pitbull",
+        "petSize": 3,
+        "observation": "Es salvaje",
+        "picture": "VXBsb2Fkcy8xNjY3MDY5MDk2LWdyYW4gRGFuZXMuanBn",
+        "vacunationPlan": "VXBsb2Fkcy8xNjY3MDY5MDk3LXBsYW4gdmFjdW5hY2lvbi5qcGc=",
+        "video": null,
+        "active": 1
     }
 ]

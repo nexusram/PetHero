@@ -34,5 +34,17 @@
         "birthDay": "2001-06-07",
         "cellphone": "2235488254",
         "address": "Balcarce 3667"
+    },
+    {
+        "id": 4,
+        "userType": 1,
+        "name": "Elvis",
+        "surname": "Presley",
+        "userName": "Elvisto",
+        "password": "9876",
+        "email": "elvisElRey@gmail.com",
+        "birthDay": "1950-04-03",
+        "cellphone": "2235689252",
+        "address": "HollyWood 2184"
     }
 ]

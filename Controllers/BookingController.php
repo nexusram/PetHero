@@ -1,35 +1,34 @@
-<?
-    namespace Controllers;
+<?php
 
-    use DAO\BookingDAO as BookingDAO;
-    use DAO\PetDAO as PetDAO;
-    use Models\Booking as Booking;
+namespace Controllers;
 
-    class BookingController{
-        private $bookingDAO;
+use DAO\KeeperDAO;
+use DAO\BookingDAO;
+use DAO\PetDAO;
+use DAO\PetSizeDAO;
+use DAO\UserDAO;
+use Models\Keeper;
+use Models\PetSize;
 
-        public function __construct()
-        {
-            $this->bookingDAO = new BookingDAO();
-        }
+class BookingController
+{
+    private $bookingDAO;
 
+    public function __construct()
+    {
+        $this->bookingDAO = new BookingDAO();
 
-        //vista de Add
-        public function ShowAddView(){
-            require_once(VIEWS_PATH."validate-session.php");
-
-            ///$petDAO = new PetDAO();
-            ///$petList = $petDAO->GetActivePetsOfUser();
-            require_once(VIEWS_PATH."add-booking");
-        }
-        public function ShowAddFilterView($idOwner){
-            require_once(VIEWS_PATH."validate-session.php");
-               //pasar Id user  
-            $petDAO = new PetDAO();
-            $petList = $petDAO->GetActivePetsOfUser();
-            require_once(VIEWS_PATH."add-booking");
-        }
-
-        ///public function Add()
     }
-?>
+
+
+    // Muestra un listado de Reservas
+    public function ShowListView() {
+        require_once(VIEWS_PATH . "validate-session.php");
+        $petDAO = new PetDAO();
+        $keeperDAO = new KeeperDAO();
+        $bookingList = $this->bookingDAO->GetAll();
+
+        require_once(VIEWS_PATH . "booking-list.php");
+    }
+    
+}
