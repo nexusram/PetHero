@@ -9,7 +9,7 @@
 
         public function __construct()
         {
-            $bookingDAO = new BookingDAO();
+            $this->bookingDAO = new BookingDAO();
         }
 
 
