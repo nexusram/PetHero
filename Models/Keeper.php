@@ -10,6 +10,7 @@
         private $description;
         private $startDate;
         private $endDate;
+        private $score;
 
 
         /**
@@ -148,6 +149,26 @@
         public function setEndDate($endDate)
         {
                 $this->endDate = $endDate;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of score
+         */ 
+        public function getScore()
+        {
+                return $this->score;
+        }
+
+        /**
+         * Set the value of score
+         *
+         * @return  self
+         */ 
+        public function setScore($score)
+        {
+                $this->score = $score;
 
                 return $this;
         }
