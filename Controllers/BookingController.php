@@ -41,5 +41,14 @@ class BookingController
 
         require(VIEWS_PATH . "keeper-filters.php");
     }
+
+    public function ShowSelectKeeper($idPet, $startDate, $endDate){
+        require_once(VIEWS_PATH . "add-booking");
+
+    }
+
+    public function Add($idPet, $startDate, $endDate, $keeperId){
+
+    }
     
 }

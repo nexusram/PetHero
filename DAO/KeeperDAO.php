@@ -3,6 +3,7 @@
     namespace DAO;
 
     use Models\Keeper;
+    use Models\Pet;
 
     class KeeperDAO implements IKeeperDAO {
         private $fileName = ROOT . "/Data/keepers.json";
@@ -67,6 +68,23 @@
             $array = array_values($array);
 
             return (count($array) > 0) ? $array[0] : null;
+        }
+
+        public function GetAllFiltered($bookingList ,Pet $pet, $startDate, $endDate) {
+            $this->RetrieveData();
+
+            $arrayKeeperFiltered = array();
+            if($bookingList){
+                $arrayKeeperFiltered =($this->keeperList, function($keeper) use($pet) {
+                    return $keeper->getPetSize() == $pet->getPetSize() && 
+                });
+            }
+            else{
+                $arrayKeeperFiltered =($this->keeperList, function($keeper) use($pet) {
+                    return $keeper->getPetSize() == $pet->getPetSize() && 
+                });
+            }
+            return $arrayKeeperFiltered;
         }
 
         public function SaveData() {
