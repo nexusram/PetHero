@@ -27,7 +27,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                                    <?php
                                        }
                                        else{
-                                        echo "No Hay Keepers Disponibles";
+                                        echo "Sorry, currently we do not have Keepers available at the moment for pets with those characteristics...";
                                        }     
                                    ?>
                </form>

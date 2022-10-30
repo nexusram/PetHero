@@ -12,6 +12,7 @@
             $this->RetrieveData();
 
             $keeper->setId($this->GetNextId());
+            $keeper->setScore = null;
 
             array_push($this->keeperList, $keeper);
 
@@ -80,6 +81,8 @@
                 $value["description"] = $keeper->getDescription();
                 $value["startDate"] = $keeper->getStartDate();
                 $value["endDate"] = $keeper->getEndDate();
+                $value["score"] = $keeper->getScore();
+
 
                 array_push($arrayEncode, $value);
             }
@@ -101,6 +104,7 @@
                     $keeper->setDescription($value["description"]);
                     $keeper->setStartDate($value["startDate"]);
                     $keeper->setEndDate($value["endDate"]);
+                    $keeper->setScore($value["score"]);
 
                     //
                     $userDAO = new UserDAO();
