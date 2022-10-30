@@ -19,6 +19,12 @@
             $this->SaveData();
         }
 
+        public function GetAll() {
+            $this->RetrieveData();
+
+            return $this->keeperList;
+        }
+
         public function Remove($id) {
             $this->RetrieveData();
 
@@ -61,12 +67,6 @@
             $array = array_values($array);
 
             return (count($array) > 0) ? $array[0] : null;
-        }
-
-        public function GetAll() {
-            $this->RetrieveData();
-
-            return $this->keeperList;
         }
 
         public function SaveData() {
