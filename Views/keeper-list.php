@@ -13,8 +13,6 @@ include_once(VIEWS_PATH . "nav-user.php");
                          <th>Address</th>
                          <th>Pet Size to Keep</th>
                          <th>Description</th>
-                         <th>Start Date</th>
-                         <th>End Date</th>
                          <th>Remuneration</th>
                          <th>Actions</th>
                     </thead>
@@ -30,8 +28,6 @@ include_once(VIEWS_PATH . "nav-user.php");
                                                   <td><?php echo $keeper->getUser()->getAddress(); ?></td>
                                                   <td><?php echo $keeper->getPetSize()->getName(); ?></td>
                                                   <td><?php echo $keeper->getDescription(); ?></td>
-                                                  <td><?php echo $keeper->getStartDate(); ?></td>
-                                                  <td><?php echo $keeper->getEndDate(); ?></td>
                                                   <td><?php echo $keeper->getRemuneration(); ?></td>
                                                   <td>
                                                        <a class="btn btn-info" href="<?php echo FRONT_ROOT . "User/ShowContactView/" . $keeper->getId(); ?>">

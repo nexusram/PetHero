@@ -4,10 +4,11 @@
 
     class Day {
         private $id;
-        private $userId;
+        private $keeperId;
         private $date;
-        private $hour;
-        private $status;
+        private $isAvailable;
+
+        
 
         /**
          * Get the value of id
@@ -30,21 +31,21 @@
         }
 
         /**
-         * Get the value of userId
+         * Get the value of keeperId
          */ 
-        public function getUserId()
+        public function getKeeperId()
         {
-                return $this->userId;
+                return $this->keeperId;
         }
 
         /**
-         * Set the value of userId
+         * Set the value of keeperId
          *
          * @return  self
          */ 
-        public function setUserId($userId)
+        public function setKeeperId($keeperId)
         {
-                $this->userId = $userId;
+                $this->keeperId = $keeperId;
 
                 return $this;
         }
@@ -70,41 +71,21 @@
         }
 
         /**
-         * Get the value of hour
+         * Get the value of isAvailable
          */ 
-        public function getHour()
+        public function getIsAvailable()
         {
-                return $this->hour;
+                return $this->isAvailable;
         }
 
         /**
-         * Set the value of hour
+         * Set the value of isAvailable
          *
          * @return  self
          */ 
-        public function setHour($hour)
+        public function setIsAvailable($isAvailable)
         {
-                $this->hour = $hour;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of available
-         */ 
-        public function getStatus()
-        {
-                return $this->available;
-        }
-
-        /**
-         * Set the value of available
-         *
-         * @return  self
-         */ 
-        public function setStatus($available)
-        {
-                $this->available = $available;
+                $this->isAvailable = $isAvailable;
 
                 return $this;
         }

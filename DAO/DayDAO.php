@@ -28,10 +28,50 @@
             $this->SaveData();
         }
 
+        public function Modify(Day $day) {
+            $this->RetrieveData();
+
+            $this->Remove($day->getId());
+
+            array_push($this->dayList, $day);
+
+            $this->SaveData();
+        }
+
+        public function GetListByKeeper($keeperId) {
+            $this->RetrieveData();
+
+            $array = array_filter($this->dayList, function($day) use($keeperId) {
+                return $day->getKeeperId() == $keeperId;
+            });
+            return $array;
+        }
+
+        public function GetActiveListByKeeper($keeperId) {
+            $this->RetrieveData();
+
+            $array = array_filter($this->dayList, function($day) use($keeperId) {
+                return ($day->getKeeperId() == $keeperId) && ($day->getIsAvailable());
+            });
+            return $array;
+        }
+
         public function GetAll() {
             $this->RetrieveData();
 
             return $this->dayList;
+        }
+
+        public function GetById($id) {
+            $this->RetrieveData();
+
+            $array = array_filter($this->dayList, function($day) use($id) {
+                return $day->getId() == $id;
+            });
+
+            $array = array_values($array);
+
+            return (count($array) > 0) ? $array[0] : null;
         }
 
         public function SaveData() {
@@ -40,10 +80,9 @@
 
             foreach($this->dayList as $day) {
                 $value["id"] = $day->getId();
-                $value["userId"] = $day->getUserId();
+                $value["keeperId"] = $day->getKeeperId();
                 $value["date"] = $day->getDate();
-                $value["hour"] = $day->getHour();
-                $value["status"] = $day->getStatus();
+                $value["isAvailable"] = $day->getIsAvailable();
 
                 array_push($arrayEncode, $value);
             }
@@ -61,10 +100,9 @@
                 foreach($arrayDecode as $value) {
                     $day = new Day();
                     $day->setId($value["id"]);
-                    $day->setUserId($value["userId"]);
+                    $day->setKeeperId($value["keeperId"]);
                     $day->setDate($value["date"]);
-                    $day->setHour($value["hour"]);
-                    $day->setStatus($value["status"]);
+                    $day->setIsAvailable($value["isAvailable"]);
 
                     array_push($this->dayList, $day);
                 }

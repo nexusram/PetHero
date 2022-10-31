@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "keeperId": 1,
+        "date": "30-10-2022",
+        "isAvailable": true
+    },
+    {
+        "id": 2,
+        "keeperId": 1,
+        "date": "31-10-2022",
+        "isAvailable": true
+    },
+    {
+        "id": 3,
+        "keeperId": 1,
+        "date": "01-11-2022",
+        "isAvailable": false
+    }
+]

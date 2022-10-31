@@ -24,5 +24,31 @@
         "vacunationPlan": "VXBsb2Fkcy8xNjY3MDY5MDk3LXBsYW4gdmFjdW5hY2lvbi5qcGc=",
         "video": null,
         "active": 1
+    },
+    {
+        "id": 3,
+        "userId": 3,
+        "name": "Firulais",
+        "petType": 1,
+        "breed": "Ninguna",
+        "petSize": 3,
+        "observation": "Perro de la calle, un crack el firu",
+        "picture": "VXBsb2Fkcy8xNjY3MTY2NDY3LVdoYXRzQXBwIEltYWdlIDIwMjItMTAtMjMgYXQgMjMuMDkuMDAuanBlZw==",
+        "vacunationPlan": "VXBsb2Fkcy8xNjY3MTY2NDY3LXZhY3VuYXRpb24gcGxhbi5wbmc=",
+        "video": null,
+        "active": 1
+    },
+    {
+        "id": 4,
+        "userId": 1,
+        "name": "Firulais",
+        "petType": 1,
+        "breed": "Ninguna",
+        "petSize": 2,
+        "observation": "Perro de la calle, un crack el firu",
+        "picture": "VXBsb2Fkcy8xNjY3MTY3Nzg0LVdoYXRzQXBwIEltYWdlIDIwMjItMTAtMjMgYXQgMjMuMDkuMDAuanBlZw==",
+        "vacunationPlan": "VXBsb2Fkcy8xNjY3MTY3Nzg0LXZhY3VuYXRpb24gcGxhbi5wbmc=",
+        "video": null,
+        "active": 1
     }
 ]

@@ -24,11 +24,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                                 ?>
                             </select>
                             <label>Description*</label>
-                            <input type="String" name="Description" class="form-control mb-3" placeholder="description of the animal" required>
-                            <label>Start Date</label>
-                            <?php echo "<input class='form-control mb-3' type='date' name='startDate' min='" . date('Y-m-d') ."'required>"; ?>
-                            <label>End Date</label>
-                            <?php echo "<input class='form-control mb-3' type='date' name='endDate' min='" . date('Y-m-d') . "required'>"; ?>
+                            <input type="text" name="Description" class="form-control mb-3" placeholder="description of the animal" required>
                             <div>
                                 <a class="btn btn-danger" href="<?php echo FRONT_ROOT . "Pet/ShowPetListView" ?>">Cancel</a>
                             </div>

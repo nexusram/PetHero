@@ -75,13 +75,13 @@
 
             $arrayKeeperFiltered = array();
             if($bookingList){
-                $arrayKeeperFiltered =($this->keeperList, function($keeper) use($pet) {
-                    return $keeper->getPetSize() == $pet->getPetSize() && 
+                $arrayKeeperFiltered = array_filter($this->keeperList, function($keeper) use($pet) {
+                    return $keeper->getPetSize() == $pet->getPetSize();
                 });
             }
             else{
-                $arrayKeeperFiltered =($this->keeperList, function($keeper) use($pet) {
-                    return $keeper->getPetSize() == $pet->getPetSize() && 
+                $arrayKeeperFiltered = array_filter($this->keeperList, function($keeper) use($pet) {
+                    return $keeper->getPetSize() == $pet->getPetSize(); 
                 });
             }
             return $arrayKeeperFiltered;
@@ -97,8 +97,6 @@
                 $value["petSize"] = $keeper->getPetSize()->getId();
                 $value["remuneration"] = $keeper->getRemuneration();
                 $value["description"] = $keeper->getDescription();
-                $value["startDate"] = $keeper->getStartDate();
-                $value["endDate"] = $keeper->getEndDate();
                 $value["score"] = $keeper->getScore();
 
 
@@ -120,8 +118,6 @@
                     $keeper->setId($value["id"]);
                     $keeper->setRemuneration($value["remuneration"]);
                     $keeper->setDescription($value["description"]);
-                    $keeper->setStartDate($value["startDate"]);
-                    $keeper->setEndDate($value["endDate"]);
                     $keeper->setScore($value["score"]);
 
                     //
