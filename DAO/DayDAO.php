@@ -8,6 +8,10 @@
         private $fileName = ROOT . "/Data/days.json";
         private $dayList = array();
 
+        public function __construct() {
+            $this->DesactiveOldDays();
+        }
+
         public function Add(Day $day) {
             $this->RetrieveData();
 
@@ -107,6 +111,22 @@
                     array_push($this->dayList, $day);
                 }
             }
+        }
+
+        private function DesactiveOldDays() {
+            $this->RetrieveData();
+
+            $today = strtotime(date("d-m-Y", time()));
+
+            foreach($this->dayList as $day) {
+                $date = strtotime($day->getDate());
+                if($today > $date) {
+                    $day->setIsAvailable(false);
+                    $this->Modify($day);
+                }
+            }
+
+            $this->SaveData();
         }
 
         private function GetNextId() {
