@@ -1,0 +1,116 @@
+[
+    {
+        "id": 1,
+        "name": "German Shepherd",
+        "petType": 1
+
+    },
+    {
+        "id": 2,
+        "name": "Pekingese",
+        "petType": 1
+
+    },
+    {
+        "id": 3,
+        "name": "Great Dane",
+        "petType": 1
+
+    },
+    {
+        "id": 4,
+        "name": "Hound",
+        "petType": 1
+
+    },
+    {
+        "id": 5,
+        "name": "Bichon Maltese",
+        "petType": 1 
+
+    },
+    {
+        "id": 6,
+        "name": "Mastiff",
+        "petType": 1
+
+    },
+    {
+        "id": 7,
+        "name": "Greyhound",
+        "petType": 1
+
+    },
+    {
+        "id": 8,
+        "name": "Poodle",
+        "petType": 1
+
+    },
+    {
+        "id": 9,
+        "name": "Sphynx",
+        "petType": 2
+
+    },
+    {
+        "id": 10,
+        "name": "Abyssinian",
+        "petType": 2
+
+    },
+    {
+        "id": 11,
+        "name": "Persian",
+        "petType": 2
+
+    },
+    {
+        "id": 12,
+        "name": "British Shorthair",
+        "petType": 2
+
+    },
+    {
+        "id": 12,
+        "name": "Ragdoll",
+        "petType": 2
+
+    },
+    {
+        "id": 13,
+        "name": "Exotic Shorthair",
+        "petType": 2
+
+    },
+    {
+        "id": 14,
+        "name": "Siames",
+        "petType": 2
+
+    },
+    {
+        "id": 15,
+        "name": "Balinese",
+        "petType": 2
+
+    },
+    {
+        "id": 16,
+        "name": "Bengal",
+        "petType": 2
+
+    },
+    {
+        "id": 17,
+        "name": "Leopard Gecko",
+        "petType": 3
+
+    },
+    {
+        "id": 18,
+        "name": "Syriam Hamster",
+        "petType": 4
+
+    }
+]
