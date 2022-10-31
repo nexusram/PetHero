@@ -1,9 +1,10 @@
 <?php
 
     namespace DAO;
-
+    use DAO\PetDAO;
     use Models\Keeper;
     use Models\Pet;
+    
 
     class KeeperDAO implements IKeeperDAO {
         private $fileName = ROOT . "/Data/keepers.json";
@@ -70,11 +71,12 @@
             return (count($array) > 0) ? $array[0] : null;
         }
 
-        public function GetAllFiltered($bookingList ,Pet $pet, $startDate, $endDate) {
+        /*public function GetAllFiltered($bookingList ,Pet $pet, $startDate, $endDate) {
             $this->RetrieveData();
 
             $arrayKeeperFiltered = array();
             if($bookingList){
+
                 $arrayKeeperFiltered = array_filter($this->keeperList, function($keeper) use($pet) {
                     return $keeper->getPetSize() == $pet->getPetSize();
                 });
@@ -85,6 +87,54 @@
                 });
             }
             return $arrayKeeperFiltered;
+        }*/
+        public function GetAllForDates($startDate, $endDate){
+            $this->RetrieveData();
+
+            $arrayKeeperDates = array_filter($this->keeperList, function($keeper) use($startDate, $endDate){
+                return $keeper->getStartDate() >= $startDate && $keeper->getEndDate() <= $endDate;
+            });
+           return $arrayKeeperDates; 
+        }
+
+        public function GetAllForDatesNoBooking($startDate, $endDate){
+            $this->RetrieveData();
+
+            $arrayKeeperDatesFree = array_filter($this->keeperList, function($keeper) use($startDate, $endDate){
+                return !($keeper->getStartDate() >= $startDate && $keeper->getEndDate() <= $endDate);
+            });
+           return $arrayKeeperDatesFree; 
+        }
+
+        public function GetAllForSize($size){
+            $this->RetrieveData();
+
+            $arrayKeeperSize = array_filter($this->keeperList, function($keeper) use($size){
+                return $keeper->getPetSize() == $size;
+            });
+           return $arrayKeeperSize;
+        }
+
+        public function GetAllForBreed($bookingList, $breed){
+            $arrayKeeperBreed = array();
+            $breedToCompared = null;
+
+            if($bookingList){
+                $petDAO = new PetDAO();
+                foreach($bookingList as $booking){
+                    
+                    $breedToCompared = $petDAO->GetPetById($booking->getIdPet);
+                    if($breedToCompared == $breed){
+                        array_push($arrayKeeperBreed, $this->GetById($booking->getIdKeeper));
+                    }
+                } 
+                $arrayKeeperBreed = array_filter($this->keeperList, function($keeper) use($breed){
+                    //incompleta
+                });
+
+                
+            }
+            return $arrayKeeperBreed;
         }
 
         public function SaveData() {
