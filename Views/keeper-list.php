@@ -8,9 +8,9 @@ include_once(VIEWS_PATH . "nav-user.php");
                <h2 class="mb-4">Keepers</h2>
                <table class="table table-dark text-center"> 
                     <thead>
-                         <th></th>
                          <th>Name</th>
                          <th>Surname</th>
+                         <th>Years</th>
                          <th>Address</th>
                          <th>Pet Size to Keep</th>
                          <th>Description</th>
@@ -27,6 +27,11 @@ include_once(VIEWS_PATH . "nav-user.php");
                                         ?>
                                                   <td><?php echo $keeper->getUser()->getName(); ?></td>
                                                   <td><?php echo $keeper->getUser()->getSurname(); ?></td>
+                                                  <td>
+                                                  <?php
+                                                       echo $utilities->getYearForDate($keeper->getUser()->getBirthday());
+                                                   ?>
+                                                   </td>
                                                   <!--<td><//?php// echo $keeper->getUser()->getBirthday(); ?></td>-->
                                                   <td><?php echo $keeper->getUser()->getAddress(); ?></td>
                                                   <td><?php echo $keeper->getPetSize()->getName(); ?></td>

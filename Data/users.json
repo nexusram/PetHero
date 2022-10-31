@@ -46,5 +46,17 @@
         "birthDay": "1950-04-03",
         "cellphone": "2235689252",
         "address": "HollyWood 2184"
+    },
+    {
+        "id": 5,
+        "userType": 1,
+        "name": "Elva",
+        "surname": "Ginazo",
+        "userName": "Elva",
+        "password": "123",
+        "email": "elva_ginazo@gmail.com",
+        "birthDay": "1998-03-21",
+        "cellphone": "2236916181",
+        "address": "Los Alamos 2506"
     }
 ]

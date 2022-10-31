@@ -7,6 +7,7 @@ use DAO\PetSizeDAO;
 use DAO\UserDAO;
 use Models\Keeper;
 use Models\PetSize;
+use Others\Utilities;
 
 class KeeperController
 {
@@ -42,6 +43,7 @@ class KeeperController
     {
         require_once(VIEWS_PATH . "validate-session.php");
 
+        $utilities = new Utilities();
         $keeperList = $this->keeperDAO->GetAll();
 
         require_once(VIEWS_PATH . "keeper-list.php");
