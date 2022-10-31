@@ -76,7 +76,7 @@
             foreach($this->breedList as $breed){
                 $value["id"] = $breed->getId();
                 $value["name"] = $breed->getName();
-                $value["petType"] = $breed->getPetType();
+                $value["petType"] = $breed->getPetType()->getId();
 
                 array_push($arrayEnCode, $value);
             }
