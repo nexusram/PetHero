@@ -21,6 +21,9 @@ include_once(VIEWS_PATH . "nav-user.php");
                ?>
                     <table class="table table-dark text-center">
                          <thead>
+                              <th>Day</th>
+                              <th>Month</th>
+                              <th>Year</th>
                               <th>Date</th>
                               <th>Available</th>
                               <th>Actions</th>
@@ -35,6 +38,9 @@ include_once(VIEWS_PATH . "nav-user.php");
                          ?>
                                    <form action="<?php echo FRONT_ROOT . "Day/NotAvailable" ?>" method="post">
                                         <tr>
+                                             <td><?php echo date("l", strtotime($day->getDate())) ?></td>
+                                             <td><?php echo date("F", strtotime($day->getDate())) ?></td>
+                                             <td><?php echo date("Y", strtotime($day->getDate()))?></td>
                                              <td><?php echo $day->getDate() ?></td>
                                              <td>
                                                 <?php
