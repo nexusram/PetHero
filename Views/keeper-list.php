@@ -8,6 +8,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                <h2 class="mb-4">Keepers</h2>
                <table class="table table-dark text-center"> 
                     <thead>
+                         <th></th>
                          <th>Name</th>
                          <th>Surname</th>
                          <th>Address</th>
@@ -17,11 +18,13 @@ include_once(VIEWS_PATH . "nav-user.php");
                          <th>Actions</th>
                     </thead>
                     <tbody>
+                         <tr>
                          <?php
                               if(isset($keeperList)){
                                    foreach($keeperList as $keeper){
+                                        if($keeper->getUser()->getId() != $_SESSION["loggedUser"]->getId()) {
+                                        
                                         ?>
-                                             <tr>
                                                   <td><?php echo $keeper->getUser()->getName(); ?></td>
                                                   <td><?php echo $keeper->getUser()->getSurname(); ?></td>
                                                   <!--<td><//?php// echo $keeper->getUser()->getBirthday(); ?></td>-->
@@ -38,6 +41,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                                                   </td>
                                              </tr>
                                         <?php
+                                        }
                                    }
                               }
                          ?>

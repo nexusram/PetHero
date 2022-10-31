@@ -32,6 +32,9 @@ $returnKeeper = $keeperController->CheckKeeper($_SESSION["loggedUser"]->getId())
                                         </a>
                                    </li>
                                    <li>
+                                        <?php
+                                        if(!$returnKeeper || !$returnKeeper->getActive()) {
+                                        ?>
                                         <a class="dropdown-item" href="<?php echo FRONT_ROOT . "Pet/ShowPetListView" ?>">
                                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-valentine" viewBox="0 0 16 16">
                                                   <path d="M8 5.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132ZM2.25 4a.25.25 0 0 0-.25.25v1.5a.25.25 0 0 0 .5 0V4.5h1.25a.25.25 0 0 0 0-.5h-1.5Zm10 0a.25.25 0 1 0 0 .5h1.25v1.25a.25.25 0 1 0 .5 0v-1.5a.25.25 0 0 0-.25-.25h-1.5ZM2.5 10.25a.25.25 0 1 0-.5 0v1.5c0 .138.112.25.25.25h1.5a.25.25 0 1 0 0-.5H2.5v-1.25Zm11.5 0a.25.25 0 1 0-.5 0v1.25h-1.25a.25.25 0 1 0 0 .5h1.5a.25.25 0 0 0 .25-.25v-1.5Z" />
@@ -39,6 +42,9 @@ $returnKeeper = $keeperController->CheckKeeper($_SESSION["loggedUser"]->getId())
                                              </svg>
                                              Pet List
                                         </a>
+                                        <?php
+                                        }
+                                        ?>
                                    </li>
                                    <li>
                                         <a class="dropdown-item" href="<?php echo FRONT_ROOT . "Booking/ShowListView" ?>">
@@ -50,7 +56,7 @@ $returnKeeper = $keeperController->CheckKeeper($_SESSION["loggedUser"]->getId())
                                    </li>
                                    <li>
                                         <?php
-                                        if ($returnKeeper) {
+                                        if ($returnKeeper && $returnKeeper->getActive()) {
                                         ?>
                                              <a class="dropdown-item" href="<?php echo FRONT_ROOT . "Day/ShowListView"?>">
                                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-calendar2-check" viewBox="0 0 16 16">
@@ -65,7 +71,7 @@ $returnKeeper = $keeperController->CheckKeeper($_SESSION["loggedUser"]->getId())
                                         ?>
                                    </li>
                                    <?php
-                                   if ($returnKeeper != true) {
+                                   if (!$returnKeeper || !$returnKeeper->getActive()) {
                                    ?>
                                         <li>
                                              <a class="dropdown-item" href="<?php echo FRONT_ROOT . "Keeper/ShowListView" ?>">
@@ -95,7 +101,7 @@ $returnKeeper = $keeperController->CheckKeeper($_SESSION["loggedUser"]->getId())
           </li>
      </ul>
      <?php
-     if (!$returnKeeper) {
+     if (!$returnKeeper || $returnKeeper->getActive() == false) {
      ?>
           <ul class="navbar-nav">
                <li class="nav-item">
@@ -112,16 +118,15 @@ $returnKeeper = $keeperController->CheckKeeper($_SESSION["loggedUser"]->getId())
      }
      ?>
      <?php
-     if ($returnKeeper) {
+     if ($returnKeeper && $returnKeeper->getActive()) {
      ?>
           <ul class="navbar-nav">
                <li class="nav-item">
-                    <a class="btn btn-warning" href="<?php echo FRONT_ROOT . "User/ShowListPetsView" ?>">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-                              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                              <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                    <a class="btn btn-primary" href="<?php echo FRONT_ROOT . "Keeper/ReturnOwner" ?>">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left-square" viewBox="0 0 16 16">
+                              <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
                          </svg>
-                         Owner?
+                         Return Owner?
                     </a>
                </li>
           </ul>

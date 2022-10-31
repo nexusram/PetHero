@@ -5,6 +5,7 @@
         "petSize": 1,
         "remuneration": "500",
         "description": "123",
-        "score": null
+        "score": null,
+        "active": true
     }
 ]
