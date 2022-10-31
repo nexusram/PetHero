@@ -6,7 +6,7 @@
     interface IBreedDAO{
         public function Add(Breed $breed);
         public function GetAll();
-        public function Remove();
-        public function GetById();
+        public function Remove($id);
+        public function GetById($id);
     }
 ?>
