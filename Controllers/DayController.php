@@ -29,6 +29,13 @@
             require_once(VIEWS_PATH . "add-day.php");
         }
 
+        public function ShowNotAvailableView($message="", $type="") {
+            require_once(VIEWS_PATH . "validate-session.php");
+            $keeper = $this->keeperDAO->GetByUserId($_SESSION["loggedUser"]->getId());
+            $dayList = $this->dayDAO->GetInactiveListByKeeper($keeper->getId());
+            require_once(VIEWS_PATH . "list-not-available-day.php");
+        }
+
         public function Add($startDate, $endDate) {
             require_once(VIEWS_PATH . "validate-session.php");
 

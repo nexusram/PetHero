@@ -60,6 +60,15 @@
             return $array;
         }
 
+        public function GetInactiveListByKeeper($keeperId) {
+            $this->RetrieveData();
+
+            $array = array_filter($this->dayList, function($day) use($keeperId) {
+                return ($day->getKeeperId() == $keeperId) && (!$day->getIsAvailable());
+            });
+            return $array;
+        }
+
         public function GetAll() {
             $this->RetrieveData();
 

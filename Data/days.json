@@ -2,8 +2,8 @@
     {
         "id": 1,
         "keeperId": 1,
-        "date": "31-10-2022",
-        "isAvailable": true
+        "date": "30-10-2022",
+        "isAvailable": false
     },
     {
         "id": 2,
@@ -33,6 +33,6 @@
         "id": 6,
         "keeperId": 1,
         "date": "05-11-2022",
-        "isAvailable": true
+        "isAvailable": false
     }
 ]
