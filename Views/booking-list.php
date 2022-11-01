@@ -33,10 +33,11 @@ include_once(VIEWS_PATH . "nav-user.php");
                                             $userAux= $user->GetById($booking->getIdOwner());
                                         ?>
                                              <tr> <!--$petDAO nos devuelve la mascota, consigo su id mediante el booking, y de esa mascota obtengo el nombre-->
-                                                  <td><?php echo $petDAO->GetPetById($booking->getIdPet())->getName();?></td><!-- me muestra todas los animales con id del nombre-->
+
+                                                  <td><?php echo $booking->getPet()->getName();?></td>
                                                   <td><?php echo $booking->getStartDate(); ?></td>
                                                   <td><?php echo $booking->getEndDate(); ?></td>
-                                                  <td><?php echo $userAux->getSurname(); ?></td>
+                                                  <td><?php echo $booking->getKeeper()->getUser()->getName(); ?></td>
                                                   <td>
                                                        <a class="btn btn-info" href="<?php echo FRONT_ROOT . "User/ShowContactView/" .$userAux->getId(); ?>">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">

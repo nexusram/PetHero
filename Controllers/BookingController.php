@@ -37,18 +37,20 @@ class BookingController
 
     public function ShowAddFiltersView(){
         require_once(VIEWS_PATH . "validate-session.php");
+
         $petList = $this->petDAO->GetActivePetsOfUser($_SESSION["loggedUser"]->getId());
 
         require(VIEWS_PATH . "keeper-filters.php");
     }
+    
+    public function FilterKeeper($petId, $startDate, $endDate){
+        require_once(VIEWS_PATH . "validate-session.php");
+        $pet = $this->petDAO->GetPetById($petId);
 
-    public function ShowSelectKeeper($idPet, $startDate, $endDate){
-        require_once(VIEWS_PATH . "add-booking");
 
     }
-
     public function Add($idPet, $startDate, $endDate, $keeperId){
-
+        
     }
     
 }

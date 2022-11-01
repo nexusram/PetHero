@@ -3,6 +3,7 @@
 
     use DAO\IBookingDAO as IBookingDAO;
     use Models\Booking as Booking;
+use Models\Coupon;
 
     class BookingDAO implements IBookingDAO{
         private $bookingList;
@@ -74,15 +75,29 @@
                     $booking = new Booking();
 
                     $booking->setId($value["id"]);
-                    $booking->setIdOwner($value["idOwner"]);
-                    $booking->setIdKeeper($value["idKeeper"]);
-                    $booking->setIdPet($value["idPet"]);
-                    $booking->setIdCoupon($value["idCoupon"]);
                     $booking->setStartDate($value["startDate"]);
                     $booking->setEndDate($value["endDate"]);
                     $booking->setState($value["state"]);
                     $booking->setValidate($value["validate"]);
                     $booking->setTotal($value["total"]);
+
+                    //instanciar objetos
+                    $userDAO = new UserDAO();
+                    $user = $userDAO->GetById($value["owner"]);
+                    $booking->setOwner($user);
+
+                    $keeperDAO = new KeeperDAO();
+                    $keeper = $keeperDAO->GetById($value["keeper"]);
+                    $booking->setKeeper($keeper);
+
+                    $petDAO = new PetDAO();
+                    $pet = $petDAO->GetPetById($value["pet"]);
+                    $booking->setPet($pet);
+
+                    /*$couponDAO = new CouponDAO();
+                    $coupon = CouponDAO->GetById($value["coupon"]);*/
+                    $coupon = new Coupon();
+                    $booking->setCoupon($coupon);
 
                     array_push($this->bookingList, $booking);
                 }
@@ -96,10 +111,10 @@
 
             foreach($this->bookingList as $booking){
                 $value["id"] = $booking->getId();
-                $value["idOwner"] = $booking->getIdOwner();
-                $value["idKeeper"] = $booking->getIdKeeper();
-                $value["idPet"] = $booking->getIdPet();
-                $value["idCoupon"] = $booking->getIdCoupon();
+                $value["owner"] = $booking->getOwner()->getId();
+                $value["keeper"] = $booking->getKeeper()->getId();
+                $value["pet"] = $booking->getPet()->getId();
+                $value["coupon"] = $booking->getCoupon()->getId();
                 $value["startDate"] = $booking->getStartDate();
                 $value["endDate"] = $booking->getEndDate();
                 $value["state"] = $booking->getState();

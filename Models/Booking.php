@@ -2,12 +2,17 @@
 
     namespace Models;
 
+    use Models\User;
+    use Models\Keeper;
+    use Models\Pet;
+    use Models\Coupon;
+
     class Booking {
         private $id;
-        private $idOwner;
-        private $idKeeper;
-        private $idPet;
-        private $idCoupon;
+        private User $owner;
+        private Keeper $keeper;
+        private Pet $pet;
+        private Coupon $coupon;
         private $startDate;
         private $endDate;
         private $state;
@@ -35,141 +40,81 @@
         }
 
         /**
-         * Get the value of idOwner
+         * Get the value of owner
          */ 
-        public function getIdOwner()
+        public function getOwner()
         {
-                return $this->idOwner;
+                return $this->owner;
         }
 
         /**
-         * Set the value of idOwner
+         * Set the value of owner
          *
          * @return  self
          */ 
-        public function setIdOwner($idOwner)
+        public function setOwner(User $owner)
         {
-                $this->idOwner = $idOwner;
+                $this->owner = $owner;
 
                 return $this;
         }
 
         /**
-         * Get the value of idKeeper
+         * Get the value of keeper
          */ 
-        public function getIdKeeper()
+        public function getKeeper()
         {
-                return $this->idKeeper;
+                return $this->keeper;
         }
 
         /**
-         * Set the value of idKeeper
+         * Set the value of keeper
          *
          * @return  self
          */ 
-        public function setIdKeeper($idKeeper)
+        public function setKeeper(Keeper $keeper)
         {
-                $this->idKeeper = $idKeeper;
+                $this->keeper = $keeper;
 
                 return $this;
         }
 
         /**
-         * Get the value of idMascota
+         * Get the value of pet
          */ 
-        public function getIdPet()
+        public function getPet()
         {
-                return $this->idPet;
+                return $this->pet;
         }
 
         /**
-         * Set the value of idMascota
+         * Set the value of pet
          *
          * @return  self
          */ 
-        public function setIdPet($idPet)
+        public function setPet(Pet $pet)
         {
-                $this->idPet = $idPet;
+                $this->pet = $pet;
 
                 return $this;
         }
 
         /**
-         * Get the value of idCupon
+         * Get the value of coupon
          */ 
-        public function getIdCoupon()
+        public function getCoupon()
         {
-                return $this->idCoupon;
+                return $this->coupon;
         }
 
         /**
-         * Set the value of idCupon
+         * Set the value of coupon
          *
          * @return  self
          */ 
-        public function setIdCoupon($idCoupon)
+        public function setCoupon(Coupon $coupon)
         {
-                $this->idCoupon = $idCoupon;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of contratedDayList
-         */ 
-        public function getContratedDayList()
-        {
-                return $this->contratedDayList;
-        }
-
-        /**
-         * Set the value of contratedDayList
-         *
-         * @return  self
-         */ 
-        public function setContratedDayList($contratedDayList)
-        {
-                $this->contratedDayList = $contratedDayList;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of state
-         */ 
-        public function getState()
-        {
-                return $this->state;
-        }
-
-        /**
-         * Set the value of state
-         *
-         * @return  self
-         */ 
-        public function setState($state)
-        {
-                $this->state = $state;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of total
-         */ 
-        public function getTotal()
-        {
-                return $this->total;
-        }
-
-        /**
-         * Set the value of total
-         *
-         * @return  self
-         */ 
-        public function setTotal($total)
-        {
-                $this->total = $total;
+                $this->coupon = $coupon;
 
                 return $this;
         }
@@ -215,6 +160,26 @@
         }
 
         /**
+         * Get the value of state
+         */ 
+        public function getState()
+        {
+                return $this->state;
+        }
+
+        /**
+         * Set the value of state
+         *
+         * @return  self
+         */ 
+        public function setState($state)
+        {
+                $this->state = $state;
+
+                return $this;
+        }
+
+        /**
          * Get the value of validate
          */ 
         public function getValidate()
@@ -233,5 +198,25 @@
 
                 return $this;
         }
-    }
+
+        /**
+         * Get the value of total
+         */ 
+        public function getTotal()
+        {
+                return $this->total;
+        }
+
+        /**
+         * Set the value of total
+         *
+         * @return  self
+         */ 
+        public function setTotal($total)
+        {
+                $this->total = $total;
+
+                return $this;
+        }
+    }  
 ?>
