@@ -61,7 +61,7 @@
          *
          * @return  self
          */ 
-        public function setPetType($petType)
+        public function setPetType(PetType $petType)
         {
                 $this->petType = $petType;
 

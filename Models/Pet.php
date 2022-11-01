@@ -1,14 +1,18 @@
 <?php
 
     namespace Models;
-use Models\User;
+    use Models\User;
+    use Models\PetType;
+    use Models\Breed;
+    use Models\PetSize;
+
     class Pet {
         private $id;
         private User $user;
         private $name;
-        private $petType;
-        private $breed;
-        private $petSize;
+        private PetType $petType;
+        private Breed $breed;
+        private PetSize $petSize;
         private $observation;
         private $picture;
         private $vacunationPlan;
@@ -34,23 +38,23 @@ use Models\User;
 
                 return $this;
         }
-        
+
         /**
-         * Get the value of userId
+         * Get the value of user
          */ 
         public function getUser()
         {
-                return $this->userId;
+                return $this->user;
         }
 
         /**
-         * Set the value of userId
+         * Set the value of user
          *
          * @return  self
          */ 
-        public function setUser(User $userId)
+        public function setUser(User $user)
         {
-                $this->userId = $userId;
+                $this->user = $user;
 
                 return $this;
         }
@@ -108,7 +112,7 @@ use Models\User;
          *
          * @return  self
          */ 
-        public function setBreed($breed)
+        public function setBreed(Breed $breed)
         {
                 $this->breed = $breed;
 
@@ -116,7 +120,7 @@ use Models\User;
         }
 
         /**
-         * Get the value of size
+         * Get the value of petSize
          */ 
         public function getPetSize()
         {
@@ -124,7 +128,7 @@ use Models\User;
         }
 
         /**
-         * Set the value of size
+         * Set the value of petSize
          *
          * @return  self
          */ 

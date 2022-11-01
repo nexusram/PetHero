@@ -1,13 +1,15 @@
 <?php
 
     namespace Models;
-
+    use Models\Keeper;
+    
     class Day {
         private $id;
-        private $keeperId;
+        private Keeper $keeper;
         private $date;
         private $isAvailable;
 
+        
         
 
         /**
@@ -31,21 +33,21 @@
         }
 
         /**
-         * Get the value of keeperId
+         * Get the value of keeper
          */ 
-        public function getKeeperId()
+        public function getKeeper()
         {
-                return $this->keeperId;
+                return $this->keeper;
         }
 
         /**
-         * Set the value of keeperId
+         * Set the value of keeper
          *
          * @return  self
          */ 
-        public function setKeeperId($keeperId)
+        public function setKeeper(Keeper $keeper)
         {
-                $this->keeperId = $keeperId;
+                $this->keeper = $keeper;
 
                 return $this;
         }
@@ -89,5 +91,5 @@
 
                 return $this;
         }
-    }
+    }   
 ?>
