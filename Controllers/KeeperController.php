@@ -7,6 +7,7 @@ use DAO\PetSizeDAO;
 use DAO\UserDAO;
 use Models\Keeper;
 use Models\PetSize;
+use Others\Utilities;
 
 class KeeperController
 {
@@ -25,7 +26,16 @@ class KeeperController
         $petSizeDAO = new PetSizeDAO();
         $petSizeList = $petSizeDAO->GetAll();
 
-        require_once(VIEWS_PATH . "add-keeper.php");
+        $keeper = $this->CheckKeeper($_SESSION["loggedUser"]->getId());
+        if($keeper) {
+            if($keeper->getActive()) {
+                $this->ShowListView();
+            } else {
+                $this->SetActive($keeper, true);
+            }
+        } else {
+            require_once(VIEWS_PATH . "add-keeper.php");
+        }
     }
 
     // Muestra un listado de keepers
@@ -33,6 +43,7 @@ class KeeperController
     {
         require_once(VIEWS_PATH . "validate-session.php");
 
+        $utilities = new Utilities();
         $keeperList = $this->keeperDAO->GetAll();
 
         require_once(VIEWS_PATH . "keeper-list.php");
@@ -63,8 +74,32 @@ class KeeperController
         $keeper->setPetSize($petSizeObj);
         $keeper->setDescription($description);
 
+        $keeper->setActive(true);
+
         $this->keeperDAO->Add($keeper);
 
         $this->ShowListView();
+    }
+
+    private function SetActive(Keeper $keeper, $active) {
+        require_once(VIEWS_PATH . "validate-session.php");
+
+        $keeper->setActive($active);
+        
+        $this->keeperDAO->Modify($keeper);
+
+        $this->ShowListView();
+    }
+
+    public function ReturnOwner() {
+        require_once(VIEWS_PATH . "validate-session.php");
+        $keeper = $this->keeperDAO->GetByUserId($_SESSION["loggedUser"]->getId());
+
+        $keeper->setActive(false);
+
+        $this->keeperDAO->Modify($keeper);
+
+        $petController = new PetController();
+        $petController->ShowPetListView();
     }
 }

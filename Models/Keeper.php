@@ -9,6 +9,7 @@
         private $remuneration;
         private $description;
         private $score;
+        private $active;
 
 
         /**
@@ -127,6 +128,26 @@
         public function setScore($score)
         {
                 $this->score = $score;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of active
+         */ 
+        public function getActive()
+        {
+                return $this->active;
+        }
+
+        /**
+         * Set the value of active
+         *
+         * @return  self
+         */ 
+        public function setActive($active)
+        {
+                $this->active = $active;
 
                 return $this;
         }

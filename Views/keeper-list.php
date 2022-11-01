@@ -10,6 +10,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                     <thead>
                          <th>Name</th>
                          <th>Surname</th>
+                         <th>Years</th>
                          <th>Address</th>
                          <th>Pet Size to Keep</th>
                          <th>Description</th>
@@ -17,13 +18,20 @@ include_once(VIEWS_PATH . "nav-user.php");
                          <th>Actions</th>
                     </thead>
                     <tbody>
+                         <tr>
                          <?php
                               if(isset($keeperList)){
                                    foreach($keeperList as $keeper){
+                                        if($keeper->getUser()->getId() != $_SESSION["loggedUser"]->getId()) {
+                                        
                                         ?>
-                                             <tr>
                                                   <td><?php echo $keeper->getUser()->getName(); ?></td>
                                                   <td><?php echo $keeper->getUser()->getSurname(); ?></td>
+                                                  <td>
+                                                  <?php
+                                                       echo $utilities->getYearForDate($keeper->getUser()->getBirthday());
+                                                   ?>
+                                                   </td>
                                                   <!--<td><//?php// echo $keeper->getUser()->getBirthday(); ?></td>-->
                                                   <td><?php echo $keeper->getUser()->getAddress(); ?></td>
                                                   <td><?php echo $keeper->getPetSize()->getName(); ?></td>
@@ -38,6 +46,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                                                   </td>
                                              </tr>
                                         <?php
+                                        }
                                    }
                               }
                          ?>

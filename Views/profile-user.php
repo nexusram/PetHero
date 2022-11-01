@@ -1,7 +1,5 @@
 <?php
 
-use Controllers\KeeperController;
-
 include_once(VIEWS_PATH . "validate-session.php");
 include_once(VIEWS_PATH . "nav-user.php");
 ?>
@@ -41,7 +39,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                          </tr>
                     </thead>
                     <tbody>
-                        <!-- 
+                         <!-- 
                          <td>
                               <a class="btn btn-info" href="<?php echo FRONT_ROOT . "User/ShowUpdateView" ?>">
                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -52,29 +50,6 @@ include_once(VIEWS_PATH . "nav-user.php");
                          </td>
                          --->
                     </tbody>
-                    <?php
-                    if ($message != "") {
-                    ?>
-                         <div class='form-group text-center'>
-                              <?php
-                              if ($type == "") {
-                              ?>
-                                   <div class='alert alert-danger'>
-                                        <p><?php echo $message ?></p>
-                                   </div>
-                              <?php
-                              } else {
-                              ?>
-                                   <div class='alert alert-success'>
-                                        <p><?php echo $message ?></p>
-                                   </div>
-                              <?php
-                              }
-                              ?>
-                         </div>
-                    <?php
-                    }
-                    ?>
                </table>
           </div>
      </section>

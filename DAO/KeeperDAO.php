@@ -148,6 +148,7 @@
                 $value["remuneration"] = $keeper->getRemuneration();
                 $value["description"] = $keeper->getDescription();
                 $value["score"] = $keeper->getScore();
+                $value["active"] = $keeper->getActive();
 
 
                 array_push($arrayEncode, $value);
@@ -169,6 +170,7 @@
                     $keeper->setRemuneration($value["remuneration"]);
                     $keeper->setDescription($value["description"]);
                     $keeper->setScore($value["score"]);
+                    $keeper->setActive($value["active"]);
 
                     //
                     $userDAO = new UserDAO();

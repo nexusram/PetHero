@@ -5,7 +5,7 @@
 use Models\PetSize;
 
     class PetSizeDAO implements IPetSizeDAO{ 
-        private $fileName = ROOT . "/Data/petsizes.json";
+        private $fileName = ROOT . "/Data/petSizes.json";
         private $petSizeList = array();
 
         public function Add(PetSize $petSize) {

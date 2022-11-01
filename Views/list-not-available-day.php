@@ -5,17 +5,7 @@ include_once(VIEWS_PATH . "nav-user.php");
 <main class="py-5">
      <section id="listado" class="mb-5">
           <div class="container">
-               <div class="mb-3">
-                    <div>
-                         <a class="btn btn-success" href="<?php echo FRONT_ROOT . "Day/ShowAddView" ?>">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                                   <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
-                              </svg>
-                              Add Day/s
-                         </a>
-                    </div>
-               </div>
-               <h2 class="mb-4">Available day's</h2>
+               <h2 class="mb-4">Not available day's</h2>
                <?php
                if (!empty($dayList)) {
                ?>
@@ -36,7 +26,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                          if (!empty($dayList)) {
                               foreach ($dayList as $day) {
                          ?>
-                                   <form action="<?php echo FRONT_ROOT . "Day/NotAvailable" ?>" method="post">
+                                   <form action="<?php echo FRONT_ROOT . "Day/Available" ?>" method="post">
                                         <tr>
                                              <td><?php echo date("l", strtotime($day->getDate())) ?></td>
                                              <td><?php echo date("F", strtotime($day->getDate())) ?></td>
@@ -52,7 +42,25 @@ include_once(VIEWS_PATH . "nav-user.php");
                                                 ?>
                                              </td>
                                              <td>
-                                                  <button type="submit" name="btnNotAvailable" class="btn btn-danger" value="<?php echo $day->getId() ?>">X</button>
+                                                <?php
+                                                    $today = strtotime(date("d-m-Y", time()));
+                                                    $date = strtotime($day->getDate());
+
+                                                    if($today < $date) {
+                                                ?>
+                                                <button class="btn btn-success">
+                                                <?php
+                                                    } else {
+                                                        ?>
+                                                <button class="btn btn-secondary" disabled>
+                                                        <?php
+                                                    }
+                                                ?>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16">
+                                                        <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                                    </svg>
+                                                </button>
                                              </td>
                                         </tr>
                                    </form>
@@ -68,9 +76,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                          ?>
                          </tbody>
                     </table>
-                    <form action="<?php echo FRONT_ROOT . "Day/ShowNotAvailableView"?>">
-                         <button class="btn btn-secondary" name="btn">Not Available Days</button>
-                    </form>
+                    <a class="btn btn-dark" href="<?php echo FRONT_ROOT . "Day/ShowListView"?>">Back</a>
           </div>
           <?php
           if ($message != "") {

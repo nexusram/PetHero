@@ -10,16 +10,10 @@
         public function __construct() {
             $this->userDAO = new UserDAO();
         }
-
-        public function ShowListPetsView(){
+        
+        public function ShowProfileView() {
             require_once(VIEWS_PATH . "validate-session.php");
-            //$user = $this->userDAO->GetById($id);
-            require_once(VIEWS_PATH . "add-pet.php");
-        }
-
-        public function ShowProfileView($id="", $message = "", $type = "") {
-            require_once(VIEWS_PATH . "validate-session.php");
-            $user = $this->userDAO->GetById($id);
+            $user = $_SESSION["loggedUser"];
             require_once(VIEWS_PATH . "profile-user.php");
         }
 
@@ -55,4 +49,3 @@
             }
         }
     }
-?>
