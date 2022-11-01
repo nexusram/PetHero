@@ -11,9 +11,9 @@
             $this->userDAO = new UserDAO();
         }
         
-        public function ShowProfileView($id="", $message = "", $type = "") {
+        public function ShowProfileView() {
             require_once(VIEWS_PATH . "validate-session.php");
-            $user = $this->userDAO->GetById($id);
+            $user = $_SESSION["loggedUser"];
             require_once(VIEWS_PATH . "profile-user.php");
         }
 
@@ -49,4 +49,3 @@
             }
         }
     }
-?>

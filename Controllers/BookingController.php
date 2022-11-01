@@ -29,8 +29,8 @@ class BookingController
     // Muestra un listado de Reservas
     public function ShowListView() {
         require_once(VIEWS_PATH . "validate-session.php");
-        
-        $bookingList = $this->bookingDAO->GetAll();
+        $userList = new UserController();
+        $bookingList = $this->bookingDAO->GetAll();////devuleve todos los booking
 
         require_once(VIEWS_PATH . "booking-list.php");
     }

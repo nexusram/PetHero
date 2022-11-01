@@ -1,10 +1,10 @@
 <?php
 
     namespace Models;
-
+use Models\User;
     class Pet {
         private $id;
-        private $userId;
+        private User $user;
         private $name;
         private $petType;
         private $breed;
@@ -38,7 +38,7 @@
         /**
          * Get the value of userId
          */ 
-        public function getUserId()
+        public function getUser()
         {
                 return $this->userId;
         }
@@ -48,7 +48,7 @@
          *
          * @return  self
          */ 
-        public function setUserId($userId)
+        public function setUser(User $userId)
         {
                 $this->userId = $userId;
 

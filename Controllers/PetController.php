@@ -16,7 +16,6 @@
         public function __construct() {
             $this->petDAO = new PetDAO();
         }
-
         public function ShowPetListView($message="", $type="") {
             require_once(VIEWS_PATH . "validate-session.php");
 
@@ -32,7 +31,6 @@
 
             $petSizeDAO = new PetSizeDAO();
             $petSizeList = $petSizeDAO->GetAll();
-
             require_once(VIEWS_PATH . "add-pet.php");
         }
 
@@ -54,14 +52,14 @@
             require_once(VIEWS_PATH . "validate-session.php");
 
             // Guardamos el id del user para mas tarde setearlo al pet.
-            $userId = $_SESSION["loggedUser"]->getId();
+            $user = $_SESSION["loggedUser"];
 
             // Comprobamos que el pet que se desea agregar no exista(lo hacemos comparando el nombre y el id del usuario, ya que puede existir otro usuario con una mascota del mismo nombre)
-            if(!($this->petDAO->Exist($userId, $name))) {
+            if(!($this->petDAO->Exist($user->getId(), $name))) {
                 // Si no existe, instanciamos un pet y lo seteamos
                 $pet = new Pet();
 
-                $pet->setUserId($userId);
+                $pet->setUser($user);
                 $pet->setName($name);
 
                 $petTypeObj = new PetType();
@@ -119,7 +117,7 @@
                 $this->ShowPetListView("There was an error trying to unsubscribe the pet");
             }
         }
-
+/*
         public function Modify($id="", $name="", $petType="", $breed="", $petSize="", $observation="", $picture="", $vacunationPlan="", $video="") {
             require_once(VIEWS_PATH . "validate-session.php");
 
@@ -180,7 +178,7 @@
                 $this->ShowPetListView("There was an error trying to modify the pet");
             }
         }
-
+*/
         private function ValidateImage($image) {
             $type = $image["type"];
             $size = $image["size"];

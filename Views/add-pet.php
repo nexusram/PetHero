@@ -1,6 +1,7 @@
 <?php
 include_once(VIEWS_PATH . "validate-session.php");
 include_once(VIEWS_PATH . "nav-user.php");
+
 ?>
 <main class="py-5">
      <section id="listado" class="mb-5">
@@ -17,11 +18,10 @@ include_once(VIEWS_PATH . "nav-user.php");
                                    <label for="">Pet type</label>
                                    <select class="form-control" name="petType" id="petType" required>
                                         <?php
-                                        foreach ($petTypeList as $petType) {
-                                             echo "<option value=" . $petType->getId() . ">
-                                                       " . $petType->getName() . "
-                                                  </option>";
-                                        }
+                                         foreach ($petTypeList as $petType) {
+                                           ?><option value= <?php echo $petType->getId();?>><?php
+                                                      echo $petType->getName();?></option><?php
+                                         }
                                         ?>
                                    </select>
 
