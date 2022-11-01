@@ -3,14 +3,12 @@
     namespace DAO;
 
     use Models\Day;
+    use Models\Keeper;
+    use DAO\KeeperDAO;
 
     class DayDAO implements IDayDAO {
         private $fileName = ROOT . "/Data/days.json";
         private $dayList = array();
-
-        public function __construct() {
-            $this->DesactiveOldDays();
-        }
 
         public function Add(Day $day) {
             $this->RetrieveData();
@@ -60,15 +58,6 @@
             return $array;
         }
 
-        public function GetInactiveListByKeeper($keeperId) {
-            $this->RetrieveData();
-
-            $array = array_filter($this->dayList, function($day) use($keeperId) {
-                return ($day->getKeeperId() == $keeperId) && (!$day->getIsAvailable());
-            });
-            return $array;
-        }
-
         public function GetAll() {
             $this->RetrieveData();
 
@@ -93,7 +82,7 @@
 
             foreach($this->dayList as $day) {
                 $value["id"] = $day->getId();
-                $value["keeperId"] = $day->getKeeperId();
+                $value["keeper"] = $day->getKeeper()->getUser->getId();
                 $value["date"] = $day->getDate();
                 $value["isAvailable"] = $day->getIsAvailable();
 
@@ -113,29 +102,18 @@
                 foreach($arrayDecode as $value) {
                     $day = new Day();
                     $day->setId($value["id"]);
-                    $day->setKeeperId($value["keeperId"]);
+                    //$day->setKeeper($value["keeper"]);
                     $day->setDate($value["date"]);
                     $day->setIsAvailable($value["isAvailable"]);
+
+                    //construyo el obejeto keeper
+                    $keeperDAO = new KeeperDAO();
+                    $keeper = $keeperDAO->GetById($value["keeper"]);
+                    $day->setKeeper($keeper);
 
                     array_push($this->dayList, $day);
                 }
             }
-        }
-
-        private function DesactiveOldDays() {
-            $this->RetrieveData();
-
-            $today = strtotime(date("d-m-Y", time()));
-
-            foreach($this->dayList as $day) {
-                $date = strtotime($day->getDate());
-                if($today > $date) {
-                    $day->setIsAvailable(false);
-                    $this->Modify($day);
-                }
-            }
-
-            $this->SaveData();
         }
 
         private function GetNextId() {

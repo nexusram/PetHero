@@ -2,6 +2,8 @@
     namespace Models;
 
     use DAO\IBreedDAO;
+    use DAO\PetTypeDAO;
+    use Models\PetType;
     use Models\Breed;
 
     class BreedDAO implements IBreedDAO{
@@ -62,7 +64,11 @@
 
                     $breed->setId($value["id"]);
                     $breed->setName($value["name"]);
-                    $breed->setPetType($value["petType"]);
+                    
+                    ///instancio el objeto petType
+                    $petTypeDAO = new PetTypeDAO();
+                    $petType = $petTypeDAO->GetById($value["petType"]);
+                    $breed->setPetType($petType);
 
                     array_push($this->breedList, $breed);
                 }
