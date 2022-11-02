@@ -47,8 +47,12 @@ class BookingController
         require_once(VIEWS_PATH . "validate-session.php");
         $pet = $this->petDAO->GetPetById($petId);
 
+        $keeperList = $keeperDAO->GetAllFiltered($pet, $startDate, $endDate);
+
+        require_once(VIEWS_PATH."add-booking");
 
     }
+
     public function Add($idPet, $startDate, $endDate, $keeperId){
         
     }

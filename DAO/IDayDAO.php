@@ -12,6 +12,6 @@
         function GetById($id);
         function GetListByKeeper($keeperId);
         function GetActiveListByKeeper($keeperId);
-        function GetInactiveListByKeeper($keeperId);
+        //function GetInactiveListByKeeper($keeperId);
     }
 ?>

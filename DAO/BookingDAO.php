@@ -63,6 +63,20 @@ use Models\Coupon;
             return (count($arrayBooking)>0) ? $arrayBooking[0] : null;
         }
 
+        public function GetAllAcceptedByDate($startDate, $endDate)
+        {
+            $this->RetrieveData();
+
+
+            $arrayBooking = array_filter($this->bookingList,function($booking) use($startDate, $endDate){
+                return $booking->getValidate() == true && $booking->getStartDate() >= $startDate && $booking->getEndDate()<= $endDate;
+            });
+
+            $arrayBooking = array_values($arrayBooking);
+
+            return (count($arrayBooking)>0) ? $arrayBooking : null;
+        }
+
         private function RetrieveData(){
             $this->bookingList = array();
 

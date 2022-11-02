@@ -2,7 +2,9 @@
 
     namespace DAO;
     use DAO\PetDAO;
-    use Models\Keeper;
+    use DAO\DayDAO;
+use Models\Booking;
+use Models\Keeper;
     use Models\Pet;
     
 
@@ -71,23 +73,6 @@
             return (count($array) > 0) ? $array[0] : null;
         }
 
-        /*public function GetAllFiltered($bookingList ,Pet $pet, $startDate, $endDate) {
-            $this->RetrieveData();
-
-            $arrayKeeperFiltered = array();
-            if($bookingList){
-
-                $arrayKeeperFiltered = array_filter($this->keeperList, function($keeper) use($pet) {
-                    return $keeper->getPetSize() == $pet->getPetSize();
-                });
-            }
-            else{
-                $arrayKeeperFiltered = array_filter($this->keeperList, function($keeper) use($pet) {
-                    return $keeper->getPetSize() == $pet->getPetSize(); 
-                });
-            }
-            return $arrayKeeperFiltered;
-        }*/
         public function GetAllForDates($startDate, $endDate){
             $this->RetrieveData();
 
@@ -106,35 +91,48 @@
            return $arrayKeeperDatesFree; 
         }
 
-        public function GetAllForSize($size){
+        public function CheckForSize($size){
             $this->RetrieveData();
 
             $arrayKeeperSize = array_filter($this->keeperList, function($keeper) use($size){
                 return $keeper->getPetSize() == $size;
             });
-           return $arrayKeeperSize;
+           return (count($arrayKeeperSize)>0) ? true : false;
         }
 
-        public function GetAllForBreed($bookingList, $breed){
-            $arrayKeeperBreed = array();
-            $breedToCompared = null;
+        public function GetAllFiltered($pet, $startDate, $endDate){
+            $arrayKeeper = array();
 
-            if($bookingList){
-                $petDAO = new PetDAO();
-                foreach($bookingList as $booking){
-                    
-                    $breedToCompared = $petDAO->GetPetById($booking->getIdPet);
-                    if($breedToCompared == $breed){
-                        array_push($arrayKeeperBreed, $this->GetById($booking->getIdKeeper));
-                    }
-                } 
-                $arrayKeeperBreed = array_filter($this->keeperList, function($keeper) use($breed){
-                    //incompleta
+            if($this->CheckForSize($pet->getPetSize()) == true)//si el primer filtro devuelve true es para filtrar
+            {
+                $dayDAO = new DayDAO();
+                $days = $dayDAO->GetAll();
+
+                $arrayDay = array_filter($days, function($day) use($startDate, $endDate){
+                    return ($day->getIsAvailable() == true && $day->getDate() >= $startDate && $day->getDate() <=   $endDate);
                 });
+               
+                foreach($arrayDay as $day){
+                    array_push($arrayKeepes, $day->getKeeper());
+                }/// Recorro la lista de dias disponibles y agrego los keepers al arrayKeeper, me falta el ultimo filtro
+               
+                $bookingDAO = new BookingDAO();
+                $bookingsAccepted = $bookingDAO->GetAllAcceptedByDate($startDate, $endDate);
 
-                
-            }
-            return $arrayKeeperBreed;
+                if(!is_null($bookingsAccepted)){
+                     foreach($bookingsAccepted as $booking){
+                         if($booking->getBreed() == $pet->getBreed() && 
+                         $booking->getBreed()->getPetType() == $pet->getType()){
+                             array_push($arrayKeeper, $booking->getKeeper());
+                         }///tercer filtro si hay reservas y el tipo de mascota de la reserva es igual al de la mascota recibida por parametro añado el cuidador a la lista.
+                     }
+                }
+               //ultimo filtro, filtrado por tamaño
+                $arrayKeeper = array_filter($arrayKeeper, function($keeper) use($pet){
+                return $keeper->getPetSize() == $pet->getPetSize();
+                });
+            } 
+           return $arrayKeeper; 
         }
 
         public function SaveData() {
