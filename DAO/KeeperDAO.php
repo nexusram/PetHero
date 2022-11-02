@@ -73,24 +73,6 @@ use Models\Keeper;
             return (count($array) > 0) ? $array[0] : null;
         }
 
-        public function GetAllForDates($startDate, $endDate){
-            $this->RetrieveData();
-
-            $arrayKeeperDates = array_filter($this->keeperList, function($keeper) use($startDate, $endDate){
-                return $keeper->getStartDate() >= $startDate && $keeper->getEndDate() <= $endDate;
-            });
-           return $arrayKeeperDates; 
-        }
-
-        public function GetAllForDatesNoBooking($startDate, $endDate){
-            $this->RetrieveData();
-
-            $arrayKeeperDatesFree = array_filter($this->keeperList, function($keeper) use($startDate, $endDate){
-                return !($keeper->getStartDate() >= $startDate && $keeper->getEndDate() <= $endDate);
-            });
-           return $arrayKeeperDatesFree; 
-        }
-
         public function CheckForSize($size){
             $this->RetrieveData();
 
