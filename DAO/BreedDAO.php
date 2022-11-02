@@ -1,5 +1,5 @@
 <?php
-    namespace Models;
+    namespace DAO;
 
     use DAO\IBreedDAO;
     use DAO\PetTypeDAO;
