@@ -1,10 +1,11 @@
 <?php
 
     namespace Models;
+    use Models\Booking;
 
     class Coupon {
         private $id;
-        private $idBooking;
+        private Booking $booking;
         private $method;
         private $isPayment;
         private $discount;
@@ -43,9 +44,9 @@
          *
          * @return  self
          */ 
-        public function setIdBooking($idBooking)
+        public function setIdBooking(Booking $booking)
         {
-                $this->idBooking = $idBooking;
+                $this->Booking = $booking;
 
                 return $this;
         }

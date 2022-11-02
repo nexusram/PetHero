@@ -102,11 +102,10 @@
                 foreach($arrayDecode as $value) {
                     $day = new Day();
                     $day->setId($value["id"]);
-                    //$day->setKeeper($value["keeper"]);
                     $day->setDate($value["date"]);
                     $day->setIsAvailable($value["isAvailable"]);
 
-                    //construyo el obejeto keeper
+                    //construyo el objeto keeper
                     $keeperDAO = new KeeperDAO();
                     $keeper = $keeperDAO->GetById($value["keeper"]);
                     $day->setKeeper($keeper);

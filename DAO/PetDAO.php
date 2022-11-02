@@ -4,6 +4,8 @@ namespace DAO;
 
 use Models\Pet;
 use DAO\PetTypeDAO;
+use DAO\BreedDAO;
+use DAO\PetSizeDAO;
 use Models\User;
 
 class PetDAO implements IPetDAO
@@ -98,7 +100,7 @@ class PetDAO implements IPetDAO
             $value["user"] = $pet->getUser()->getId();
             $value["name"] = $pet->getName();
             $value["petType"] = $pet->getPetType()->getId();
-            $value["breed"] = $pet->getBreed();
+            $value["breed"] = $pet->getBreed()->getId();
             $value["petSize"] = $pet->getPetSize()->getId();
             $value["observation"] = $pet->getObservation();
             $value["picture"] = $pet->getPicture();
@@ -125,7 +127,6 @@ class PetDAO implements IPetDAO
                 $pet = new Pet();
                 $pet->setId($value["id"]);
                 $pet->setName($value["name"]);
-                $pet->setBreed($value["breed"]);
                 $pet->setObservation($value["observation"]);
                 $pet->setPicture($value["picture"]);
                 $pet->setVacunationPlan($value["vacunationPlan"]);
@@ -136,6 +137,10 @@ class PetDAO implements IPetDAO
                 $userDAO = new UserDAO();
                 $user = $userDAO->GetById($value["user"]);
                 $pet->setUser($user);
+                // Set Breed
+                $breedDAO = new BreedDAO();
+                $breed = $breedDAO->GetById($value["breed"]);
+                $pet->setBreed($breed);
                 // Set petType and petSize
 
                 $petTypeDAO = new PetTypeDAO();
