@@ -43,7 +43,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                                         <tr>
                                              <td><?php echo $pet->getName() ?></td>
                                              <td><?php echo $pet->getPetType()->getName() ?></td>
-                                             <td><?php echo $pet->getBreed() ?></td>
+                                             <td><?php echo $pet->getBreed()->getName()?></td>
                                              <td><?php echo $pet->getPetSize()->getName() ?></td>
                                              <td><?php echo $pet->getObservation() ?></td>
                                              <td>

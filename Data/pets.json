@@ -1,0 +1,41 @@
+[
+    {
+        "id": 1,
+        "user": 3,
+        "name": "Scooby",
+        "petType": 1,
+        "breed": 4,
+        "petSize": 2,
+        "observation": "perro muy curioso",
+        "picture": null,
+        "vacunationPlan": null,
+        "video": null,
+        "active": true
+    },
+    {
+        "id": 2,
+        "user": 3,
+        "name": "Rufus",
+        "petType": 1,
+        "breed": 3,
+        "petSize": 2,
+        "observation": "perro muy salvaje",
+        "picture": null,
+        "vacunationPlan": null,
+        "video": null,
+        "active": true
+    },
+    {
+        "id": 3,
+        "user": 4,
+        "name": "Jacke",
+        "petType": 1,
+        "breed": 3,
+        "petSize": 2,
+        "observation": "perro muy tranquilo",
+        "picture": null,
+        "vacunationPlan": null,
+        "video": null,
+        "active": true
+    }
+]

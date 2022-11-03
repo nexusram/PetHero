@@ -11,15 +11,20 @@ include_once(VIEWS_PATH . "nav-user.php");
                          <div class="col-lg-2"></div>
                          <div class="col-lg-8">
                               <div class="form-group">
+                                   <input type="hidden" name="pet" value="<?php $_POST["pet"]?>">
+                                   <input type="hidden" name="startDate" value="<?php $_POST["startDate"]?>">
+                                   <input type="hidden" name="endDate" value="<?php $_POST["endDate"]?>">
+                                   <input type="hidden" name="coupon" value="<?php $_POST["coupon"]?>"
+                                   <input type="hidden" name="valite" value="true">
                                    <?php
                                     if($keeperList){
-                                      ?>  
-                                
-                                   <select class="form-control" name="idKeeper" required>
+                                      ?> 
+
+                                   <select class="form-control" name="keeper" required>
                                         <?php
                                         foreach ($keeperList as $keeper) {
-                                             echo "<option value=" . $keeper->getId() . ">
-                                                       " . $keeper->getName() . "
+                                             echo "<option value=" . ">
+                                                       " . $keeper->getUser()->getName() . "
                                                   </option>";
                                         }
                                         ?>
