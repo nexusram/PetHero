@@ -51,6 +51,16 @@
             return (count($arrayBreed)>0) ? $arrayBreed[0] : null;
         }
 
+        public function GetListByPetType($petTypeId) {
+            $this->RetrieveData();
+
+            $array = array_filter($this->breedList, function($breed) use($petTypeId){
+                return $breed->getPetType()->getId() == $petTypeId;
+            });
+
+            return $array;
+        }
+
         private function RetrieveData(){
             $this->breedList = array();
 

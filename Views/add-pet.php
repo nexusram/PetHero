@@ -2,6 +2,10 @@
 include_once(VIEWS_PATH . "validate-session.php");
 include_once(VIEWS_PATH . "nav-user.php");
 
+use Controllers\BreedController;
+
+$breedList = array();
+
 ?>
 <main class="py-5">
      <section id="listado" class="mb-5">
@@ -15,18 +19,52 @@ include_once(VIEWS_PATH . "nav-user.php");
                                    <label for="">Name</label>
                                    <input type="text" name="name" class="form-control" required>
 
+                                   <script language="javascript">
+                                        $(document).ready(function(){
+                                             $(function(){
+                                                  let value = $("#petType").val();
+                                                  let root = "<?php echo FRONT_ROOT . "PetType/GetBreedByPetType/"?>";
+                                                  let url = root.concat(value);
+                                                  $.ajax({
+                                                       type: "GET",
+                                                       url: 'https://restcountries.eu/rest/v2/all',
+                                                       success: function(response) {
+                                                            $.each(response, function(indice, fila) {
+                                                                 $("#breed").append("<option value='"+ fila.name+"'>"+ fila.name +"</option>")
+                                                            });
+                                                       }
+                                                  });
+                                             });
+                                        });
+                                   </script>
+
                                    <label for="">Pet type</label>
-                                   <select class="form-control" name="petType" id="petType" required>
+                                   <select class="form-control" name="petType" id="petType" onchange="sendPetType()" required>
+                                        <option hidden selected>Select the option</option>
                                         <?php
-                                         foreach ($petTypeList as $petType) {
-                                           ?><option value= <?php echo $petType->getId();?>><?php
-                                                      echo $petType->getName();?></option><?php
-                                         }
+                                        foreach ($petTypeList as $petType) {
+                                        ?>
+                                        <option value=<?php echo $petType->getId(); ?>>
+                                        <?php
+                                             echo $petType->getName(); ?></option>
+                                        <?php
+                                        }
                                         ?>
                                    </select>
 
                                    <label for="">Breed</label>
-                                   <input type="text" name="breed" class="form-control" required>
+                                   <select class="form-control" name="breed" id="breed" required>
+                                        <option hidden selected>Select the option</option>
+                                        <?php
+                                        foreach ($breedList as $breed) {
+                                        ?>
+                                        <option value=<?php echo $breed->getId(); ?>>
+                                        <?php
+                                             echo $breed->getName(); ?></option>
+                                        <?php
+                                        }
+                                        ?>
+                                   </select>
 
                                    <label for="">Pet Size</label>
                                    <select class="form-control" name="petSize" id="petSize" required>
