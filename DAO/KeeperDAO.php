@@ -3,8 +3,8 @@
     namespace DAO;
     use DAO\PetDAO;
     use DAO\DayDAO;
-use Models\Booking;
-use Models\Keeper;
+    use Models\Booking;
+    use Models\Keeper;
     use Models\Pet;
     
 
@@ -176,4 +176,3 @@ use Models\Keeper;
             return $id + 1;
         }
     }
-?>
