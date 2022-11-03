@@ -53,7 +53,7 @@
             $this->RetrieveData();
 
             $array = array_filter($this->dayList, function($day) use($keeperId) {
-                return ($day->getKeeperId() == $keeperId) && ($day->getIsAvailable());
+                return ($day->getKeeper()->getUser()->getId() == $keeperId) && ($day->getIsAvailable());
             });
             return $array;
         }
@@ -82,7 +82,7 @@
 
             foreach($this->dayList as $day) {
                 $value["id"] = $day->getId();
-                $value["keeper"] = $day->getKeeper()->getUser->getId();
+                $value["keeper"] = $day->getKeeper()->getUser()->getId();
                 $value["date"] = $day->getDate();
                 $value["isAvailable"] = $day->getIsAvailable();
 

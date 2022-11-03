@@ -7,5 +7,14 @@
         "description": "123",
         "score": null,
         "active": false
+    },
+    {
+        "id": 2,
+        "user": 3,
+        "petSize": 2,
+        "remuneration": "850",
+        "description": "Guapo, te cuido el perro.",
+        "score": null,
+        "active": true
     }
 ]

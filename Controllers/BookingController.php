@@ -2,11 +2,13 @@
 
 namespace Controllers;
 
-use DAO\KeeperDAO;
+
 use DAO\BookingDAO;
 use DAO\PetDAO;
+use DAO\KeeperDAO as KeeperDAO;
 use DAO\PetSizeDAO;
 use DAO\UserDAO;
+use Models\Booking;
 use Models\Keeper;
 use Models\PetSize;
 
@@ -15,6 +17,7 @@ class BookingController
     private $bookingDAO;
     private $petDAO;
     private $keeperDAO;
+    
 
 
     public function __construct()
@@ -47,14 +50,30 @@ class BookingController
         require_once(VIEWS_PATH . "validate-session.php");
         $pet = $this->petDAO->GetPetById($petId);
 
-        $keeperList = $keeperDAO->GetAllFiltered($pet, $startDate, $endDate);
-
-        require_once(VIEWS_PATH."add-booking");
+        $keeperList = $this->keeperDAO->GetAll();
+        
+        require_once(VIEWS_PATH . "add-booking.php");
 
     }
 
-    public function Add($idPet, $startDate, $endDate, $keeperId){
-        
+    public function Add($keeper, $pet, $coupon, $startDate, $endDate, $validate = true, $total=0){
+        require_once(VIEWS_PATH . "validate-session.php");
+        $booking = new Booking();
+
+        $userDAO = new UserDAO();
+
+        $booking->setOwner($userDAO->GetById($_SESSION["loggedUser"]->getId()));
+        $booking->setKeeper($this->keeperDAO->GetById($keeper));
+        $booking->setPet($this->petDAO->GetPetById($pet));
+        $booking->setCoupon($coupon);
+        $booking->setStartDate($startDate);
+        $booking->setEndDate($endDate);
+        $booking->setValidate($validate);
+        $booking->setTotal($total);
+
+        $this->bookingDAO->Add($booking);
+
+
     }
     
 }
