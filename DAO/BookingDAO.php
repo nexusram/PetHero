@@ -1,9 +1,9 @@
 <?php
-    namespace DAO;
+namespace DAO;
 
     use DAO\IBookingDAO as IBookingDAO;
     use Models\Booking as Booking;
-use Models\Coupon;
+    use Models\Coupon;
 
     class BookingDAO implements IBookingDAO{
         private $bookingList;

@@ -66,7 +66,7 @@
                 $petTypeObj->setId(intval($petType));
                 $pet->setPetType($petTypeObj);
 
-                $pet->setBreed($breed);
+                //$pet->setBreed($breed);
 
                 $petSizeObj = new PetSize();
                 $petSizeObj->setId(intval($petSize));
