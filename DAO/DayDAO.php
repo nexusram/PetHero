@@ -10,6 +10,10 @@
         private $fileName = ROOT . "/Data/days.json";
         private $dayList = array();
 
+        public function __construct() {
+            $this->DesactiveOldDays();
+        }
+
         public function Add(Day $day) {
             $this->RetrieveData();
 
@@ -44,7 +48,7 @@
             $this->RetrieveData();
 
             $array = array_filter($this->dayList, function($day) use($keeperId) {
-                return $day->getKeeperId() == $keeperId;
+                return $day->getKeeper()->getId() == $keeperId;
             });
             return $array;
         }
@@ -53,7 +57,16 @@
             $this->RetrieveData();
 
             $array = array_filter($this->dayList, function($day) use($keeperId) {
-                return ($day->getKeeper()->getUser()->getId() == $keeperId) && ($day->getIsAvailable());
+                return ($day->getKeeper()->getId() == $keeperId) && ($day->getIsAvailable());
+            });
+            return $array;
+        }
+
+        public function GetInactiveListByKeeper($keeperId) {
+            $this->RetrieveData();
+
+            $array = array_filter($this->dayList, function($day) use($keeperId) {
+                return ($day->getKeeperId() == $keeperId) && (!$day->getIsAvailable());
             });
             return $array;
         }
@@ -82,7 +95,7 @@
 
             foreach($this->dayList as $day) {
                 $value["id"] = $day->getId();
-                $value["keeper"] = $day->getKeeper()->getUser()->getId();
+                $value["keeper"] = $day->getKeeper()->getId();
                 $value["date"] = $day->getDate();
                 $value["isAvailable"] = $day->getIsAvailable();
 
@@ -123,6 +136,22 @@
             }
 
             return $id + 1;
+        }
+
+        private function DesactiveOldDays() {
+            $this->RetrieveData();
+
+            $today = strtotime(date("d-m-Y", time()));
+
+            foreach($this->dayList as $day) {
+                $date = strtotime($day->getDate());
+                if($today > $date) {
+                    $day->setIsAvailable(false);
+                    $this->Modify($day);
+                }
+            }
+
+            $this->SaveData();
         }
     }
 ?>
