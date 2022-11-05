@@ -14,8 +14,6 @@ include_once(VIEWS_PATH . "nav-user.php");
                                    <input type="hidden" name="pet" value="<?php $_POST["pet"]?>">
                                    <input type="hidden" name="startDate" value="<?php $_POST["startDate"]?>">
                                    <input type="hidden" name="endDate" value="<?php $_POST["endDate"]?>">
-                                   <input type="hidden" name="coupon" value="<?php $_POST["coupon"]?>"
-                                   <input type="hidden" name="valite" value="true">
                                    <?php
                                     if($keeperList){
                                       ?> 

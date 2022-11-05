@@ -9,6 +9,7 @@ use DAO\KeeperDAO as KeeperDAO;
 use DAO\PetSizeDAO;
 use DAO\UserDAO;
 use Models\Booking;
+use Models\Coupon;
 use Models\Keeper;
 use Models\PetSize;
 
@@ -56,11 +57,19 @@ class BookingController
 
     }
 
-    public function Add($keeper, $pet, $coupon, $startDate, $endDate, $validate = true, $total=0){
+    public function Add($keeper, $pet, $startDate, $endDate, $validate = true, $total=0){
         require_once(VIEWS_PATH . "validate-session.php");
         $booking = new Booking();
 
         $userDAO = new UserDAO();
+
+        $coupon = new Coupon();
+        $coupon->setId(1);
+        $coupon->setBooking(1);
+        $coupon->setMethod(2);
+        $coupon->setIsPayment(false);
+        $coupon->setDiscount(50);
+        $coupon->setTotal(500);
 
         $booking->setOwner($userDAO->GetById($_SESSION["loggedUser"]->getId()));
         $booking->setKeeper($this->keeperDAO->GetById($keeper));
