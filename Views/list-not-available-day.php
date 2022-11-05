@@ -27,6 +27,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                               foreach ($dayList as $day) {
                          ?>
                                    <form action="<?php echo FRONT_ROOT . "Day/Available" ?>" method="post">
+                                        <input type="hidden" name="dayId" value="<?php echo $day->getId()?>">
                                         <tr>
                                              <td><?php echo date("l", strtotime($day->getDate())) ?></td>
                                              <td><?php echo date("F", strtotime($day->getDate())) ?></td>

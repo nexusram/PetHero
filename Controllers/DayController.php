@@ -25,6 +25,13 @@
             require_once(VIEWS_PATH . "list-day.php");
         }
 
+        public function ShowNotAvailableView($message="", $type="") {
+            require_once(VIEWS_PATH . "validate-session.php");
+            $keeper = $this->keeperDAO->GetByUserId($_SESSION["loggedUser"]->getId());
+            $dayList = $this->dayDAO->GetInactiveListByKeeper($keeper->getId());
+            require_once(VIEWS_PATH . "list-not-available-day.php");
+        }
+
         public function ShowAddView($message="", $type="") {
             require_once(VIEWS_PATH . "validate-session.php");
             require_once(VIEWS_PATH . "add-day.php");
@@ -82,6 +89,18 @@
                 }
             }
             return $rta;
+        }
+
+        public function Available($id) {
+            require_once(VIEWS_PATH . "validate-session.php");
+
+            $day = $this->dayDAO->GetById($id);
+
+            $day->setIsAvailable(true);
+
+            $this->dayDAO->Modify($day);
+
+            $this->ShowListView();
         }
 
         public function NotAvailable($id) {

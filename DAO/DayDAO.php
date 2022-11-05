@@ -66,7 +66,7 @@
             $this->RetrieveData();
 
             $array = array_filter($this->dayList, function($day) use($keeperId) {
-                return ($day->getKeeperId() == $keeperId) && (!$day->getIsAvailable());
+                return ($day->getKeeper()->getId() == $keeperId) && (!$day->getIsAvailable());
             });
             return $array;
         }

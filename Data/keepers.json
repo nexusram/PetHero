@@ -6,7 +6,7 @@
         "remuneration": "500",
         "description": "123",
         "score": null,
-        "active": false
+        "active": true
     },
     {
         "id": 2,
