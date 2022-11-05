@@ -85,21 +85,33 @@
         public function GetAllFiltered($pet, $startDate, $endDate){
             $arrayKeeper = array();
 
-            if($this->CheckForSize($pet->getPetSize()) == true)//si el primer filtro devuelve true es para filtrar
+            if($this->CheckForSize($pet->getPetSize()))//si el primer filtro devuelve true es para filtrar
             {
                 $dayDAO = new DayDAO();
                 $days = $dayDAO->GetAll();
 
-                $arrayDay = array_filter($days, function($day) use($startDate, $endDate){
-                    return ($day->getIsAvailable() == true && $day->getDate() >= $startDate && $day->getDate() <=   $endDate);
-                });
-               
+                $startDate = strtotime($startDate);
+                $endDate = strtotime($endDate);
+
+                $rangeArray = array();
+                for($i = $startDate; $i <= $endDate; $i+=86400) {
+                    $date = date("d-m-Y", $i);
+                    array_push($rangeArray, $date);
+                }
+
+                $arrayDay = array();
+                foreach($days as $day) {
+                    if(in_array($day->getDate(), $rangeArray) && $day->getIsAvailable()) {
+                        array_push($arrayDay, $day);
+                    }
+                }
+
                 foreach($arrayDay as $day){
-                    array_push($arrayKeepes, $day->getKeeper());
+                    array_push($arrayKeeper, $day->getKeeper());
                 }/// Recorro la lista de dias disponibles y agrego los keepers al arrayKeeper, me falta el ultimo filtro
                
                 $bookingDAO = new BookingDAO();
-                $bookingsAccepted = $bookingDAO->GetAllAcceptedByDate($startDate, $endDate);
+                $bookingsAccepted = $bookingDAO->GetAllAcceptedByDate(date("d-m-Y", $startDate), date("d-m-Y", $endDate));
 
                 if(!is_null($bookingsAccepted)){
                      foreach($bookingsAccepted as $booking){
@@ -115,6 +127,17 @@
                 });
             } 
            return $arrayKeeper; 
+        }
+
+        public function Exist($dayList, $i) {
+            $rta = false;
+            foreach($dayList as $day) {
+                if(strcmp($day->getDate(), $i) == 0 && $day->getIsActive()) {
+                    $rta = true;
+                }
+            }
+
+            return $rta;
         }
 
         public function SaveData() {

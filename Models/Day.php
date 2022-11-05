@@ -9,9 +9,6 @@
         private $date;
         private $isAvailable;
 
-        
-        
-
         /**
          * Get the value of id
          */ 

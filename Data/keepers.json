@@ -1,20 +1,11 @@
 [
     {
-        "id": 1,
-        "user": 1,
-        "petSize": 1,
-        "remuneration": "500",
-        "description": "123",
-        "score": null,
-        "active": true
-    },
-    {
         "id": 2,
         "user": 3,
         "petSize": 2,
         "remuneration": "850",
         "description": "Guapo, te cuido el perro.",
         "score": null,
-        "active": false
+        "active": true
     }
 ]

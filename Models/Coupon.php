@@ -34,7 +34,7 @@
         /**
          * Get the value of idBooking
          */ 
-        public function getIdBooking()
+        public function getBooking()
         {
                 return $this->idBooking;
         }
@@ -44,7 +44,7 @@
          *
          * @return  self
          */ 
-        public function setIdBooking(Booking $booking)
+        public function setBooking(Booking $booking)
         {
                 $this->Booking = $booking;
 

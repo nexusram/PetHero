@@ -29,7 +29,6 @@ class BookingController
 
     }
 
-
     // Muestra un listado de Reservas
     public function ShowListView() {
         require_once(VIEWS_PATH . "validate-session.php");
@@ -37,6 +36,11 @@ class BookingController
         $bookingList = $this->bookingDAO->GetAll();////devuleve todos los booking
 
         require_once(VIEWS_PATH . "booking-list.php");
+    }
+
+    public function ShowAddView($keeperList, $pet, $startDate, $endDate, $message="", $type="") {
+        require_once(VIEWS_PATH . "validate-session.php");
+        require_once(VIEWS_PATH . "add-booking.php");
     }
 
     public function ShowAddFiltersView(){
@@ -51,21 +55,22 @@ class BookingController
         require_once(VIEWS_PATH . "validate-session.php");
         $pet = $this->petDAO->GetPetById($petId);
 
-        $keeperList = $this->keeperDAO->GetAll();
-        
-        require_once(VIEWS_PATH . "add-booking.php");
+        $keeperList = $this->keeperDAO->GetAllFiltered($pet, $startDate, $endDate);
 
+        $this->ShowAddView($keeperList, $pet, $startDate, $endDate, "Sorry, currently we do not have Keepers available at the moment for pets with those characteristics...");
     }
 
     public function Add($keeper, $pet, $startDate, $endDate, $validate = true, $total=0){
         require_once(VIEWS_PATH . "validate-session.php");
+
         $booking = new Booking();
 
         $userDAO = new UserDAO();
 
         $coupon = new Coupon();
         $coupon->setId(1);
-        $coupon->setBooking(1);
+        $booking = new Booking();
+        $coupon->setBooking($booking);
         $coupon->setMethod(2);
         $coupon->setIsPayment(false);
         $coupon->setDiscount(50);

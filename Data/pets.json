@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "user": 3,
+        "user": 1,
         "name": "Scooby",
         "petType": 1,
         "breed": 4,
@@ -14,11 +14,11 @@
     },
     {
         "id": 2,
-        "user": 3,
+        "user": 1,
         "name": "Rufus",
         "petType": 1,
         "breed": 3,
-        "petSize": 2,
+        "petSize": 1,
         "observation": "perro muy salvaje",
         "picture": null,
         "vacunationPlan": null,
@@ -27,11 +27,11 @@
     },
     {
         "id": 3,
-        "user": 4,
+        "user": 1,
         "name": "Jacke",
         "petType": 1,
         "breed": 3,
-        "petSize": 2,
+        "petSize": 3,
         "observation": "perro muy tranquilo",
         "picture": null,
         "vacunationPlan": null,
