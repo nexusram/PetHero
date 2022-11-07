@@ -32,13 +32,12 @@ class BookingController
     // Muestra un listado de Reservas
     public function ShowListView() {
         require_once(VIEWS_PATH . "validate-session.php");
-        $userList = new UserController();
-        $bookingList = $this->bookingDAO->GetAll();////devuleve todos los booking
+        $bookingList = $this->bookingDAO->GetAllByUserId($_SESSION["loggedUser"]->getId());////devuleve todos los booking
 
         require_once(VIEWS_PATH . "booking-list.php");
     }
 
-    public function ShowAddView($keeperList, $pet, $startDate, $endDate, $message="", $type="") {
+    public function ShowAddView($keeperList, $pet, $startDate, $endDate, $message) {
         require_once(VIEWS_PATH . "validate-session.php");
         require_once(VIEWS_PATH . "add-booking.php");
     }
@@ -53,14 +52,18 @@ class BookingController
     
     public function FilterKeeper($petId, $startDate, $endDate){
         require_once(VIEWS_PATH . "validate-session.php");
+        $message = "";
         $pet = $this->petDAO->GetPetById($petId);
-
         $keeperList = $this->keeperDAO->GetAllFiltered($pet, $startDate, $endDate);
 
-        $this->ShowAddView($keeperList, $pet, $startDate, $endDate, "Sorry, currently we do not have Keepers available at the moment for pets with those characteristics...");
+        if(is_null($pet)) {
+            $message = "Sorry, currently we do not have Keepers available at the moment for pets with those characteristics...";
+        }
+
+        $this->ShowAddView($keeperList, $pet, $startDate, $endDate, $message);
     }
 
-    public function Add($keeper, $pet, $startDate, $endDate, $validate = true, $total=0){
+    public function Add($pet, $startDate, $endDate, $keeper){
         require_once(VIEWS_PATH . "validate-session.php");
 
         $booking = new Booking();
@@ -82,12 +85,12 @@ class BookingController
         $booking->setCoupon($coupon);
         $booking->setStartDate($startDate);
         $booking->setEndDate($endDate);
-        $booking->setValidate($validate);
-        $booking->setTotal($total);
+        $booking->setValidate(false);
+        $booking->setTotal(0);
 
         $this->bookingDAO->Add($booking);
 
-
+        $this->ShowListView();
     }
     
 }

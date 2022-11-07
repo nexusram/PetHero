@@ -6,8 +6,8 @@ namespace DAO;
     use Models\Coupon;
 
     class BookingDAO implements IBookingDAO{
-        private $bookingList;
-        private $fileName = ROOT."Data/bookings.json";
+        private $bookingList = array();
+        private $fileName = ROOT . "Data/bookings.json";
 
         //constructor vacio por defecto
         public function Add(Booking $booking)
@@ -82,7 +82,6 @@ namespace DAO;
 
             if(file_exists($this->fileName)){
                 $jsonContent = file_get_contents($this->fileName);
-
                 $arrayDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
 
                 foreach($arrayDecode as $value){
@@ -120,7 +119,6 @@ namespace DAO;
 
         private function SaveData(){
             sort($this->bookingList);
-
             $arrayEncode = array();
 
             foreach($this->bookingList as $booking){
@@ -139,7 +137,7 @@ namespace DAO;
             }
 
             $jsonContent = json_encode($arrayEncode, JSON_PRETTY_PRINT);
-            file_get_contents($this->fileName, $jsonContent);
+            file_put_contents($this->fileName, $jsonContent);
         }
 
         public function GetActiveBookingOfUser($userId){
@@ -152,11 +150,21 @@ namespace DAO;
             return $arrayBooking;
         }
 
+        public function GetAllByUserId($userId) {
+            $this->RetrieveData();
+
+            $array = array_filter($this->bookingList, function($booking) use($userId) {
+                return $booking->getOwner()->getId() == $userId;
+            });
+
+            return $array;
+        }
+
         private function GetNextId(){
             $id = 0;
             
             foreach($this->bookingList as $booking){
-                $id = ($booking->getId()>$id) ? $booking->getId() : $id;
+                $id = ($booking->getId() > $id) ? $booking->getId() : $id;
             }
 
             return $id + 1;

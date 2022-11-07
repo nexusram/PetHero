@@ -11,26 +11,28 @@ include_once(VIEWS_PATH . "nav-user.php");
                          <div class="col-lg-2"></div>
                          <div class="col-lg-8">
                               <div class="form-group">
-                                   <input type="hidden" name="pet" value="<?php $_POST["pet"] ?>">
-                                   <input type="hidden" name="startDate" value="<?php $_POST["startDate"] ?>">
-                                   <input type="hidden" name="endDate" value="<?php $_POST["endDate"] ?>">
+                                   <input type="hidden" name="pet" value="<?php echo $pet->getId() ?>">
+                                   <input type="hidden" name="startDate" value="<?php echo $startDate ?>">
+                                   <input type="hidden" name="endDate" value="<?php echo $endDate ?>">
                                    <?php
                                    if (!empty($keeperList)) {
                                    ?>
-                                        <select class="form-control" name="keeper" required>
+                                        <label for="">Select your keeper</label>
+                                        <select class="form-control mb-3" name="keeper" required>
                                              <?php
-                                             foreach ($keeperList as $keeper) {
+                                             foreach($keeperList as $keeper) {
                                                   echo "<option value=". $keeper->getId() .">
-                                                       ". $keeper->getName() ."
+                                                       ". $keeper->getUser()->getName() ." / $ ". $keeper->getRemuneration() . " for day
                                                   </option>";
                                              }
                                              ?>
                                         </select>
                                         <button type="submit" name="button" class="btn btn-success ml-auto d-block text-center">
-                                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
                                                   <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
                                              </svg>
                                              Confirm my booking
+                                        </button>
                               </div>
                          </div>
                     <?php
@@ -41,25 +43,11 @@ include_once(VIEWS_PATH . "nav-user.php");
                if ($message != "") {
                ?>
                     <div class='form-group text-center'>
-                         <?php
-                         if ($type == "") {
-                         ?>
                               <div class="container">
                                    <div class='alert alert-danger'>
                                         <p><?php echo $message ?></p>
                                    </div>
                               </div>
-                         <?php
-                         } else {
-                         ?>
-                              <div class="container">
-                                   <div class='alert alert-success'>
-                                        <p><?php echo $message ?></p>
-                                   </div>
-                              </div>
-                         <?php
-                         }
-                         ?>
                     </div>
                <?php
                }
