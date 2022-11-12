@@ -2,63 +2,55 @@
 
 namespace DAO;
 
-use DAO\IViews as IViews;
-use DAO\Connection as Connection;
-use \Exception as Exception;
 use Models\Pet;
 use DAO\PetTypeDAO;
 use DAO\BreedDAO;
 use DAO\PetSizeDAO;
+use Models\User;
 
-class BddPet
+class PetDAO implements IPetDAO
 {
+    private $fileName = ROOT . "/Data/pets.json";
     private $petList = array();
-    private $connection;
-    private $tableName = "Pet";
 
     public function Add(Pet $pet)
     {
+        $this->RetrieveData();
+
         $pet->setId($this->GetNextId());
-        try {
 
-            $query = "INSERT INTO . $this->tableName . ('id','user','name','petType','breed','petSize','observation','picture','vacunationPlan','video', 'active') VALUES (:'id',:'user',:'name',:'petType',:'breed',:'petSize',:'observation',:'picture',:'vacunationPlan',:'video',:'active');";
+        array_push($this->petList, $pet);
 
-            $value["id"] = $pet->getId();
-            $value["user"] = $pet->getUser()->getId();
-            $value["name"] = $pet->getName();
-            $value["petType"] = $pet->getPetType()->getId();
-            $value["breed"] = $pet->getBreed()->getId();
-            $value["petSize"] = $pet->getPetSize()->getId();
-            $value["observation"] = $pet->getObservation();
-            $value["picture"] = $pet->getPicture();
-            $value["vacunationPlan"] = $pet->getVacunationPlan();
-            $value["video"] = $pet->getVideo();
-            $value["active"] = $pet->getActive();
-
-            $this->connection = Connection::GetInstance();
-            $this->connection->ExecuteNonQuery($query, $value);
-        } catch (Exception $ex) {
-            throw $ex;
-        }
+        $this->SaveData();
     }
 
     public function Remove($id)
     {
-        $this->connection = Connection::GetInstance();
-        $aux = "DELETE From . $this->tableName . WHERE Id = '$id'";
-        $connection = $this->connection;
-        $connection->Execute($aux);
+        $this->RetrieveData();
+
+        $this->petList = array_filter($this->petList, function ($pet) use ($id) {
+            return $pet->getId() != $id;
+        });
+
+        $this->SaveData();
     }
 
     public function Modify(Pet $pet)
     {
-        $this->connection = Connection::GetInstance();
+        $this->RetrieveData();
 
-        $consulta = "UPDATE . $this->tableName .
-        SET id= $pet->getId(),user= $pet->getUser()->getId(),name= $pet->getName(),petType =$pet->getPetType()->getId(),breed=$pet->getBreed()->getId(),petSize=$pet->getPetSize()->getId(),observation=$pet->getObservation(),picture=$pet->getPicture(),vacunationPlan=$pet->getVacunationPlan(),video=$pet->getVideo(), active=$pet->getActive()
-        . WHERE id = $pet->getId()";
-        $connection = $this->connection;
-        $connection->Execute($consulta);
+        $this->Remove($pet->getId());
+
+        array_push($this->petList, $pet);
+
+        $this->SaveData();
+    }
+
+    public function GetAll()
+    {
+        $this->RetrieveData();
+
+        return $this->petList;
     }
 
     public function Exist($userId, $name)
@@ -98,20 +90,40 @@ class BddPet
         return (count($array) > 0) ? $array[0] : null;
     }
 
+    public function SaveData()
+    {
+        sort($this->petList);
+        $arrayEncode = array();
+
+        foreach ($this->petList as $pet) {
+            $value["id"] = $pet->getId();
+            $value["user"] = $pet->getUser()->getId();
+            $value["name"] = $pet->getName();
+            $value["petType"] = $pet->getPetType()->getId();
+            $value["breed"] = $pet->getBreed()->getId();
+            $value["petSize"] = $pet->getPetSize()->getId();
+            $value["observation"] = $pet->getObservation();
+            $value["picture"] = $pet->getPicture();
+            $value["vacunationPlan"] = $pet->getVacunationPlan();
+            $value["video"] = $pet->getVideo();
+            $value["active"] = $pet->getActive();
+
+
+            array_push($arrayEncode, $value);
+        }
+        $jsonContent = json_encode($arrayEncode, JSON_PRETTY_PRINT);
+        file_put_contents($this->fileName, $jsonContent);
+    }
+
     public function RetrieveData()
     {
-        
-        try {
-            $bookinkList = array();
+        $this->petList = array();
 
-            $query = "SELECT * FROM " . $this->tableName;
+        if (file_exists($this->fileName)) {
+            $jsonContent = file_get_contents($this->fileName);
+            $arrayDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
 
-            $this->connection = Connection::GetInstance();
-
-            $resultSet = $this->connection->Execute($query);
-            $this->petList = array();
-
-            foreach ($resultSet as $value) {
+            foreach ($arrayDecode as $value) {
                 $pet = new Pet();
                 $pet->setId($value["id"]);
                 $pet->setName($value["name"]);
@@ -141,9 +153,6 @@ class BddPet
 
                 array_push($this->petList, $pet);
             }
-            return $this->petList;
-        } catch (Exception $ex) {
-            throw $ex;
         }
     }
 

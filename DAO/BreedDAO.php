@@ -1,114 +1,105 @@
 <?php
-    namespace DAO;
 
-    use DAO\IBreedDAO;
-    use DAO\PetTypeDAO;
-    use Models\PetType;
-    use Models\Breed;
+namespace DAO;
 
-    class BreedDAO implements IBreedDAO{
-        private $breedList = array();
-        private $fileName = ROOT. "Data/breeds.json";
+use DAO\IViews as IViews;
+use DAO\Connection as Connection;
+use \Exception as Exception;
+use DAO\IBreedDAO;
+use Models\Breed;
+use DAO\PetTypeDAO;
 
-        public function Add(Breed $breed)
-        {
-            $this->RetrieveData();
+class BreedDAO
+{
+    private $breedList;
+    private $connection;
+    private $tableName = "Breed";
 
-            $breed->setId($this->GetNextId());
+    public function Add(Breed $breed)
+    {
+        $breed->setId($this->GetNextId()); //seteo el id autoincremental
+        try {
 
-            array_push($this->breedList, $breed);
+            $query = "INSERT INTO $this->tableName (id,name,petType) VALUES (:Id,:name,:petType);";
 
-            $this->SaveData();
-        }
-
-        public function GetAll()
-        {
-            $this->RetrieveData();
-            return $this->breedList;
-        }
-
-        public function Remove($id)
-        {
-            $this->RetrieveData();
-
-            $this->breedList = array_filter($this->breedList, function($breed) use($id){
-                return $breed->getId() != $id;
-            });
-
-            $this->SaveData();
-        }
-
-        public function GetById($id)
-        {
-            $this->RetrieveData();
-
-            $arrayBreed = array_filter($this->breedList, function($breed) use($id){
-                return $breed->getId() == $id;
-            });
-
-            $arrayBreed = array_values($arrayBreed);
-
-            return (count($arrayBreed)>0) ? $arrayBreed[0] : null;
-        }
-
-        public function GetListByPetType($petTypeId) {
-            $this->RetrieveData();
-
-            $array = array_filter($this->breedList, function($breed) use($petTypeId){
-                return $breed->getPetType()->getId() == $petTypeId;
-            });
-
-            return $array;
-        }
-
-        private function RetrieveData(){
-            $this->breedList = array();
-
-            if(file_exists($this->fileName)){
-                $jsonContent = file_get_contents($this->fileName);
-
-                $arrayDeCode = ($jsonContent) ? json_decode($jsonContent, true) : array();
-
-                foreach($arrayDeCode as $value){
-                    $breed = new Breed();
-
-                    $breed->setId($value["id"]);
-                    $breed->setName($value["name"]);
-                    
-                    ///instancio el objeto petType
-                    $petTypeDAO = new PetTypeDAO();
-                    $petType = $petTypeDAO->GetById($value["petType"]);
-                    $breed->setPetType($petType);
-
-                    array_push($this->breedList, $breed);
-                }
-            }
-        }
-
-        private function SaveData(){
-            sort($this->breedList);
-            $arrayEnCode = array();
-
-            foreach($this->breedList as $breed){
-                $value["id"] = $breed->getId();
-                $value["name"] = $breed->getName();
-                $value["petType"] = $breed->getPetType()->getId();
-
-                array_push($arrayEnCode, $value);
-            }
-
-            $jsonContent = json_encode($arrayEnCode, JSON_PRETTY_PRINT);
-            file_put_contents($this->fileName, $jsonContent);
-        }
-
-        private function GetNextId(){
-           $id = 0;
-
-           foreach($this->breedList as $breed){
-            $id = ($breed->getId() > $id) ? $breed->getId() : $id;
-           }
-
-           return $id + 1; 
+            $valuesArray["Id"] = $breed->getId();
+            $valuesArray["name"] = $breed->getName();
+            $valuesArray["petType"] = $breed->getPetType()->getId();
+            $this->connection = Connection::GetInstance();
+            $this->connection->ExecuteNonQuery($query, $valuesArray);
+        } catch (Exception $ex) {
+            throw $ex;
         }
     }
-?>
+
+    public function RetrieveData()
+    {
+        $this->breedList = array();
+        try {
+
+            $query = "SELECT * FROM  . $this->tableName;";
+
+            $this->connection = Connection::GetInstance();
+
+            $resultSet = $this->connection->Execute($query);
+
+            foreach ($resultSet as $valuesArray) {
+                $breed = new Breed();
+
+                $breed->setId($valuesArray["id"]);
+                $breed->setName($valuesArray["name"]);
+                 $petTypeDAO = new PetTypeDAO();
+                    $petType = $petTypeDAO->GetById($valuesArray["petType"]);
+                    $breed->setPetType($petType);
+
+                array_push($this->breedList, $breed);
+            }
+            return $this->breedList;
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
+
+    public function Remove($id)
+    {
+        $this->connection = Connection::GetInstance();
+        $aux = "DELETE From $this->tableName WHERE id = '$id';";
+        $connection = $this->connection;
+        $connection->Execute($aux);
+    }
+
+    private function GetNextId()
+    {
+        $id = 0;
+        $this->RetrieveData();
+        foreach ($this->breedList as $breed) {
+            $id = ($breed->getId() > $id) ? $breed->getId() : $id;
+        }
+
+        return $id + 1;
+    }
+    public function GetById($id)
+    {
+        $this->RetrieveData();
+
+        $arrayBreed = array_filter($this->breedList, function ($breed) use ($id) {
+            return $breed->getId() == $id;
+        });
+
+        $arrayBreed = array_values($arrayBreed);
+
+        return (count($arrayBreed) > 0) ? $arrayBreed[0] : null;
+    }
+
+    public function GetListByPetType($petTypeId) {
+        $this->RetrieveData();
+
+        $array = array_filter($this->breedList, function($breed) use($petTypeId){
+            return $breed->getPetType()->getId() == $petTypeId;
+        });
+
+        return $array;
+    }
+
+}

@@ -78,7 +78,6 @@ class HomeController
             $this->Index();
         }
     }
-
     public function Logout() {
         require_once(VIEWS_PATH . "validate-session.php");
         session_destroy();

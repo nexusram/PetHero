@@ -1,173 +1,164 @@
 <?php
+
 namespace DAO;
 
-    use DAO\IBookingDAO as IBookingDAO;
-    use Models\Booking as Booking;
-    use Models\Coupon;
-
-    class BookingDAO implements IBookingDAO{
-        private $bookingList = array();
-        private $fileName = ROOT . "Data/bookings.json";
-
-        //constructor vacio por defecto
-        public function Add(Booking $booking)
-        {
-            $this->RetrieveData();
-
-            $booking->setId($this->GetNextId());//seteo el id autoincremental
-            $booking->setState(true);//seteo que siempre cuando se añada quede activa.
-
-            array_push($this->bookingList, $booking);
-
-            $this->SaveData();
-        }
-
-        public function GetAll()
-        {
-            $this->RetrieveData();
-            return $this->bookingList;
-        }
-
-        public function Remove($id)
-        {
-            $this->RetrieveData();
-
-            $this->bookingList = array_filter($this->bookingList, function($booking) use ($id){
-                return $booking->getId() != $id;
-            });
-
-            $this->SaveData();
-        }
-
-        public function Modify(Booking $booking)
-        {
-            $this->RetrieveData();
-
-            $this->Remove($booking->getId());
-
-            array_push($this->bookingList, $booking);
-
-            $this->SaveData();
-        }
-
-        public function GetById($id)
-        {
-            $this->RetrieveData();
-
-            $arrayBooking = array_filter($this->bookingList,function($booking) use ($id){
-                return $booking->getId() == $id;
-            });
-
-            $arrayBooking = array_values($arrayBooking);
-
-            return (count($arrayBooking)>0) ? $arrayBooking[0] : null;
-        }
-
-        public function GetAllAcceptedByDate($startDate, $endDate)
-        {
-            $this->RetrieveData();
+use DAO\IViews as IViews;
+use DAO\Connection as Connection;
+use \Exception as Exception;
+use Models\Coupon;
+use Models\Booking;
+class BookingDAO
+{
+    private $bookingList;
+    private $connection;
+    private $tableName = "Booking";
 
 
-            $arrayBooking = array_filter($this->bookingList,function($booking) use($startDate, $endDate){
-                return $booking->getValidate() == true && $booking->getStartDate() >= $startDate && $booking->getEndDate()<= $endDate;
-            });
+    public function Add(Booking $booking)
+    {
+        $booking->setId($this->GetNextId()); //seteo el id autoincremental
+        $booking->setState(true); //seteo que siempre cuando se añada quede activa.
+        try {
 
-            $arrayBooking = array_values($arrayBooking);
 
-            return (count($arrayBooking)>0) ? $arrayBooking : null;
-        }
+            $query = "INSERT INTO $this->tableName (id,startDate,endDate,state,validate,total,owner,keeper,pet,coupon) VALUES (:'Id',:'startDate',:'endDate',:'state',:'validate',:'total',:'owner',:'keeper',:'pet',:'coupon');";
 
-        private function RetrieveData(){
-            $this->bookingList = array();
-
-            if(file_exists($this->fileName)){
-                $jsonContent = file_get_contents($this->fileName);
-                $arrayDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
-
-                foreach($arrayDecode as $value){
-                    $booking = new Booking();
-
-                    $booking->setId($value["id"]);
-                    $booking->setStartDate($value["startDate"]);
-                    $booking->setEndDate($value["endDate"]);
-                    $booking->setState($value["state"]);
-                    $booking->setValidate($value["validate"]);
-                    $booking->setTotal($value["total"]);
-
-                    //instanciar objetos
-                    $userDAO = new UserDAO();
-                    $user = $userDAO->GetById($value["owner"]);
-                    $booking->setOwner($user);
-
-                    $keeperDAO = new KeeperDAO();
-                    $keeper = $keeperDAO->GetById($value["keeper"]);
-                    $booking->setKeeper($keeper);
-
-                    $petDAO = new PetDAO();
-                    $pet = $petDAO->GetPetById($value["pet"]);
-                    $booking->setPet($pet);
-
-                    /*$couponDAO = new CouponDAO();
-                    $coupon = CouponDAO->GetById($value["coupon"]);*/
-                    $coupon = new Coupon();
-                    $booking->setCoupon($coupon);
-
-                    array_push($this->bookingList, $booking);
-                }
-            }
-        }
-
-        private function SaveData(){
-            sort($this->bookingList);
-            $arrayEncode = array();
-
-            foreach($this->bookingList as $booking){
-                $value["id"] = $booking->getId();
-                $value["owner"] = $booking->getOwner()->getId();
-                $value["keeper"] = $booking->getKeeper()->getId();
-                $value["pet"] = $booking->getPet()->getId();
-                $value["coupon"] = $booking->getCoupon()->getId();
-                $value["startDate"] = $booking->getStartDate();
-                $value["endDate"] = $booking->getEndDate();
-                $value["state"] = $booking->getState();
-                $value["validate"] = $booking->getValidate();
-                $value["total"] = $booking->getTotal();
-
-                array_push($arrayEncode, $value);
-            }
-
-            $jsonContent = json_encode($arrayEncode, JSON_PRETTY_PRINT);
-            file_put_contents($this->fileName, $jsonContent);
-        }
-
-        public function GetActiveBookingOfUser($userId){
-            $this->RetrieveData();
-
-            $arrayBooking = array_filter($this->bookingList, function($booking) use($userId) {
-                return ($booking->getUserId() == $userId && $booking->getState() == true) ? $booking : null;
-            });
-
-            return $arrayBooking;
-        }
-
-        public function GetAllByUserId($userId) {
-            $this->RetrieveData();
-
-            $array = array_filter($this->bookingList, function($booking) use($userId) {
-                return $booking->getOwner()->getId() == $userId;
-            });
-
-            return $array;
-        }
-
-        private function GetNextId(){
-            $id = 0;
-            
-            foreach($this->bookingList as $booking){
-                $id = ($booking->getId() > $id) ? $booking->getId() : $id;
-            }
-
-            return $id + 1;
+            $valuesArray["id"] = $booking->getId();
+            $valuesArray["startDate"] = $booking->getStartDate();
+            $valuesArray["endDate"] = $booking->getEndDate();
+            $valuesArray["state"] = $booking->getState();
+            $valuesArray["validate"] = $booking->getValidate();
+            $valuesArray["total"] = $booking->getTotal();
+            $valuesArray["owner"] = $booking->getOwner()->getId();
+            $valuesArray["keeper"] = $booking->getKeeper()->getId();
+            $valuesArray["pet"] = $booking->getPet()->getId();
+            $valuesArray["coupon"] = $booking->getCoupon()->getId();
+            $this->connection = Connection::GetInstance();
+            $this->connection->ExecuteNonQuery($query, $valuesArray);
+        } catch (Exception $ex) {
+            throw $ex;
         }
     }
-?>
+    public function RetrieveData()
+    {
+        $this->bookingList = array();
+        try {
+
+            $query = "SELECT * FROM " . $this->tableName;
+
+            $this->connection = Connection::GetInstance();
+
+            $resultSet = $this->connection->Execute($query);
+
+            foreach ($resultSet as $valuesArray) {
+                $booking = new Booking();
+
+                $booking->setId($valuesArray["id"]);
+                $booking->setStartDate($valuesArray["startDate"]);
+                $booking->setEndDate($valuesArray["endDate"]);
+                $booking->setState($valuesArray["state"]);
+                $booking->setValidate($valuesArray["validate"]);
+                $booking->setTotal($valuesArray["total"]);
+
+                $userDAO = new UserDAO();
+                $user = $userDAO->GetById($valuesArray["owner"]);
+                $booking->setOwner($user);
+                $keeperDAO = new KeeperDAO();
+                $keeper = $keeperDAO->GetById($valuesArray["keeper"]);
+                $booking->setKeeper($keeper);
+
+                $petDAO = new PetDAO();
+                $pet = $petDAO->GetPetById($valuesArray["pet"]);
+                $booking->setPet($pet);
+
+                //$couponDAO = new CouponDAO();
+                    //$coupon = CouponDAO->GetById($value["coupon"]);
+                $coupon = new Coupon();
+                $booking->setCoupon($coupon);
+
+                array_push($this->bookingList, $booking);
+            }
+
+            return $this->bookingList;
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
+
+    public function Modify(Booking $booking)
+    {
+        $this->connection = Connection::GetInstance();
+
+        $consulta = "UPDATE $this->tableName
+        SET id= $booking->getId(), startDate = $booking->getStartDate(), endDate  = $booking->getEndDate(), state = $booking->getState(), validate = $booking->getValidate(), total = $booking->getTotal(), owner = $booking->getOwner()->getId(), keeper = $booking->getKeeper()->getId(), pet = $booking->getPet()->getId(), coupon = $booking->getCoupon()->getId()
+        WHERE id = $booking->getId()";
+        $connection = $this->connection;
+        $connection->Execute($consulta);
+    }
+
+    public function Remove($id)
+    {
+        $this->connection = Connection::GetInstance();
+        $aux = "DELETE From $this->tableName WHERE Id = $id";
+        $connection = $this->connection;
+        $connection->Execute($aux);
+    }
+
+    public function GetById($id)
+    {
+        $this->RetrieveData();
+
+        $arrayBooking = array_filter($this->bookingList, function ($booking) use ($id) {
+            return $booking->getId() == $id;
+        });
+
+        $arrayBooking = array_values($arrayBooking);
+
+        return (count($arrayBooking) > 0) ? $arrayBooking[0] : null;
+    }
+    
+    public function GetAllAcceptedByDate($startDate, $endDate)
+    {
+        $this->RetrieveData();
+
+        $arrayBooking = array_filter($this->bookingList,function($booking) use($startDate, $endDate){
+            return $booking->getValidate() == true && $booking->getStartDate() >= $startDate && $booking->getEndDate()<= $endDate;
+        });
+
+        $arrayBooking = array_values($arrayBooking);
+
+        return (count($arrayBooking)>0) ? $arrayBooking : null;
+    }
+
+    public function GetActiveBookingOfUser($userId){
+        $this->RetrieveData();
+
+        $arrayBooking = array_filter($this->bookingList, function($booking) use($userId) {
+            return ($booking->getUserId() == $userId && $booking->getState() == true) ? $booking : null;
+        });
+
+        return $arrayBooking;
+    }
+
+    public function GetAllByUserId($userId) {
+        $this->RetrieveData();
+
+        $array = array_filter($this->bookingList, function($booking) use($userId) {
+            return $booking->getOwner()->getId() == $userId;
+        });
+
+        return $array;
+    }
+    
+    private function GetNextId(){
+        $id = 0;
+        
+        foreach($this->bookingList as $booking){
+            $id = ($booking->getId() > $id) ? $booking->getId() : $id;
+        }
+
+        return $id + 1;
+    }
+}
+

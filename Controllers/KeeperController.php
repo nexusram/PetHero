@@ -24,11 +24,10 @@ class KeeperController
         require_once(VIEWS_PATH . "validate-session.php");
 
         $petSizeDAO = new PetSizeDAO();
-        $petSizeList = $petSizeDAO->GetAll();
-
+        $petSizeList = $petSizeDAO->RetrieveData();
         $keeper = $this->CheckKeeper($_SESSION["loggedUser"]->getId());
-        if($keeper) {
-            if($keeper->getActive()) {
+        if ($keeper) {
+            if ($keeper->getActive()) {
                 $this->ShowListView();
             } else {
                 $this->SetActive($keeper, true);
@@ -44,7 +43,7 @@ class KeeperController
         require_once(VIEWS_PATH . "validate-session.php");
 
         $utilities = new Utilities();
-        $keeperList = $this->keeperDAO->GetAll();
+        $keeperList = $this->keeperDAO->RetrieveData();
 
         require_once(VIEWS_PATH . "keeper-list.php");
     }
@@ -81,17 +80,19 @@ class KeeperController
         $this->ShowListView();
     }
 
-    private function SetActive(Keeper $keeper, $active) {
+    private function SetActive(Keeper $keeper, $active)
+    {
         require_once(VIEWS_PATH . "validate-session.php");
 
         $keeper->setActive($active);
-        
+
         $this->keeperDAO->Modify($keeper);
 
         $this->ShowListView();
     }
 
-    public function ReturnOwner() {
+    public function ReturnOwner()
+    {
         require_once(VIEWS_PATH . "validate-session.php");
         $keeper = $this->keeperDAO->GetByUserId($_SESSION["loggedUser"]->getId());
 
