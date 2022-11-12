@@ -24,7 +24,7 @@ class KeeperController
         require_once(VIEWS_PATH . "validate-session.php");
 
         $petSizeDAO = new PetSizeDAO();
-        $petSizeList = $petSizeDAO->RetrieveData();
+        $petSizeList = $petSizeDAO->GetAll();
         $keeper = $this->CheckKeeper($_SESSION["loggedUser"]->getId());
         if ($keeper) {
             if ($keeper->getActive()) {

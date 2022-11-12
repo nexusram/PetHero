@@ -2,14 +2,13 @@
 
 namespace DAO;
 
-use DAO\IViews as IViews;
 use DAO\Connection as Connection;
 use \Exception as Exception;
 use DAO\IBreedDAO;
 use Models\Breed;
 use DAO\PetTypeDAO;
 
-class BreedDAO
+class BreedDAO implements IBreedDAO
 {
     private $breedList;
     private $connection;
@@ -32,7 +31,13 @@ class BreedDAO
         }
     }
 
-    public function RetrieveData()
+    public function GetAll()
+    {
+        $this->RetrieveData();
+        return $this->breedList;
+    }
+
+    private function RetrieveData()
     {
         $this->breedList = array();
         try {
@@ -48,9 +53,9 @@ class BreedDAO
 
                 $breed->setId($valuesArray["id"]);
                 $breed->setName($valuesArray["name"]);
-                 $petTypeDAO = new PetTypeDAO();
-                    $petType = $petTypeDAO->GetById($valuesArray["petType"]);
-                    $breed->setPetType($petType);
+                $petTypeDAO = new PetTypeDAO();
+                $petType = $petTypeDAO->GetById($valuesArray["petType"]);
+                $breed->setPetType($petType);
 
                 array_push($this->breedList, $breed);
             }
@@ -92,14 +97,14 @@ class BreedDAO
         return (count($arrayBreed) > 0) ? $arrayBreed[0] : null;
     }
 
-    public function GetListByPetType($petTypeId) {
+    public function GetListByPetType($petTypeId)
+    {
         $this->RetrieveData();
 
-        $array = array_filter($this->breedList, function($breed) use($petTypeId){
+        $array = array_filter($this->breedList, function ($breed) use ($petTypeId) {
             return $breed->getPetType()->getId() == $petTypeId;
         });
 
         return $array;
     }
-
 }

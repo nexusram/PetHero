@@ -7,7 +7,7 @@ use DAO\Connection as Connection;
 use \Exception as Exception;
 use DAO\IPetDAO;
 use Models\PetType;
-class PetTypeDAO
+class PetTypeDAO implements IPetTypeDAO
 {
     private $petTypeList;
     private $connection;
@@ -28,7 +28,13 @@ class PetTypeDAO
         }
     }
 
-    public function RetrieveData()
+    public function GetAll()
+    {
+        $this->RetrieveData();
+        return $this->petTypeList;
+    }
+
+    private function RetrieveData()
     {
         $this->petTypeList = array();
         try {

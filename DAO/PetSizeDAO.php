@@ -7,7 +7,7 @@ use DAO\Connection as Connection;
 use \Exception as Exception;
 use Models\PetSize;
 
-class PetSizeDAO
+class PetSizeDAO implements IPetSizeDAO
 {
     private $PetSizeList;
     private $connection;
@@ -28,7 +28,13 @@ class PetSizeDAO
         }
     }
 
-    public function RetrieveData()
+    public function GetAll()
+    {
+        $this->RetrieveData();
+        return $this->petSizeList;
+    }
+
+    private function RetrieveData()
     {
         $this->PetSizeList = array();
         try {
@@ -81,7 +87,7 @@ class PetSizeDAO
 
     public function GetById($id)
     {
-        $return=$this->RetrieveData();
+        $return = $this->RetrieveData();
         $array = array_filter($return, function ($petSize) use ($id) {
             return $petSize->getId() == $id;
         });

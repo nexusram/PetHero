@@ -8,4 +8,5 @@
          function Remove($id);
          function Modify(Booking $booking);
          function GetById($id);
+         function GetAll();
     }

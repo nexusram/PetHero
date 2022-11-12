@@ -9,7 +9,7 @@ use Models\Day;
 use Models\Keeper;
 use DAO\KeeperDAO;
 
-class DayDAO
+class DayDAO implements IDayDAO
 {
     private $dayList;
     private $connection;
@@ -38,7 +38,13 @@ class DayDAO
         }
     }
 
-    public function RetrieveData()
+    public function GetAll()
+    {
+        $this->RetrieveData();
+        return $this->dayList;
+    }
+
+    private function RetrieveData()
     {
         $this->dayList = array();
         try {

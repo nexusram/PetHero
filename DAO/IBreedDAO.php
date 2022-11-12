@@ -4,9 +4,9 @@
     use Models\Breed;
 
     interface IBreedDAO{
-        public function Add(Breed $breed);
-        public function GetAll();
-        public function Remove($id);
-        public function GetById($id);
+         function Add(Breed $breed);
+         function GetAll();
+         function Remove($id);
+         function GetById($id);
     }
 ?>

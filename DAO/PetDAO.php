@@ -10,7 +10,7 @@ use DAO\PetTypeDAO;
 use DAO\BreedDAO;
 use DAO\PetSizeDAO;
 
-class PetDAO
+class PetDAO implements IPetDAO
 {
     private $petList;
     private $connection;
@@ -98,7 +98,14 @@ class PetDAO
         return (count($array) > 0) ? $array[0] : null;
     }
 
-    public function RetrieveData()
+    public function GetAll()
+    {
+        $this->RetrieveData();
+        return $this->RetrieveData();
+    }
+
+
+    private function RetrieveData()
     {
         $this->petList = array();
         try {

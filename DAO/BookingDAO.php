@@ -7,7 +7,7 @@ use DAO\Connection as Connection;
 use \Exception as Exception;
 use Models\Coupon;
 use Models\Booking;
-class BookingDAO
+class BookingDAO implements IBookingDAO
 {
     private $bookingList;
     private $connection;
@@ -39,7 +39,13 @@ class BookingDAO
             throw $ex;
         }
     }
-    public function RetrieveData()
+public function GetAll()
+{
+    $this->RetrieveData();
+    return $this->bookingList;
+}
+
+    private function RetrieveData()
     {
         $this->bookingList = array();
         try {

@@ -7,7 +7,7 @@ use DAO\Connection as Connection;
 use \Exception as Exception;
 use Models\User;
 
-class UserDAO
+class UserDAO implements IUserDAO
 {
     private $userList;
     private $connection;
@@ -34,8 +34,13 @@ class UserDAO
             throw $ex;
         }
     }
+    public function GetAll()
+    {
+        $this->RetrieveData();
+        return $this->userList;
+    }
 
-    public function RetrieveData()
+    private function RetrieveData()
     {
         $this->userList = array();
         try {
@@ -58,9 +63,8 @@ class UserDAO
                 $user->setBirthDay($valuesArray["birthDay"]);
                 $user->setCellphone($valuesArray["cellphone"]);
                 $user->setAddress($valuesArray["address"]);
-                array_push($this->userList , $user);
+                array_push($this->userList, $user);
             }
-            return $this->userList;
         } catch (Exception $ex) {
             throw $ex;
         }
@@ -79,21 +83,11 @@ class UserDAO
     public function Remove($id)
     {
         $this->connection = Connection::GetInstance();
-        $aux = "DELETE From  $this->tableName  WHERE Id = $id";
+        $aux = "DELETE From $this->tableName WHERE Id = $id";
         $connection = $this->connection;
         $connection->Execute($aux);
     }
 
-    private function GetNextId()
-    {
-        $id = 0;
-        
-        foreach ($this->userList as $user) {
-            $id = ($user->getId() > $id) ? $user->getId() : $id;
-        }
-
-        return $id + 1;
-    }
     public function CountUser()
     {
         $this->RetrieveData();
@@ -138,5 +132,4 @@ class UserDAO
 
         return (count($array) > 0) ? $array[0] : null;
     }
-
 }
