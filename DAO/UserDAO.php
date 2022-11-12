@@ -15,12 +15,10 @@ class UserDAO
 
     public function Add(User $user)
     {
-        $user->setId($this->GetNextId()); //seteo el id autoincremental
         try {
 
             //$query = "INSERT INTO  $this->tableName (id,userType,name,surname,userName,password,email,birthDay,cellphone,address) VALUES (:id,:userType,:name,:surname,:userName,:password,:email,:birthDay,:cellphone,:address);"
-            $query = "INSERT INTO  $this->tableName (id,userType,name,surname,userName,password,email,birthDay,cellphone,address) VALUES (:id,:userType,:name,:surname,:userName,:password,:email,:birthDay,:cellphone,:address);";
-            $valuesArray["id"] = $user->getId();
+            $query = "INSERT INTO  $this->tableName (userType,name,surname,userName,password,email,birthDay,cellphone,address) VALUES (:userType,:name,:surname,:userName,:password,:email,:birthDay,:cellphone,:address);";
             $valuesArray["userType"] = $user->getUserType();
             $valuesArray["name"] = $user->getName();
             $valuesArray["surname"] = $user->getSurname();

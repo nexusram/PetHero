@@ -73,7 +73,7 @@ class KeeperController
         $keeper->setPetSize($petSizeObj);
         $keeper->setDescription($description);
 
-        $keeper->setActive(true);
+        $keeper->setActive(1);
 
         $this->keeperDAO->Add($keeper);
 
@@ -96,7 +96,7 @@ class KeeperController
         require_once(VIEWS_PATH . "validate-session.php");
         $keeper = $this->keeperDAO->GetByUserId($_SESSION["loggedUser"]->getId());
 
-        $keeper->setActive(false);
+        $keeper->setActive(0);
 
         $this->keeperDAO->Modify($keeper);
 

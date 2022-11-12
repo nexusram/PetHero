@@ -15,11 +15,9 @@ class KeeperDAO
   
     public function Add(Keeper $keeper)
     {
-        $keeper->setId($this->GetNextId()); //seteo el id autoincremental
         $keeper->setScore = null;
         try {
-            $query = "INSERT INTO $this->tableName (id,user,petSize,remuneration,description,score,active) VALUES (:id,:user,:petSize,:remuneration,:description,:description,:score,:active);";
-            $valuesArray["id"] = $keeper->getId();
+            $query = "INSERT INTO $this->tableName (user,petSize,remuneration,description,score,active) VALUES (:user,:petSize,:remuneration,:description,:score,:active);";
             $valuesArray["user"] = $keeper->getUser()->getId();
             $valuesArray["petSize"] = $keeper->getPetSize()->getId();
             $valuesArray["remuneration"] = $keeper->getRemuneration();
@@ -47,8 +45,15 @@ class KeeperDAO
             foreach ($resultSet as $valuesArray) {
                 $keeper = new Keeper();
                 $keeper->setId($valuesArray["id"]);
-                $keeper->setUser($valuesArray["user"]);
-                $keeper->setPetSize($valuesArray["petSize"]);
+                
+                $userDAO = new UserDAO();
+                $user = $userDAO->GetById($valuesArray["user"]);
+                $keeper->setUser($user);
+
+                $petSizeDAO = new PetSizeDAO();
+                $petSize = $petSizeDAO->GetById($valuesArray["petSize"]);
+                $keeper->setPetSize($petSize);
+
                 $keeper->setRemuneration($valuesArray["remuneration"]);
                 $keeper->setDescription($valuesArray["description"]);
                 $keeper->setScore($valuesArray["score"]);
@@ -64,12 +69,25 @@ class KeeperDAO
 
     public function Modify(Keeper $keeper)
     {
-        $this->connection = Connection::GetInstance();
-        $consulta = "UPDATE $this->tableName
-        SET id= $keeper->getId(),user= $keeper->getUser()->getId(),petSize= $keeper->getPetSize()->getId(),remuneration=$keeper->getRemuneration(),description=$keeper->getDescription(),score=$keeper->getScore(),active=$keeper->getActive()
-        WHERE id = $keeper->getId()";
-        $connection = $this->connection;
-        $connection->Execute($consulta);
+        try
+        {
+            $query = "UPDATE ".$this->tableName." SET user = :user, petSize = :petSize, remuneration = :remuneration, description = :description, score = :score, active = :active";
+
+            $parameters["user"] = $keeper->getUser()->getId();
+            $parameters["petSize"] = $keeper->getPetSize()->getId();
+            $parameters["remuneration"] = $keeper->getRemuneration();
+            $parameters["description"] = $keeper->getDescription();
+            $parameters["score"] = $keeper->getScore();
+            $parameters["active"] = $keeper->getActive();
+            $this->connection = Connection::GetInstance();
+
+            $this->connection->ExecuteNonQuery($query, $parameters);
+
+        }
+        catch(Exception $ex)
+        {
+            throw $ex;
+        }
     }
 
     public function Remove($id)
@@ -78,17 +96,6 @@ class KeeperDAO
         $aux = "DELETE From $this->tableName WHERE Id = '$id'";
         $connection = $this->connection;
         $connection->Execute($aux);
-    }
-
-    private function GetNextId()
-    {
-        $this->RetrieveData();
-        $id = 0;
-        foreach ($this->keeperList as $keeper) {
-            $id = ($keeper->getId() > $id) ? $keeper->getId() : $id;
-        }
-
-        return $id + 1;
     }
 
     public function GetListByKeeper($keeperId)
