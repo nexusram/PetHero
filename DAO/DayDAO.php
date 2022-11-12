@@ -11,10 +11,10 @@ use DAO\KeeperDAO;
 
 class DayDAO implements IDayDAO
 {
-    private $dayList;
+    private $dayList = array();
     private $connection;
     private $tableName = "Day";
-/*
+    /*
     public function __construct() {
         $this->DesactiveOldDays();
     }
@@ -46,7 +46,7 @@ class DayDAO implements IDayDAO
 
     private function RetrieveData()
     {
-        $this->dayList = array();
+
         try {
 
             $query = "SELECT * FROM $this->tableName";
@@ -69,7 +69,6 @@ class DayDAO implements IDayDAO
                 array_push($this->dayList, $day);
             }
 
-            return $this->dayList;
         } catch (Exception $ex) {
             throw $ex;
         }
@@ -136,15 +135,16 @@ class DayDAO implements IDayDAO
         return $array;
     }
 
-    public function GetInactiveListByKeeper($keeperId) {
+    public function GetInactiveListByKeeper($keeperId)
+    {
         $this->RetrieveData();
 
-        $array = array_filter($this->dayList, function($day) use($keeperId) {
+        $array = array_filter($this->dayList, function ($day) use ($keeperId) {
             return ($day->getKeeper()->getId() == $keeperId) && (!$day->getIsAvailable());
         });
         return $array;
     }
-/*
+    /*
     private function DesactiveOldDays() {
         $this->RetrieveData();
 

@@ -12,7 +12,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                          <div class="col-lg-8">
                               <div class="form-group">
                                     <label>Start Date</label>
-                                    <?php echo "<input class='form-control mb-3' type='date' name='startDate' min='" . date('Y-m-d') ."'required>"; ?>
+                                    <?php echo "<input class='form-control mb-3' type='date' name='startDate' min='" . date('Y-m-d') ."'required'>"; ?>
                                     <label>End Date</label>
                                     <?php echo "<input class='form-control mb-3' type='date' name='endDate' min='" . date('Y-m-d') . "'required'>"; ?>
                               </div>

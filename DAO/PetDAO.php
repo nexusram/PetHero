@@ -12,7 +12,7 @@ use DAO\PetSizeDAO;
 
 class PetDAO implements IPetDAO
 {
-    private $petList;
+    private $petList = array();
     private $connection;
     private $tableName = "Pet";
 
@@ -107,7 +107,7 @@ class PetDAO implements IPetDAO
 
     private function RetrieveData()
     {
-        $this->petList = array();
+       
         try {
 
             $query = "SELECT * FROM $this->tableName";
@@ -146,7 +146,7 @@ class PetDAO implements IPetDAO
 
                 array_push($this->petList, $pet);
             }
-            return $this->petList;
+           
         } catch (Exception $ex) {
             throw $ex;
         }

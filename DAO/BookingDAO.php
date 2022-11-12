@@ -7,9 +7,10 @@ use DAO\Connection as Connection;
 use \Exception as Exception;
 use Models\Coupon;
 use Models\Booking;
+
 class BookingDAO implements IBookingDAO
 {
-    private $bookingList;
+    private $bookingList = array();
     private $connection;
     private $tableName = "Booking";
 
@@ -39,15 +40,14 @@ class BookingDAO implements IBookingDAO
             throw $ex;
         }
     }
-public function GetAll()
-{
-    $this->RetrieveData();
-    return $this->bookingList;
-}
+    public function GetAll()
+    {
+        $this->RetrieveData();
+        return $this->bookingList;
+    }
 
     private function RetrieveData()
     {
-        $this->bookingList = array();
         try {
 
             $query = "SELECT * FROM " . $this->tableName;
@@ -78,14 +78,13 @@ public function GetAll()
                 $booking->setPet($pet);
 
                 //$couponDAO = new CouponDAO();
-                    //$coupon = CouponDAO->GetById($value["coupon"]);
+                //$coupon = CouponDAO->GetById($value["coupon"]);
                 $coupon = new Coupon();
                 $booking->setCoupon($coupon);
 
                 array_push($this->bookingList, $booking);
             }
 
-            return $this->bookingList;
         } catch (Exception $ex) {
             throw $ex;
         }
@@ -123,48 +122,50 @@ public function GetAll()
 
         return (count($arrayBooking) > 0) ? $arrayBooking[0] : null;
     }
-    
+
     public function GetAllAcceptedByDate($startDate, $endDate)
     {
         $this->RetrieveData();
 
-        $arrayBooking = array_filter($this->bookingList,function($booking) use($startDate, $endDate){
-            return $booking->getValidate() == true && $booking->getStartDate() >= $startDate && $booking->getEndDate()<= $endDate;
+        $arrayBooking = array_filter($this->bookingList, function ($booking) use ($startDate, $endDate) {
+            return $booking->getValidate() == true && $booking->getStartDate() >= $startDate && $booking->getEndDate() <= $endDate;
         });
 
         $arrayBooking = array_values($arrayBooking);
 
-        return (count($arrayBooking)>0) ? $arrayBooking : null;
+        return (count($arrayBooking) > 0) ? $arrayBooking : null;
     }
 
-    public function GetActiveBookingOfUser($userId){
+    public function GetActiveBookingOfUser($userId)
+    {
         $this->RetrieveData();
 
-        $arrayBooking = array_filter($this->bookingList, function($booking) use($userId) {
+        $arrayBooking = array_filter($this->bookingList, function ($booking) use ($userId) {
             return ($booking->getUserId() == $userId && $booking->getState() == true) ? $booking : null;
         });
 
         return $arrayBooking;
     }
 
-    public function GetAllByUserId($userId) {
+    public function GetAllByUserId($userId)
+    {
         $this->RetrieveData();
 
-        $array = array_filter($this->bookingList, function($booking) use($userId) {
+        $array = array_filter($this->bookingList, function ($booking) use ($userId) {
             return $booking->getOwner()->getId() == $userId;
         });
 
         return $array;
     }
-    
-    private function GetNextId(){
+
+    private function GetNextId()
+    {
         $id = 0;
-        
-        foreach($this->bookingList as $booking){
+
+        foreach ($this->bookingList as $booking) {
             $id = ($booking->getId() > $id) ? $booking->getId() : $id;
         }
 
         return $id + 1;
     }
 }
-

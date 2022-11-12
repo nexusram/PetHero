@@ -9,7 +9,7 @@ use Models\PetSize;
 
 class PetSizeDAO implements IPetSizeDAO
 {
-    private $PetSizeList;
+    private $petSizeList = array();
     private $connection;
     private $tableName = "PetSize";
 
@@ -36,7 +36,7 @@ class PetSizeDAO implements IPetSizeDAO
 
     private function RetrieveData()
     {
-        $this->PetSizeList = array();
+        //$this->petSizeList = array();
         try {
 
             $query = "SELECT * FROM $this->tableName";
@@ -49,9 +49,9 @@ class PetSizeDAO implements IPetSizeDAO
                 $petSize = new PetSize();
                 $petSize->setId($valuesArray["id"]);
                 $petSize->setName($valuesArray["name"]);
-                array_push($this->PetSizeList, $petSize);
+                array_push($this->petSizeList, $petSize);
             }
-            return $this->PetSizeList;
+
         } catch (Exception $ex) {
             throw $ex;
         }
@@ -78,7 +78,7 @@ class PetSizeDAO implements IPetSizeDAO
     {
         $id = 0;
         $this->RetrieveData();
-        foreach ($this->PetSizeList as $petSize) {
+        foreach ($this->petSizeList as $petSize) {
             $id = ($petSize->getId() > $id) ? $petSize->getId() : $id;
         }
 
@@ -87,8 +87,8 @@ class PetSizeDAO implements IPetSizeDAO
 
     public function GetById($id)
     {
-        $return = $this->RetrieveData();
-        $array = array_filter($return, function ($petSize) use ($id) {
+        $this->RetrieveData();
+        $array = array_filter($this->petSizeList, function ($petSize) use ($id) {
             return $petSize->getId() == $id;
         });
 

@@ -9,13 +9,13 @@ use Models\Keeper;
 
 class KeeperDAO implements IKeeperDAO
 {
-    private $keeperList;
+    private $keeperList = array();
     private $connection;
     private $tableName = "keeper";
 
     public function Add(Keeper $keeper)
     {
-        $keeper->setScore = null;
+        $keeper->setScore(0);
         try {
             $query = "INSERT INTO $this->tableName (user,petSize,remuneration,description,score,active) VALUES (:user,:petSize,:remuneration,:description,:score,:active);";
             $valuesArray["user"] = $keeper->getUser()->getId();
@@ -39,7 +39,6 @@ class KeeperDAO implements IKeeperDAO
 
     private function RetrieveData()
     {
-        $this->keeperList = array();
         try {
 
             $query = "SELECT * FROM $this->tableName";
@@ -67,7 +66,6 @@ class KeeperDAO implements IKeeperDAO
                 array_push($this->keeperList, $keeper);
             }
 
-            return $this->keeperList;
         } catch (Exception $ex) {
             throw $ex;
         }

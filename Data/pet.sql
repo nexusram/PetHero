@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-11-2022 a las 18:28:13
+-- Tiempo de generación: 12-11-2022 a las 14:58:57
 -- Versión del servidor: 10.4.25-MariaDB
 -- Versión de PHP: 7.4.30
 
@@ -78,8 +78,15 @@ CREATE TABLE `keeper` (
   `remuneration` int(200) NOT NULL,
   `description` varchar(300) NOT NULL,
   `score` varchar(300) NOT NULL,
-  `active` tinyint(1) NOT NULL
+  `active` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `keeper`
+--
+
+INSERT INTO `keeper` (`id`, `user`, `petSize`, `remuneration`, `description`, `score`, `active`) VALUES
+(0, 1, 1, 20, 'bb', '0', 0);
 
 -- --------------------------------------------------------
 
@@ -126,7 +133,7 @@ INSERT INTO `petsize` (`id`, `name`) VALUES
 --
 
 CREATE TABLE `pettype` (
-  `int` int(100) NOT NULL,
+  `id` int(100) NOT NULL,
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -134,7 +141,7 @@ CREATE TABLE `pettype` (
 -- Volcado de datos para la tabla `pettype`
 --
 
-INSERT INTO `pettype` (`int`, `name`) VALUES
+INSERT INTO `pettype` (`id`, `name`) VALUES
 (1, 'dog');
 
 -- --------------------------------------------------------
@@ -207,7 +214,7 @@ ALTER TABLE `petsize`
 -- Indices de la tabla `pettype`
 --
 ALTER TABLE `pettype`
-  ADD PRIMARY KEY (`int`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `user`

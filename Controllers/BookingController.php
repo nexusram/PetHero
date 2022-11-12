@@ -54,6 +54,7 @@ class BookingController
         require_once(VIEWS_PATH . "validate-session.php");
         $message = "";
         $pet = $this->petDAO->GetPetById($petId);
+        var_dump($petId);
         $keeperList = $this->keeperDAO->GetAllFiltered($pet, $startDate, $endDate);
 
         if(is_null($pet)) {

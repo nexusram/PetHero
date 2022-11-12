@@ -43,7 +43,7 @@ class KeeperController
         require_once(VIEWS_PATH . "validate-session.php");
 
         $utilities = new Utilities();
-        $keeperList = $this->keeperDAO->RetrieveData();
+        $keeperList = $this->keeperDAO->GetAll();
 
         require_once(VIEWS_PATH . "keeper-list.php");
     }

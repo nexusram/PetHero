@@ -9,7 +9,7 @@ use Models\User;
 
 class UserDAO implements IUserDAO
 {
-    private $userList;
+    private $userList= array();
     private $connection;
     private $tableName = "User";
 
@@ -42,7 +42,6 @@ class UserDAO implements IUserDAO
 
     private function RetrieveData()
     {
-        $this->userList = array();
         try {
 
             $query = "SELECT * FROM $this->tableName";

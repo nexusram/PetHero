@@ -10,7 +10,7 @@ use DAO\PetTypeDAO;
 
 class BreedDAO implements IBreedDAO
 {
-    private $breedList;
+    private $breedList = array();
     private $connection;
     private $tableName = "Breed";
 
@@ -39,7 +39,7 @@ class BreedDAO implements IBreedDAO
 
     private function RetrieveData()
     {
-        $this->breedList = array();
+    
         try {
 
             $query = "SELECT * FROM  . $this->tableName;";
@@ -59,7 +59,6 @@ class BreedDAO implements IBreedDAO
 
                 array_push($this->breedList, $breed);
             }
-            return $this->breedList;
         } catch (Exception $ex) {
             throw $ex;
         }

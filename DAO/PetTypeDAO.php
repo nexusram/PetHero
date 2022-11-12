@@ -9,7 +9,7 @@ use DAO\IPetDAO;
 use Models\PetType;
 class PetTypeDAO implements IPetTypeDAO
 {
-    private $petTypeList;
+    private $petTypeList = array();
     private $connection;
     private $tableName = "PetType";
 
@@ -36,9 +36,7 @@ class PetTypeDAO implements IPetTypeDAO
 
     private function RetrieveData()
     {
-        $this->petTypeList = array();
         try {
-
             $query = "SELECT * FROM $this->tableName";
 
             $this->connection = Connection::GetInstance();
@@ -51,7 +49,6 @@ class PetTypeDAO implements IPetTypeDAO
                 $petType->setName($valuesArray["name"]);
                 array_push($this->petTypeList, $petType);
             }
-            return $this->petTypeList;
         } catch (Exception $ex) {
             throw $ex;
         }
@@ -77,7 +74,6 @@ class PetTypeDAO implements IPetTypeDAO
 
     public function GetById($id) {
         $this->RetrieveData();
-
         $array = array_filter($this->petTypeList, function($petType) use($id) {
             return $petType->getId() == $id;
         });
@@ -89,7 +85,7 @@ class PetTypeDAO implements IPetTypeDAO
 
     private function GetNextId() {
         $id = 0;
-
+        $this->RetrieveData();
         foreach($this->petTypeList as $petType) {
             $id = ($petType->getId() > $id) ? $petType->getId() : $id;
         }
