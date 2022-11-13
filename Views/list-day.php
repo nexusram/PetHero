@@ -1,4 +1,7 @@
 <?php
+
+use Controllers\HomeController;
+
 include_once(VIEWS_PATH . "validate-session.php");
 include_once(VIEWS_PATH . "nav-user.php");
 ?>
@@ -73,31 +76,11 @@ include_once(VIEWS_PATH . "nav-user.php");
                     </form>
           </div>
           <?php
-          if ($message != "") {
-          ?>
-               <div class='form-group text-center'>
-                    <?php
-                    if ($type == "") {
-                    ?>
-                         <div class="container">
-                              <div class='alert alert-danger'>
-                                   <p><?php echo $message ?></p>
-                              </div>
-                         </div>
-                    <?php
-                    } else {
-                    ?>
-                         <div class="container">
-                              <div class='alert alert-success'>
-                                   <p><?php echo $message ?></p>
-                              </div>
-                         </div>
-                    <?php
-                    }
+          $controller = new HomeController();
+          $controller->Message($message, $type);
                     ?>
                </div>
           <?php
-          }
           ?>
      </section>
 </main>

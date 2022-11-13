@@ -9,7 +9,7 @@ use Models\User;
 
 class UserDAO implements IUserDAO
 {
-    private $userList= array();
+    private $userList = array();
     private $connection;
     private $tableName = "User";
 
@@ -119,16 +119,15 @@ class UserDAO implements IUserDAO
         return (count($array) > 0) ? $array[0] : null;
     }
 
-    public function CheckHotmail($userName)
+    public function GetByUsermail($userName)
     {
-        $this->RetrieveData();
+        $return = $this->GetByUserName($userName);
+        return $return->getEmail();
+    }
 
-        $array = array_filter($this->userList, function ($user) use ($userName) {
-            return $user->getEmail() == $userName;
-        });
-
-        $array = array_values($array);
-
-        return (count($array) > 0) ? $array[0] : null;
+    public function GetByUserPassword($userName)
+    {
+        $return = $this->GetByUserName($userName);
+        return $return->getPassword();
     }
 }

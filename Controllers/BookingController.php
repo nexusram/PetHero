@@ -18,7 +18,7 @@ class BookingController
     private $bookingDAO;
     private $petDAO;
     private $keeperDAO;
-    
+
 
 
     public function __construct()
@@ -26,45 +26,47 @@ class BookingController
         $this->bookingDAO = new BookingDAO();
         $this->petDAO = new PetDAO();
         $this->keeperDAO = new KeeperDAO();
-
     }
 
     // Muestra un listado de Reservas
-    public function ShowListView() {
+    public function ShowListView()
+    {
         require_once(VIEWS_PATH . "validate-session.php");
-        $bookingList = $this->bookingDAO->GetAllByUserId($_SESSION["loggedUser"]->getId());////devuleve todos los booking
+        $bookingList = $this->bookingDAO->GetAllByUserId($_SESSION["loggedUser"]->getId()); ////devuleve todos los booking
 
         require_once(VIEWS_PATH . "booking-list.php");
     }
 
-    public function ShowAddView($keeperList, $pet, $startDate, $endDate, $message) {
+    public function ShowAddView($keeperList, $pet, $startDate, $endDate, $message)
+    {
         require_once(VIEWS_PATH . "validate-session.php");
         require_once(VIEWS_PATH . "add-booking.php");
     }
 
-    public function ShowAddFiltersView(){
+    public function ShowAddFiltersView()
+    {
         require_once(VIEWS_PATH . "validate-session.php");
 
         $petList = $this->petDAO->GetActivePetsOfUser($_SESSION["loggedUser"]->getId());
-
         require(VIEWS_PATH . "keeper-filters.php");
     }
-    
-    public function FilterKeeper($petId, $startDate, $endDate){
+
+    public function FilterKeeper($idPet,$startDate,$endDate)
+    {
         require_once(VIEWS_PATH . "validate-session.php");
         $message = "";
-        $pet = $this->petDAO->GetPetById($petId);
-        var_dump($petId);
+        $pet = $this->petDAO->GetPetById($idPet);
         $keeperList = $this->keeperDAO->GetAllFiltered($pet, $startDate, $endDate);
 
-        if(is_null($pet)) {
+        if (is_null($pet)) {
             $message = "Sorry, currently we do not have Keepers available at the moment for pets with those characteristics...";
         }
 
         $this->ShowAddView($keeperList, $pet, $startDate, $endDate, $message);
     }
 
-    public function Add($pet, $startDate, $endDate, $keeper){
+    public function Add($pet, $startDate, $endDate, $keeper)
+    {
         require_once(VIEWS_PATH . "validate-session.php");
 
         $booking = new Booking();
@@ -93,5 +95,4 @@ class BookingController
 
         $this->ShowListView();
     }
-    
 }

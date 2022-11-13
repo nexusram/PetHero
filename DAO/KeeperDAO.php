@@ -65,7 +65,6 @@ class KeeperDAO implements IKeeperDAO
                 $keeper->setActive($valuesArray["active"]);
                 array_push($this->keeperList, $keeper);
             }
-
         } catch (Exception $ex) {
             throw $ex;
         }
@@ -154,7 +153,6 @@ class KeeperDAO implements IKeeperDAO
     public function GetAllFiltered($pet, $startDate, $endDate)
     {
         $arrayKeeper = array();
-
         if ($this->CheckForSize($pet->getPetSize())) //si el primer filtro devuelve true es para filtrar
         {
             $dayDAO = new DayDAO();

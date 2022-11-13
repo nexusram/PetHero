@@ -28,7 +28,6 @@
             require_once(VIEWS_PATH . "validate-session.php");
             $petTypeDAO = new PetTypeDAO();
             $petTypeList = $petTypeDAO->GetAll();
-
             $petSizeDAO = new PetSizeDAO();
             $petSizeList = $petSizeDAO->GetAll();
             require_once(VIEWS_PATH . "add-pet.php");

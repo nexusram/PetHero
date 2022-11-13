@@ -15,7 +15,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                                     if($petList){
                                       ?>  
                                 
-                                   <select class="form-control" name="pet" required>
+                                   <select class="form-control" name="idPet" required>
                                         <?php
                                         foreach ($petList as $pet) {
                                              echo "<option value=" . $pet->getId() . ">

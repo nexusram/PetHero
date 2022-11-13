@@ -3,7 +3,11 @@
           <header class="text-center">
                <h2>Sign up in to Pet Hero</h2>
           </header>
-          <form action="<?php echo FRONT_ROOT . "Home/Register"?>" method="post" class="register-form bg-dark p-5 text-white">
+          <form action="<?php
+
+use Controllers\HomeController;
+
+ echo FRONT_ROOT . "Home/Register"?>" method="post" class="register-form bg-dark p-5 text-white">
                <div class="form-group text-center">
                     <h1>Register</h1>
                </div>
@@ -48,27 +52,8 @@
                     <a href="<?php echo FRONT_ROOT . "Home/Index" ?>">Register? Sign in!</a>
                </div>
                <?php
-                    if($message != "") {
-                    ?>
-                         <div class='form-group text-center'>
-                    <?php
-                         if($type == "") {
-                              ?>
-                              <div class='alert alert-danger'>
-                                   <p><?php echo $message ?></p>
-                              </div>
-                         <?php
-                         } else {
-                              ?>
-                              <div class='alert alert-success'>
-                              <p><?php echo $message ?></p>
-                              </div>
-                         <?php
-                         }
-                    ?>
-                         </div>
-                    <?php
-                    }
+                   $controller = new HomeController();
+                   $controller->Message($message, $type);
                ?>
           </form>
      </div>

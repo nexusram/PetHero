@@ -3,6 +3,7 @@ include_once(VIEWS_PATH . "validate-session.php");
 include_once(VIEWS_PATH . "nav-user.php");
 
 use Controllers\BreedController;
+use Controllers\HomeController;
 
 $breedList = array();
 
@@ -98,27 +99,8 @@ $breedList = array();
                          Add
                     </button>
                     <?php
-                    if ($message != "") {
-                    ?>
-                         <div class='form-group text-center'>
-                              <?php
-                              if ($type == "") {
-                              ?>
-                                   <div class='alert alert-danger'>
-                                        <p><?php echo $message ?></p>
-                                   </div>
-                              <?php
-                              } else {
-                              ?>
-                                   <div class='alert alert-success'>
-                                        <p><?php echo $message ?></p>
-                                   </div>
-                              <?php
-                              }
-                              ?>
-                         </div>
-                    <?php
-                    }
+                    $controller = new HomeController();
+                    $controller->Message($message, $type);
                     ?>
                </form>
           </div>
