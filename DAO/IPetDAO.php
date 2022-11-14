@@ -6,10 +6,10 @@
 
     interface IPetDAO {
         function Add(Pet $pet);
-        function Remove($id);
         function Modify(Pet $pet);
-        function GetAll();
         function Exist($userId, $name);
+        function GetActivePetsOfUser($userId);
         function GetPetById($id);
+        function GetAll();
     }
 ?>

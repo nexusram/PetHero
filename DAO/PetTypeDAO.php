@@ -82,14 +82,4 @@ class PetTypeDAO implements IPetTypeDAO
 
         return (count($array) > 0) ? $array[0] : null;
     }
-
-    private function GetNextId() {
-        $id = 0;
-        $this->RetrieveData();
-        foreach($this->petTypeList as $petType) {
-            $id = ($petType->getId() > $id) ? $petType->getId() : $id;
-        }
-
-        return $id + 1;
-    }
 }

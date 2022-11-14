@@ -5,8 +5,9 @@
 
     interface IBreedDAO{
          function Add(Breed $breed);
+         function Modify(Breed $breed);
          function GetAll();
-         function Remove($id);
          function GetById($id);
+         function GetListByPetType($petTypeId);
     }
 ?>

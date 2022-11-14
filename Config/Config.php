@@ -12,6 +12,7 @@ define("DB_HOST", "localhost");
 define("DB_NAME", "pet");
 define("DB_USER", "root");
 define("DB_PASS", "bocajuniors2011");
+define("FORMAT_DATE", "Y-m-d");
 ?>
 
 

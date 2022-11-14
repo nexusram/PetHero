@@ -16,85 +16,29 @@ class KeeperDAO implements IKeeperDAO
     public function Add(Keeper $keeper)
     {
         $keeper->setScore(0);
-        try {
-            $query = "INSERT INTO $this->tableName (user,petSize,remuneration,description,score,active) VALUES (:user,:petSize,:remuneration,:description,:score,:active);";
-            $valuesArray["user"] = $keeper->getUser()->getId();
-            $valuesArray["petSize"] = $keeper->getPetSize()->getId();
-            $valuesArray["remuneration"] = $keeper->getRemuneration();
-            $valuesArray["description"] = $keeper->getDescription();
-            $valuesArray["score"] = $keeper->getScore();
-            $valuesArray["active"] = $keeper->getActive();
-            $this->connection = Connection::GetInstance();
-            $this->connection->ExecuteNonQuery($query, $valuesArray);
-        } catch (Exception $ex) {
-            throw $ex;
-        }
+        $this->Insert($keeper);
+    }
+
+    public function Modify(Keeper $keeper)
+    {
+        $this->Update($keeper);
+    }
+
+    public function GetById($id)
+    {
+        $this->RetrieveData();
+        $array = array_filter($this->keeperList, function ($keeper) use ($id) {
+            return $keeper->getId() == $id;
+        });
+
+        $array = array_values($array);
+        return (count($array) > 0) ? $array[0] : null;
     }
 
     public function GetAll()
     {
         $this->RetrieveData();
         return $this->keeperList;
-    }
-
-    private function RetrieveData()
-    {
-        try {
-
-            $query = "SELECT * FROM $this->tableName";
-
-            $this->connection = Connection::GetInstance();
-
-            $resultSet = $this->connection->Execute($query);
-
-            foreach ($resultSet as $valuesArray) {
-                $keeper = new Keeper();
-                $keeper->setId($valuesArray["id"]);
-
-                $userDAO = new UserDAO();
-                $user = $userDAO->GetById($valuesArray["user"]);
-                $keeper->setUser($user);
-
-                $petSizeDAO = new PetSizeDAO();
-                $petSize = $petSizeDAO->GetById($valuesArray["petSize"]);
-                $keeper->setPetSize($petSize);
-
-                $keeper->setRemuneration($valuesArray["remuneration"]);
-                $keeper->setDescription($valuesArray["description"]);
-                $keeper->setScore($valuesArray["score"]);
-                $keeper->setActive($valuesArray["active"]);
-                array_push($this->keeperList, $keeper);
-            }
-        } catch (Exception $ex) {
-            throw $ex;
-        }
-    }
-
-    public function Modify(Keeper $keeper)
-    {
-        try {
-            $query = "UPDATE " . $this->tableName . " SET user = :user, petSize = :petSize, remuneration = :remuneration, description = :description, score = :score, active = :active";
-
-            $parameters["user"] = $keeper->getUser()->getId();
-            $parameters["petSize"] = $keeper->getPetSize()->getId();
-            $parameters["remuneration"] = $keeper->getRemuneration();
-            $parameters["description"] = $keeper->getDescription();
-            $parameters["score"] = $keeper->getScore();
-            $parameters["active"] = $keeper->getActive();
-            $this->connection = Connection::GetInstance();
-
-            $this->connection->ExecuteNonQuery($query, $parameters);
-        } catch (Exception $ex) {
-            throw $ex;
-        }
-    }
-
-    public function Remove($id)
-    {
-        $this->connection = Connection::GetInstance();
-        $aux = "DELETE From $this->tableName WHERE Id = '$id'";
-        $connection = $this->connection;
-        $connection->Execute($aux);
     }
 
     public function GetListByKeeper($keeperId)
@@ -116,16 +60,7 @@ class KeeperDAO implements IKeeperDAO
         });
         return $array;
     }
-    public function GetById($id)
-    {
-        $this->RetrieveData();
-        $array = array_filter($this->keeperList, function ($keeper) use ($id) {
-            return $keeper->getId() == $id;
-        });
 
-        $array = array_values($array);
-        return (count($array) > 0) ? $array[0] : null;
-    }
     public function GetByUserId($userId)
     {
         $this->RetrieveData();
@@ -138,6 +73,7 @@ class KeeperDAO implements IKeeperDAO
 
         return (count($array) > 0) ? $array[0] : null;
     }
+
     public function CheckForSize($size)
     {
         $this->RetrieveData();
@@ -207,5 +143,77 @@ class KeeperDAO implements IKeeperDAO
         }
 
         return $rta;
+    }
+
+    // Insert a keeper in the table
+    private function Insert(Keeper $keeper) {
+        try {
+            $query = "INSERT INTO $this->tableName (user,petSize,remuneration,description,score,active) VALUES (:user,:petSize,:remuneration,:description,:score,:active);";
+            
+            $valuesArray["user"] = $keeper->getUser()->getId();
+            $valuesArray["petSize"] = $keeper->getPetSize()->getId();
+            $valuesArray["remuneration"] = $keeper->getRemuneration();
+            $valuesArray["description"] = $keeper->getDescription();
+            $valuesArray["score"] = $keeper->getScore();
+            $valuesArray["active"] = $keeper->getActive();
+            
+            $this->connection = Connection::GetInstance();
+            $this->connection->ExecuteNonQuery($query, $valuesArray);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    // Update a keeper in the table
+    private function Update(Keeper $keeper) {
+        try {
+            $query = "UPDATE $this->tableName SET user = :user, petSize = :petSize, remuneration = :remuneration, description = :description, score = :score, active = :active";
+
+            $parameters["user"] = $keeper->getUser()->getId();
+            $parameters["petSize"] = $keeper->getPetSize()->getId();
+            $parameters["remuneration"] = $keeper->getRemuneration();
+            $parameters["description"] = $keeper->getDescription();
+            $parameters["score"] = $keeper->getScore();
+            $parameters["active"] = $keeper->getActive();
+            $this->connection = Connection::GetInstance();
+
+            $this->connection->ExecuteNonQuery($query, $parameters);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    } 
+
+    // Set list keeper with info of table
+    private function RetrieveData()
+    {
+        try {
+
+            $query = "SELECT * FROM $this->tableName";
+
+            $this->connection = Connection::GetInstance();
+
+            $resultSet = $this->connection->Execute($query);
+
+            foreach ($resultSet as $valuesArray) {
+                $keeper = new Keeper();
+                $keeper->setId($valuesArray["id"]);
+
+                $userDAO = new UserDAO();
+                $user = $userDAO->GetById($valuesArray["user"]);
+                $keeper->setUser($user);
+
+                $petSizeDAO = new PetSizeDAO();
+                $petSize = $petSizeDAO->GetById($valuesArray["petSize"]);
+                $keeper->setPetSize($petSize);
+
+                $keeper->setRemuneration($valuesArray["remuneration"]);
+                $keeper->setDescription($valuesArray["description"]);
+                $keeper->setScore($valuesArray["score"]);
+                $keeper->setActive($valuesArray["active"]);
+                array_push($this->keeperList, $keeper);
+            }
+        } catch (Exception $ex) {
+            throw $ex;
+        }
     }
 }

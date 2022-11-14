@@ -74,16 +74,6 @@ class PetSizeDAO implements IPetSizeDAO
         $connection = $this->connection;
         $connection->Execute($aux);
     }
-    private function GetNextId()
-    {
-        $id = 0;
-        $this->RetrieveData();
-        foreach ($this->petSizeList as $petSize) {
-            $id = ($petSize->getId() > $id) ? $petSize->getId() : $id;
-        }
-
-        return $id + 1;
-    }
 
     public function GetById($id)
     {

@@ -16,19 +16,12 @@ class BreedDAO implements IBreedDAO
 
     public function Add(Breed $breed)
     {
-        $breed->setId($this->GetNextId()); //seteo el id autoincremental
-        try {
+        $this->Add($breed);
+    }
 
-            $query = "INSERT INTO $this->tableName (id,name,petType) VALUES (:Id,:name,:petType);";
-
-            $valuesArray["Id"] = $breed->getId();
-            $valuesArray["name"] = $breed->getName();
-            $valuesArray["petType"] = $breed->getPetType()->getId();
-            $this->connection = Connection::GetInstance();
-            $this->connection->ExecuteNonQuery($query, $valuesArray);
-        } catch (Exception $ex) {
-            throw $ex;
-        }
+    public function Modify(Breed $breed)
+    {
+        $this->Update($breed);
     }
 
     public function GetAll()
@@ -37,6 +30,62 @@ class BreedDAO implements IBreedDAO
         return $this->breedList;
     }
 
+    public function GetById($id)
+    {
+        $this->RetrieveData();
+
+        $arrayBreed = array_filter($this->breedList, function ($breed) use ($id) {
+            return $breed->getId() == $id;
+        });
+
+        $arrayBreed = array_values($arrayBreed);
+
+        return (count($arrayBreed) > 0) ? $arrayBreed[0] : null;
+    }
+
+    public function GetListByPetType($petTypeId)
+    {
+        $this->RetrieveData();
+
+        $array = array_filter($this->breedList, function ($breed) use ($petTypeId) {
+            return $breed->getPetType()->getId() == $petTypeId;
+        });
+
+        return $array;
+    }
+
+    // Insert a breed in the table
+    private function Insert(Breed $breed) {
+        try {
+
+            $query = "INSERT INTO $this->tableName (id,name,petType) VALUES (:Id,:name,:petType);";
+
+            $valuesArray["name"] = $breed->getName();
+            $valuesArray["petType"] = $breed->getPetType()->getId();
+
+            $this->connection = Connection::GetInstance();
+            $this->connection->ExecuteNonQuery($query, $valuesArray);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    // Update a breed in the table
+    private function Update(Breed $breed) {
+        try {
+            $query = "UPDATE $this->tableName SET name = :name, petType = :petType WHERE id = {$breed->getId()};";
+
+            $parameters["name"] = $breed->getName();
+            $parameters["petType"] = $breed->getPetType()->getId();
+
+            $this->connection = Connection::GetInstance();
+            $this->connection->ExecuteNonQuery($query, $parameters);
+        } catch(Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    // Set list breed with info of table
     private function RetrieveData()
     {    
         try {
@@ -60,48 +109,5 @@ class BreedDAO implements IBreedDAO
         } catch (Exception $ex) {
             throw $ex;
         }
-    }
-
-
-    public function Remove($id)
-    {
-        $this->connection = Connection::GetInstance();
-        $aux = "DELETE From $this->tableName WHERE id = '$id';";
-        $connection = $this->connection;
-        $connection->Execute($aux);
-    }
-
-    private function GetNextId()
-    {
-        $id = 0;
-        $this->RetrieveData();
-        foreach ($this->breedList as $breed) {
-            $id = ($breed->getId() > $id) ? $breed->getId() : $id;
-        }
-
-        return $id + 1;
-    }
-    public function GetById($id)
-    {
-        $this->RetrieveData();
-
-        $arrayBreed = array_filter($this->breedList, function ($breed) use ($id) {
-            return $breed->getId() == $id;
-        });
-
-        $arrayBreed = array_values($arrayBreed);
-
-        return (count($arrayBreed) > 0) ? $arrayBreed[0] : null;
-    }
-
-    public function GetListByPetType($petTypeId)
-    {
-        $this->RetrieveData();
-
-        $array = array_filter($this->breedList, function ($breed) use ($petTypeId) {
-            return $breed->getPetType()->getId() == $petTypeId;
-        });
-
-        return $array;
     }
 }

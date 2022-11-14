@@ -6,7 +6,6 @@
 
     interface IDayDAO {
         function Add(Day $day);
-        function Remove($id);
         function Modify(Day $day);
         function GetAll();
         function GetById($id);

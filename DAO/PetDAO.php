@@ -18,45 +18,12 @@ class PetDAO implements IPetDAO
 
     public function Add(Pet $pet)
     {
-        try {
-
-            $query = "INSERT INTO  $this->tableName (user,name,petType,breed,petSize,observation,picture,vacunationPlan,video,active) VALUES (:user,:name,:petType,:breed,:petSize,:observation,:picture,:vacunationPlan,:video,:active);";
-
-            $value["user"] = $pet->getUser()->getId();
-            $value["name"] = $pet->getName();
-            $value["petType"] = $pet->getPetType()->getId();
-            $value["breed"] = $pet->getBreed()->getId();
-            $value["petSize"] = $pet->getPetSize()->getId();
-            $value["observation"] = $pet->getObservation();
-            $value["picture"] = $pet->getPicture();
-            $value["vacunationPlan"] = $pet->getVacunationPlan();
-            $value["video"] = $pet->getVideo();
-            $value["active"] = $pet->getActive();
-
-            $this->connection = Connection::GetInstance();
-            $this->connection->ExecuteNonQuery($query, $value);
-        } catch (Exception $ex) {
-            throw $ex;
-        }
-    }
-
-    public function Remove($id)
-    {
-        $this->connection = Connection::GetInstance();
-        $aux = "DELETE From $this->tableName WHERE Id = '$id'";
-        $connection = $this->connection;
-        $connection->Execute($aux);
+        $this->Insert($pet);
     }
 
     public function Modify(Pet $pet)
     {
-        $this->connection = Connection::GetInstance();
-
-        $consulta = "UPDATE $this->tableName 
-        SET id= $pet->getId(),user= $pet->getUser()->getId(),name= $pet->getName(),petType =$pet->getPetType()->getId(),breed=$pet->getBreed()->getId(),petSize=$pet->getPetSize()->getId(),observation=$pet->getObservation(),picture=$pet->getPicture(),vacunationPlan=$pet->getVacunationPlan(),video=$pet->getVideo(), active=$pet->getActive()
-        WHERE id = $pet->getId()";
-        $connection = $this->connection;
-        $connection->Execute($consulta);
+        $this->Update($pet);
     }
 
     public function Exist($userId, $name)
@@ -102,7 +69,55 @@ class PetDAO implements IPetDAO
         return $this->RetrieveData();
     }
 
+    // Insert a pet in the table
+    private function Insert(Pet $pet) {
+        try {
 
+            $query = "INSERT INTO  $this->tableName (user,name,petType,breed,petSize,observation,picture,vacunationPlan,video,active) VALUES (:user,:name,:petType,:breed,:petSize,:observation,:picture,:vacunationPlan,:video,:active);";
+
+            $value["user"] = $pet->getUser()->getId();
+            $value["name"] = $pet->getName();
+            $value["petType"] = $pet->getPetType()->getId();
+            $value["breed"] = $pet->getBreed()->getId();
+            $value["petSize"] = $pet->getPetSize()->getId();
+            $value["observation"] = $pet->getObservation();
+            $value["picture"] = $pet->getPicture();
+            $value["vacunationPlan"] = $pet->getVacunationPlan();
+            $value["video"] = $pet->getVideo();
+            $value["active"] = $pet->getActive();
+
+            $this->connection = Connection::GetInstance();
+            $this->connection->ExecuteNonQuery($query, $value);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    // Update a pet in the table
+    private function Update(Pet $pet) {
+        try {
+
+            $query = "UPDATE this->tableName SET user = :user, name = :name, petType = :petType, breed = :breed, petSize = :petSize, observation = :observation, picture = :picture, vacunationPlan = :vacunationPlan, video = :video, active = :active WHERE id = {$pet->getId()};";
+            
+            $parameters["user"] = $pet->getUser()->getId();
+            $parameters["name"] = $pet->getName();
+            $parameters["petType"] = $pet->getPetType()->getId();
+            $parameters["breed"] = $pet->getBreed()->getId();
+            $parameters["petSize"] = $pet->getPetSize()->getId();
+            $parameters["observation"] = $pet->getObservation();
+            $parameters["picture"] = $pet->getPicture();
+            $parameters["vacunationPlan"] = $pet->getVacunationPlan();
+            $parameters["video"] = $pet->getVideo();
+            $parameters["active"] = $pet->getActive();
+
+            $this->connection = Connection::GetInstance();
+            $this->connection->ExecuteNonQuery($query, $parameters);
+        } catch(Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    // Set list pet with info of table
     private function RetrieveData()
     {
         try {
@@ -148,16 +163,5 @@ class PetDAO implements IPetDAO
         } catch (Exception $ex) {
             throw $ex;
         }
-    }
-
-    private function GetNextId()
-    {
-        $id = 0;
-
-        foreach ($this->petList as $pet) {
-            $id = ($pet->getId() > $id) ? $pet->getId() : $id;
-        }
-
-        return $id + 1;
     }
 }
