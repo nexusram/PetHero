@@ -54,8 +54,11 @@
         }
 
         public function GetActiveListByKeeper($keeperId) {
+            var_dump("hola");
+            die();
             $this->RetrieveData();
-
+            var_dump("hola");
+            die();
             $array = array_filter($this->dayList, function($day) use($keeperId) {
                 return ($day->getKeeper()->getId() == $keeperId) && ($day->getIsAvailable());
             });

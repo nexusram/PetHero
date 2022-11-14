@@ -13,7 +13,7 @@ class DayDAO implements IDayDAO
 {
     private $dayList = array();
     private $connection;
-    private $tableName = "Day";
+    private $tableName = "day";
     /*
     public function __construct() {
         $this->DesactiveOldDays();
@@ -21,16 +21,12 @@ class DayDAO implements IDayDAO
   */
     public function Add(Day $day)
     {
-        $day->setId($this->GetNextId()); //seteo el id autoincremental
+
         try {
-
-            $query = "INSERT INTO $this->tableName (id,date,keeper,isAvailable) VALUES (:Id,:date,:keeper,:isAvailable);";
-
-            $valuesArray["id"] = $day->getId();
-            $valuesArray["keeper"] = $day->getKeeper()->getUser->getId();
-            $valuesArray["date"] = $day->getDate();
+            $query = "INSERT INTO $this->tableName (date,keeper,isAvailable) VALUES (:date,:keeper,:isAvailable);";
+            $valuesArray["keeper"] = $day->getKeeper()->getId();
+            $valuesArray["date"] = date("Y-m-d", strtotime($day->getDate()));
             $valuesArray["isAvailable"] = $day->getIsAvailable();
-
             $this->connection = Connection::GetInstance();
             $this->connection->ExecuteNonQuery($query, $valuesArray);
         } catch (Exception $ex) {
@@ -68,7 +64,6 @@ class DayDAO implements IDayDAO
 
                 array_push($this->dayList, $day);
             }
-
         } catch (Exception $ex) {
             throw $ex;
         }
@@ -76,13 +71,17 @@ class DayDAO implements IDayDAO
 
     public function Modify(Day $day)
     {
-        $this->connection = Connection::GetInstance();
+        try {
+            $query = "UPDATE $this->tableName SET date = :date, keeper = :keeper, isAvailable = :isAvailable  WHERE id={$day->getId()}";
 
-        $consulta = "UPDATE $this->tableName 
-        SET id= $day->getId(),date= $day->getDate(),keeper= $day->getKeeper()->getUser->getId(),isAvailable=$day->getIsAvailable()
-        WHERE id = $day->getId()";
-        $connection = $this->connection;
-        $connection->Execute($consulta);
+            $parameters["date"] = date("Y-m-d", strtotime($day->getDate()));
+            $parameters["keeper"] =  $day->getKeeper()->getId();
+            $parameters["isAvailable"] = $day->getIsAvailable();
+            $this->connection = Connection::GetInstance();
+            $this->connection->ExecuteNonQuery($query, $parameters);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
     }
 
     public function Remove($id)
@@ -120,7 +119,7 @@ class DayDAO implements IDayDAO
         $this->RetrieveData();
 
         $array = array_filter($this->dayList, function ($day) use ($keeperId) {
-            return $day->getKeeperId() == $keeperId;
+            return $day->getKeeper()->getId() == $keeperId;
         });
         return $array;
     }
@@ -128,9 +127,8 @@ class DayDAO implements IDayDAO
     public function GetActiveListByKeeper($keeperId)
     {
         $this->RetrieveData();
-
         $array = array_filter($this->dayList, function ($day) use ($keeperId) {
-            return ($day->getKeeperId() == $keeperId) && ($day->getIsAvailable());
+            return ($day->getKeeper()->getId() == $keeperId) && ($day->getIsAvailable());
         });
         return $array;
     }

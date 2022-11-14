@@ -51,13 +51,12 @@ class BookingController
         require(VIEWS_PATH . "keeper-filters.php");
     }
 
-    public function FilterKeeper($idPet,$startDate,$endDate)
+    public function FilterKeeper($idPet, $startDate, $endDate)
     {
         require_once(VIEWS_PATH . "validate-session.php");
         $message = "";
         $pet = $this->petDAO->GetPetById($idPet);
         $keeperList = $this->keeperDAO->GetAllFiltered($pet, $startDate, $endDate);
-
         if (is_null($pet)) {
             $message = "Sorry, currently we do not have Keepers available at the moment for pets with those characteristics...";
         }

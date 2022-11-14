@@ -119,13 +119,11 @@ class KeeperDAO implements IKeeperDAO
     public function GetById($id)
     {
         $this->RetrieveData();
-
         $array = array_filter($this->keeperList, function ($keeper) use ($id) {
             return $keeper->getId() == $id;
         });
 
         $array = array_values($array);
-
         return (count($array) > 0) ? $array[0] : null;
     }
     public function GetByUserId($userId)

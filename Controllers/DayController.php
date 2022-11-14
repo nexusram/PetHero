@@ -17,11 +17,9 @@
 
         public function ShowListView($message="", $type="") {
             require_once(VIEWS_PATH . "validate-session.php");
-
             $keeperDAO = new KeeperDAO();
             $keeper = $keeperDAO->GetByUserId($_SESSION["loggedUser"]->getId());
             $dayList = $this->dayDAO->GetActiveListByKeeper($keeper->getId());
-
             require_once(VIEWS_PATH . "list-day.php");
         }
 
@@ -29,6 +27,7 @@
             require_once(VIEWS_PATH . "validate-session.php");
             $keeper = $this->keeperDAO->GetByUserId($_SESSION["loggedUser"]->getId());
             $dayList = $this->dayDAO->GetInactiveListByKeeper($keeper->getId());
+    
             require_once(VIEWS_PATH . "list-not-available-day.php");
         }
 
@@ -58,7 +57,6 @@
                     $control = true;
                 }
             }
-
             if(!$control) {
                 foreach($array as $value) {
                     $this->LoadDay($value, $keeper->getId());
@@ -71,12 +69,11 @@
 
         private function LoadDay($date, $keeperId) {
             $day = new Day();
-            $day->setDate(date("d-m-Y", $date));
+            $day->setDate(date("Y-m-d", $date));
             $keeper = $this->keeperDAO->GetById($keeperId);
             $day->setKeeper($keeper);
             // Por defecto esta disponible
-            $day->setIsAvailable(true);
-
+            $day->setIsAvailable(1);
             $this->dayDAO->Add($day);
         }
 
@@ -84,7 +81,7 @@
             $rta = false;
             $dayList = $this->dayDAO->GetListByKeeper($keeperId);
             foreach($dayList as $day) {
-                if(strcmp($day->getDate(), date("d-m-Y", $date)) == 0) {
+                if(strcmp($day->getDate(), date("Y-m-d", $date)) == 0) {
                     $rta = true;
                 }
             }
@@ -96,7 +93,7 @@
 
             $day = $this->dayDAO->GetById($id);
 
-            $day->setIsAvailable(true);
+            $day->setIsAvailable(1);
 
             $this->dayDAO->Modify($day);
 
@@ -107,7 +104,7 @@
             require_once(VIEWS_PATH . "validate-session.php");
             if($id != null) {
                 $day = $this->dayDAO->GetById($id);
-                $day->setIsAvailable(false);
+                $day->setIsAvailable(0);
 
                 $this->dayDAO->Modify($day);
                 $this->ShowListView("Successfully", "success");
@@ -116,4 +113,3 @@
             }
         }
     }
-?>

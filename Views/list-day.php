@@ -38,6 +38,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                          <?php
                          if (!empty($dayList)) {
                               foreach ($dayList as $day) {
+                                  
                          ?>
                                    <form action="<?php echo FRONT_ROOT . "Day/NotAvailable" ?>" method="post">
                                         <tr>
