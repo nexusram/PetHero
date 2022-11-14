@@ -2,11 +2,11 @@
 
 namespace DAO;
 
-use DAO\IViews as IViews;
 use DAO\Connection as Connection;
 use \Exception as Exception;
 use DAO\IPetDAO;
 use Models\PetType;
+
 class PetTypeDAO implements IPetTypeDAO
 {
     private $petTypeList = array();
