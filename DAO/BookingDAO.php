@@ -145,14 +145,14 @@ class BookingDAO implements IBookingDAO
                 $booking->setTotal($valuesArray["total"]);
 
                 $userDAO = new UserDAO();
-                $user = $userDAO->GetById($valuesArray["owner"]);
+                $user = $userDAO->GetById($valuesArray["id_owner"]);
                 $booking->setOwner($user);
                 $keeperDAO = new KeeperDAO();
-                $keeper = $keeperDAO->GetById($valuesArray["keeper"]);
+                $keeper = $keeperDAO->GetById($valuesArray["id_keeper"]);
                 $booking->setKeeper($keeper);
 
                 $petDAO = new PetDAO();
-                $pet = $petDAO->GetPetById($valuesArray["pet"]);
+                $pet = $petDAO->GetPetById($valuesArray["id_pet"]);
                 $booking->setPet($pet);
 
                 //$couponDAO = new CouponDAO();

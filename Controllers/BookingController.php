@@ -57,7 +57,7 @@ class BookingController
         $message = "";
         $pet = $this->petDAO->GetPetById($idPet);
         $keeperList = $this->keeperDAO->GetAllFiltered($pet, $startDate, $endDate);
-        if (is_null($pet)) {
+        if (empty($keeperList)) {
             $message = "Sorry, currently we do not have Keepers available at the moment for pets with those characteristics...";
         }
 

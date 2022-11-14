@@ -148,10 +148,10 @@ class KeeperDAO implements IKeeperDAO
     // Insert a keeper in the table
     private function Insert(Keeper $keeper) {
         try {
-            $query = "INSERT INTO $this->tableName (user,petSize,remuneration,description,score,active) VALUES (:user,:petSize,:remuneration,:description,:score,:active);";
+            $query = "INSERT INTO $this->tableName (id_user, id_petSize, remuneration, description, score, active) VALUES (:id_user, :id_petSize, :remuneration, :description, :score, :active);";
             
-            $valuesArray["user"] = $keeper->getUser()->getId();
-            $valuesArray["petSize"] = $keeper->getPetSize()->getId();
+            $valuesArray["id_user"] = $keeper->getUser()->getId();
+            $valuesArray["id_petSize"] = $keeper->getPetSize()->getId();
             $valuesArray["remuneration"] = $keeper->getRemuneration();
             $valuesArray["description"] = $keeper->getDescription();
             $valuesArray["score"] = $keeper->getScore();
@@ -167,10 +167,10 @@ class KeeperDAO implements IKeeperDAO
     // Update a keeper in the table
     private function Update(Keeper $keeper) {
         try {
-            $query = "UPDATE $this->tableName SET user = :user, petSize = :petSize, remuneration = :remuneration, description = :description, score = :score, active = :active";
+            $query = "UPDATE $this->tableName SET id_user = :id_user, id_petSize = :id_petSize, remuneration = :remuneration, description = :description, score = :score, active = :active";
 
-            $parameters["user"] = $keeper->getUser()->getId();
-            $parameters["petSize"] = $keeper->getPetSize()->getId();
+            $parameters["id_user"] = $keeper->getUser()->getId();
+            $parameters["id_petSize"] = $keeper->getPetSize()->getId();
             $parameters["remuneration"] = $keeper->getRemuneration();
             $parameters["description"] = $keeper->getDescription();
             $parameters["score"] = $keeper->getScore();
@@ -199,11 +199,11 @@ class KeeperDAO implements IKeeperDAO
                 $keeper->setId($valuesArray["id"]);
 
                 $userDAO = new UserDAO();
-                $user = $userDAO->GetById($valuesArray["user"]);
+                $user = $userDAO->GetById($valuesArray["id_user"]);
                 $keeper->setUser($user);
 
                 $petSizeDAO = new PetSizeDAO();
-                $petSize = $petSizeDAO->GetById($valuesArray["petSize"]);
+                $petSize = $petSizeDAO->GetById($valuesArray["id_petSize"]);
                 $keeper->setPetSize($petSize);
 
                 $keeper->setRemuneration($valuesArray["remuneration"]);

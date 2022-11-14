@@ -30,19 +30,23 @@ class HomeController
 
     public function Register($name, $surname, $birthday, $username, $password, $password_two, $email, $cellphone, $address)
     {
-        if (!$this->userDAO->GetByUserName($username) && !$this->userDAO->GetByUsermail($username)) {
+        if (is_null($this->userDAO->GetByUserName($username))) {
             if ($this->utilities->getYearForDate($birthday) > 18) {
-                if ($password === $password_two) {
-                    $this->AddUserRegister($name, $surname, $birthday, $username, $password, $email, $cellphone, $address);
-                    $this->Index("Usuario registrado con exito", "success");
+                if(is_null($this->userDAO->GetByEmail($email))) {
+                    if ($password === $password_two) {
+                        $this->AddUserRegister($name, $surname, $birthday, $username, $password, $email, $cellphone, $address);
+                        $this->Index("Registered user successfully", "success");
+                    } else {
+                        $this->ShowRegisterView("Passwords don't match");
+                    }
                 } else {
-                    $this->ShowRegisterView("La contraseñas no coinciden");
+                    $this->ShowRegisterView("The email entered is being used by another");
                 }
             } else {
-                $this->ShowRegisterView("Para poder registrarte debes ser +18");
+                $this->ShowRegisterView("You must be +18");
             }
         } else {
-            $this->ShowRegisterView("El usuario que se intenta registrar ya existe");
+            $this->ShowRegisterView("There was an error registering. Please try again");
         }
     }
 
@@ -75,7 +79,7 @@ class HomeController
                 $_SESSION["loggedUser"] = $user;
                 $this->ShowPetListView();
             } else {
-                $this->Index("Usuario y/o contraseña incorrecta");
+                $this->Index("Wrong username and/or password");
             }
         } else {
             $this->Index();
@@ -85,7 +89,7 @@ class HomeController
     {
         require_once(VIEWS_PATH . "validate-session.php");
         session_destroy();
-        $this->Index("session cerrada con exito", "success");
+        $this->Index("session closed successfully", "success");
     }
 
     public function ShowPetListView($message = "", $type = "")
@@ -97,14 +101,15 @@ class HomeController
     {
         require_once(VIEWS_PATH . "rememberPassword.php");
     }
+
     public function RememberPassword($username)
     {
         if ($this->userDAO->GetByUserName($username)) {
             $mail = new MailController();
-            $mail->sendMail($this->userDAO->GetByUsermail($username), "i forgot my password", "your password is", $this->userDAO->GetByUserPassword($username));
-            $this->Index("Se envio la contrasenia", "success");
+            $mail->sendMail($this->userDAO->GetByUsermail($username), "I forgot my password", "your password is", $this->userDAO->GetByUserPassword($username));
+            $this->Index("Password was sent", "success");
         } else {
-            $this->ShowRememberPassword("El nombre no se encuentra registrado");
+            $this->ShowRememberPassword("The name is not registered");
         }
     }
     public function Message($message = "", $type = "")

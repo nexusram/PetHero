@@ -37,6 +37,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                          ?>
                          <?php
                          if (!empty($dayList)) {
+                              var_dump($dayList);
                               foreach ($dayList as $day) {
                                   
                          ?>

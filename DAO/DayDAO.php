@@ -101,7 +101,7 @@ class DayDAO implements IDayDAO
             $query = "INSERT INTO $this->tableName (date, id_keeper, isAvailable) VALUES (:date, :id_keeper, :isAvailable);";
 
             $parameters["date"] = date(FORMAT_DATE, strtotime($day->getDate()));
-            $parameters["d_keeper"] = $day->getKeeper()->getId();
+            $parameters["id_keeper"] = $day->getKeeper()->getId();
             $parameters["isAvailable"] = $day->getIsAvailable();
 
             $this->connection = Connection::GetInstance();
@@ -116,9 +116,10 @@ class DayDAO implements IDayDAO
         try {
             $query = "UPDATE $this->tableName SET date = :date, id_keeper = :id_keeper, isAvailable = :isAvailable  WHERE id={$day->getId()};";
 
-            $parameters["date"] = date("Y-m-d", strtotime($day->getDate()));
+            $parameters["date"] = date(FORMAT_DATE, strtotime($day->getDate()));
             $parameters["id_keeper"] =  $day->getKeeper()->getId();
             $parameters["isAvailable"] = $day->getIsAvailable();
+
             $this->connection = Connection::GetInstance();
             $this->connection->ExecuteNonQuery($query, $parameters);
         } catch (Exception $ex) {
@@ -129,6 +130,7 @@ class DayDAO implements IDayDAO
     // Set list day with info of table
     private function RetrieveData()
     {
+        $this->dayList = array();
         try {
 
             $query = "SELECT * FROM $this->tableName";

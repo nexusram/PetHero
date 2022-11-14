@@ -129,4 +129,16 @@ class UserDAO implements IUserDAO
         $return = $this->GetByUserName($userName);
         return $return->getPassword();
     }
+
+    public function GetByEmail($email) {
+        $this->RetrieveData();
+
+        $array = array_filter($this->userList, function ($user) use ($email) {
+            return $user->getEmail() == $email;
+        });
+
+        $array = array_values($array);
+
+        return (count($array) > 0) ? $array[0] : null;
+    }
 }

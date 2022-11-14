@@ -6,6 +6,7 @@
     use DAO\PetSizeDAO;
     use DAO\PetTypeDAO;
     use Exception;
+    use Models\Breed;
     use Models\Pet;
     use Models\PetSize;
     use Models\PetType;
@@ -65,7 +66,10 @@
                 $petTypeObj->setId(intval($petType));
                 $pet->setPetType($petTypeObj);
 
-                //$pet->setBreed($breed);
+                $breed_aux = new Breed();
+                $breed_aux->setId(1);
+                $breed_aux->setName("Ninguna");
+                $pet->setBreed($breed_aux);
 
                 $petSizeObj = new PetSize();
                 $petSizeObj->setId(intval($petSize));

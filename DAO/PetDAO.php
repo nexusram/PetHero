@@ -72,13 +72,13 @@ class PetDAO implements IPetDAO
     private function Insert(Pet $pet) {
         try {
 
-            $query = "INSERT INTO  $this->tableName (user,name,petType,breed,petSize,observation,picture,vacunationPlan,video,active) VALUES (:user,:name,:petType,:breed,:petSize,:observation,:picture,:vacunationPlan,:video,:active);";
+            $query = "INSERT INTO  $this->tableName (id_user,name,id_petType,id_breed,id_petSize,observation,picture,vacunationPlan,video,active) VALUES (:id_user,:name,:id_petType,:id_breed,:id_petSize,:observation,:picture,:vacunationPlan,:video,:active);";
 
-            $value["user"] = $pet->getUser()->getId();
+            $value["id_user"] = $pet->getUser()->getId();
             $value["name"] = $pet->getName();
-            $value["petType"] = $pet->getPetType()->getId();
-            $value["breed"] = $pet->getBreed()->getId();
-            $value["petSize"] = $pet->getPetSize()->getId();
+            $value["id_petType"] = $pet->getPetType()->getId();
+            $value["id_breed"] = $pet->getBreed()->getId();
+            $value["id_petSize"] = $pet->getPetSize()->getId();
             $value["observation"] = $pet->getObservation();
             $value["picture"] = $pet->getPicture();
             $value["vacunationPlan"] = $pet->getVacunationPlan();
@@ -96,13 +96,13 @@ class PetDAO implements IPetDAO
     private function Update(Pet $pet) {
         try {
 
-            $query = "UPDATE this->tableName SET user = :user, name = :name, petType = :petType, breed = :breed, petSize = :petSize, observation = :observation, picture = :picture, vacunationPlan = :vacunationPlan, video = :video, active = :active WHERE id = {$pet->getId()};";
+            $query = "UPDATE this->tableName SET id_user = :id_user, name = :name, id_petType = :id_petType, id_breed = :id_breed, id_petSize = :id_petSize, observation = :observation, picture = :picture, vacunationPlan = :vacunationPlan, video = :video, active = :active WHERE id = {$pet->getId()};";
             
-            $parameters["user"] = $pet->getUser()->getId();
+            $parameters["id_user"] = $pet->getUser()->getId();
             $parameters["name"] = $pet->getName();
-            $parameters["petType"] = $pet->getPetType()->getId();
-            $parameters["breed"] = $pet->getBreed()->getId();
-            $parameters["petSize"] = $pet->getPetSize()->getId();
+            $parameters["id_petType"] = $pet->getPetType()->getId();
+            $parameters["id_breed"] = $pet->getBreed()->getId();
+            $parameters["id_petSize"] = $pet->getPetSize()->getId();
             $parameters["observation"] = $pet->getObservation();
             $parameters["picture"] = $pet->getPicture();
             $parameters["vacunationPlan"] = $pet->getVacunationPlan();
@@ -139,21 +139,21 @@ class PetDAO implements IPetDAO
 
                 // Set User
                 $userDAO = new UserDAO();
-                $user = $userDAO->GetById($value["user"]);
+                $user = $userDAO->GetById($value["id_user"]);
                 $pet->setUser($user);
 
                 // Set Breed
                 $breedDAO = new BreedDAO();
-                $breed = $breedDAO->GetById($value["breed"]);
+                $breed = $breedDAO->GetById($value["id_breed"]);
                 $pet->setBreed($breed);
                 // Set petType and petSize
 
                 $petTypeDAO = new PetTypeDAO();
-                $petType = $petTypeDAO->GetById($value["petType"]);
+                $petType = $petTypeDAO->GetById($value["id_petType"]);
                 $pet->setPetType($petType);
 
                 $petSizeDAO = new PetSizeDAO();
-                $petSize = $petSizeDAO->GetById($value["petSize"]);
+                $petSize = $petSizeDAO->GetById($value["id_petSize"]);
                 $pet->setPetSize($petSize);
 
                 array_push($this->petList, $pet);

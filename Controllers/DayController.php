@@ -17,8 +17,7 @@
 
         public function ShowListView($message="", $type="") {
             require_once(VIEWS_PATH . "validate-session.php");
-            $keeperDAO = new KeeperDAO();
-            $keeper = $keeperDAO->GetByUserId($_SESSION["loggedUser"]->getId());
+            $keeper = $this->keeperDAO->GetByUserId($_SESSION["loggedUser"]->getId());
             $dayList = $this->dayDAO->GetActiveListByKeeper($keeper->getId());
             require_once(VIEWS_PATH . "list-day.php");
         }
