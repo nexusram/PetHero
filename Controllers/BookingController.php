@@ -87,7 +87,7 @@ class BookingController
         $booking->setCoupon($coupon);
         $booking->setStartDate($startDate);
         $booking->setEndDate($endDate);
-        $booking->setValidate(false);
+        $booking->setValidate(0);
         $booking->setTotal(0);
 
         $this->bookingDAO->Add($booking);

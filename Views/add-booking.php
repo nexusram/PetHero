@@ -9,7 +9,7 @@ include_once(VIEWS_PATH . "nav-user.php");
      <section id="listado" class="mb-5">
           <div class="container">
                <h2 class="mb-4">Finalize your Booking</h2>
-               <form action="<?php echo FRONT_ROOT . "Booking/Add" ?>" method="post" enctype="multipart/form-data" class="bg-light-alpha p-5">
+               <form action="<?php echo FRONT_ROOT . "Booking/Add" ?>" method="post" class="bg-light-alpha p-5">
                     <div class="row">
                          <div class="col-lg-2"></div>
                          <div class="col-lg-8">
@@ -43,6 +43,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                     ?>
                </form>
                <?php
+               $type ="";
                $controller = new HomeController();
                $controller->Message($message, $type);
                ?>

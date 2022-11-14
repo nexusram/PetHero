@@ -161,7 +161,7 @@ class KeeperDAO implements IKeeperDAO
 
             $rangeArray = array();
             for ($i = $startDate; $i <= $endDate; $i += 86400) {
-                $date = date("d-m-Y", $i);
+                $date = date("Y-m-d", $i);
                 array_push($rangeArray, $date);
             }
 

@@ -12,7 +12,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                          <div class="col-lg-8">
                               <div class="form-group">
                                    <?php
-                                   if ($petList) {
+                                   if (!empty($petList)) {
                                    ?>
                                         <select class="form-control" name="idPet" required>
                                              <?php
@@ -23,16 +23,11 @@ include_once(VIEWS_PATH . "nav-user.php");
                                              }
                                              ?>
                                         </select>
-                                   <?php
-                                   } else {
-                                        echo "Currently, you do not have registered pets....";
-                                   }
-                                   ?>
                                    <label>Start Date</label>
-                                   <?php echo "<input class='form-control mb-3' type='date' name='startDate' min='" . date('Y-m-d') . "'required'>"; ?>
+                                   <?php echo "<input class='form-control mb-3' type='date' name='startDate' min='" . date('Y-m-d') . "'required>"; ?>
 
                                    <label>End Date</label>
-                                   <?php echo "<input class='form-control mb-3' type='date' name='endDate' min='" . date('Y-m-d') . "'required'>"; ?>
+                                   <?php echo "<input class='form-control mb-3' type='date' name='endDate' min='" . date('Y-m-d') . "'required>"; ?>
 
                                    <button type="submit" name="button" class="btn btn-success ml-auto d-block text-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
@@ -40,6 +35,15 @@ include_once(VIEWS_PATH . "nav-user.php");
                                         </svg>
                                         Choose a keeper
                               </div>
+                              <?php
+                                   } else {
+                                        ?>
+                                        <div class="alert alert-danger text-center">
+                                             <p><strong>Currently, you do not have registered pets</strong></p>
+                                        </div>
+                                        <?php
+                                   }
+                              ?>
                               <a class="btn btn-danger" href="<?php echo FRONT_ROOT . "Pet/ShowPetListView" ?>">Cancel</a>
                          </div>
                </form>

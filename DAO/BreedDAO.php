@@ -38,11 +38,9 @@ class BreedDAO implements IBreedDAO
     }
 
     private function RetrieveData()
-    {
-    
+    {    
         try {
-
-            $query = "SELECT * FROM  . $this->tableName;";
+            $query = "SELECT * FROM  $this->tableName;";
 
             $this->connection = Connection::GetInstance();
 
@@ -50,7 +48,7 @@ class BreedDAO implements IBreedDAO
 
             foreach ($resultSet as $valuesArray) {
                 $breed = new Breed();
-
+                
                 $breed->setId($valuesArray["id"]);
                 $breed->setName($valuesArray["name"]);
                 $petTypeDAO = new PetTypeDAO();

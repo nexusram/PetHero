@@ -18,12 +18,10 @@ class PetDAO implements IPetDAO
 
     public function Add(Pet $pet)
     {
-        $pet->setId($this->GetNextId());
         try {
 
-            $query = "INSERT INTO  $this->tableName (id,user,name,petType,breed,petSize,observation,picture,vacunationPlan,video,active) VALUES (:id,:user,:name,:petType,:breed,:petSize,:observation,:picture,:vacunationPlan,:video,:active);";
+            $query = "INSERT INTO  $this->tableName (user,name,petType,breed,petSize,observation,picture,vacunationPlan,video,active) VALUES (:user,:name,:petType,:breed,:petSize,:observation,:picture,:vacunationPlan,:video,:active);";
 
-            $value["id"] = $pet->getId();
             $value["user"] = $pet->getUser()->getId();
             $value["name"] = $pet->getName();
             $value["petType"] = $pet->getPetType()->getId();
@@ -107,7 +105,6 @@ class PetDAO implements IPetDAO
 
     private function RetrieveData()
     {
-       
         try {
 
             $query = "SELECT * FROM $this->tableName";
@@ -130,6 +127,7 @@ class PetDAO implements IPetDAO
                 $userDAO = new UserDAO();
                 $user = $userDAO->GetById($value["user"]);
                 $pet->setUser($user);
+
                 // Set Breed
                 $breedDAO = new BreedDAO();
                 $breed = $breedDAO->GetById($value["breed"]);

@@ -17,14 +17,11 @@ class BookingDAO implements IBookingDAO
 
     public function Add(Booking $booking)
     {
-        $booking->setId($this->GetNextId()); //seteo el id autoincremental
-        $booking->setState(true); //seteo que siempre cuando se añada quede activa.
+        $booking->setState(1); //seteo que siempre cuando se añada quede activa.
         try {
 
+            $query = "INSERT INTO $this->tableName (startDate,endDate,state,validate,total,owner,keeper,pet,coupon) VALUES (:startDate,:endDate,:state,:validate,:total,:owner,:keeper,:pet,:coupon);";
 
-            $query = "INSERT INTO $this->tableName (id,startDate,endDate,state,validate,total,owner,keeper,pet,coupon) VALUES (:'Id',:'startDate',:'endDate',:'state',:'validate',:'total',:'owner',:'keeper',:'pet',:'coupon');";
-
-            $valuesArray["id"] = $booking->getId();
             $valuesArray["startDate"] = $booking->getStartDate();
             $valuesArray["endDate"] = $booking->getEndDate();
             $valuesArray["state"] = $booking->getState();
@@ -34,6 +31,7 @@ class BookingDAO implements IBookingDAO
             $valuesArray["keeper"] = $booking->getKeeper()->getId();
             $valuesArray["pet"] = $booking->getPet()->getId();
             $valuesArray["coupon"] = $booking->getCoupon()->getId();
+
             $this->connection = Connection::GetInstance();
             $this->connection->ExecuteNonQuery($query, $valuesArray);
         } catch (Exception $ex) {

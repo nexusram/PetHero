@@ -85,6 +85,9 @@
         public function GetAllFiltered($pet, $startDate, $endDate){
             $arrayKeeper = array();
 
+            var_dump("Hola");
+            die;
+
             if($this->CheckForSize($pet->getPetSize()))//si el primer filtro devuelve true es para filtrar
             {
                 $dayDAO = new DayDAO();
@@ -125,7 +128,7 @@
                 $arrayKeeper = array_filter($arrayKeeper, function($keeper) use($pet){
                 return $keeper->getPetSize() == $pet->getPetSize();
                 });
-            } 
+            }
            return $arrayKeeper; 
         }
 
