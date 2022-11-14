@@ -28,16 +28,16 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `booking` (
-  `id` int(100) NOT NULL,
+  `id` int(100) NOT NULL AUTO_INCREMENT,
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
   `state` tinyint(1) NOT NULL,
   `validate` int(100) NOT NULL,
   `total` float NOT NULL,
-  `owner` int(100) NOT NULL,
-  `keeper` int(100) NOT NULL,
-  `pet` int(100) NOT NULL,
-  `coupon` varchar(100) NOT NULL
+  `id_owner` int(100) NOT NULL,
+  `id_keeper` int(100) NOT NULL,
+  `id_pet` int(100) NOT NULL,
+  `id_coupon` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -47,9 +47,9 @@ CREATE TABLE `booking` (
 --
 
 CREATE TABLE `breed` (
-  `id` int(100) NOT NULL,
+  `id` int(100) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
-  `petType` int(100) NOT NULL
+  `id_petType` int(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -59,8 +59,8 @@ CREATE TABLE `breed` (
 --
 
 CREATE TABLE `day` (
-  `id` int(11) NOT NULL,
-  `keeper` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keeper` int(11) NOT NULL,
   `date` date NOT NULL,
   `isAvailable` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -72,7 +72,7 @@ CREATE TABLE `day` (
 --
 
 CREATE TABLE `keeper` (
-  `id` int(100) NOT NULL,
+  `id` int(100) NOT NULL AUTO_INCREMENT,
   `user` int(100) NOT NULL,
   `petSize` int(100) NOT NULL,
   `remuneration` int(200) NOT NULL,
@@ -95,7 +95,7 @@ INSERT INTO `keeper` (`id`, `user`, `petSize`, `remuneration`, `description`, `s
 --
 
 CREATE TABLE `pet` (
-  `id` int(100) NOT NULL,
+  `id` int(100) NOT NULL AUTO_INCREMENT,
   `user` int(100) NOT NULL,
   `name` varchar(100) NOT NULL,
   `petType` int(100) NOT NULL,
@@ -115,7 +115,7 @@ CREATE TABLE `pet` (
 --
 
 CREATE TABLE `petsize` (
-  `id` int(100) NOT NULL,
+  `id` int(100) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -133,7 +133,7 @@ INSERT INTO `petsize` (`id`, `name`) VALUES
 --
 
 CREATE TABLE `pettype` (
-  `id` int(100) NOT NULL,
+  `id` int(100) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -151,7 +151,7 @@ INSERT INTO `pettype` (`id`, `name`) VALUES
 --
 
 CREATE TABLE `user` (
-  `id` int(50) NOT NULL,
+  `id` int(50) NOT NULL AUTO_INCREMENT,
   `userType` int(20) NOT NULL,
   `name` varchar(100) NOT NULL,
   `surname` varchar(100) NOT NULL,
@@ -170,6 +170,22 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `userType`, `name`, `surname`, `password`, `email`, `birthDay`, `cellphone`, `address`, `userName`) VALUES
 (1, 3, 'nahu', 'nahu', 'gta', 'nahu@hotmail.com', '1997-12-12', 549223595, 'jacinto', 'nahu');
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `user`
+--
+
+CREATE TABLE `coupon` (
+  `id` int(50) NOT NULL AUTO_INCREMENT,
+  `id_booking` int(50) NOT NULL,
+  `method` varchar(50) NOT NULL,
+  `isPayment` tinyint(1) NOT NULL,
+  `discount` double(50) DEFAULT 0,
+  `total` double(50) DEFAULT 0
+)
+
+
 --
 -- Índices para tablas volcadas
 --
@@ -178,20 +194,24 @@ INSERT INTO `user` (`id`, `userType`, `name`, `surname`, `password`, `email`, `b
 -- Indices de la tabla `booking`
 --
 ALTER TABLE `booking`
-  ADD PRIMARY KEY (`id`);
-
+  ADD PRIMARY KEY (`id`),
+  ADD CONSTRAINT FOREIGN KEY(`id_owner`) REFERENCES `user`(`id`),
+  ADD CONSTRAINT FOREIGN KEY(`id_keeper`) REFERENCES `keeper`(`id`),
+  ADD CONSTRAINT FOREIGN KEY(`id_pet`) REFERENCES `pet`(`id`),
+  ADD CONSTRAINT FOREIGN KEY(`id_coupon`) REFERENCES `coupon`(`id`);
 --
 -- Indices de la tabla `breed`
 --
 ALTER TABLE `breed`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD CONSTRAINT FOREIGN KEY(`id_petType`) REFERENCES `petType`(`id`);
 
 --
 -- Indices de la tabla `day`
 --
 ALTER TABLE `day`
   ADD PRIMARY KEY (`id`);
-
+  ADD CONSTRAINT FOREIGN KEY(`id_keeper`) REFERENCES `keeper`(`id`);
 --
 -- Indices de la tabla `keeper`
 --

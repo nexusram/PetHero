@@ -98,10 +98,10 @@ class DayDAO implements IDayDAO
     // Insert a day in the table
     private function Insert(Day $day) {
         try {
-            $query = "INSERT INTO $this->tableName (date, keeper, isAvailable) VALUES (:date, :keeper, :isAvailable);";
+            $query = "INSERT INTO $this->tableName (date, id_keeper, isAvailable) VALUES (:date, :id_keeper, :isAvailable);";
 
             $parameters["date"] = date(FORMAT_DATE, strtotime($day->getDate()));
-            $parameters["keeper"] = $day->getKeeper()->getId();
+            $parameters["d_keeper"] = $day->getKeeper()->getId();
             $parameters["isAvailable"] = $day->getIsAvailable();
 
             $this->connection = Connection::GetInstance();
@@ -114,10 +114,10 @@ class DayDAO implements IDayDAO
     // Update a day in the table
     private function Update(Day $day) {
         try {
-            $query = "UPDATE $this->tableName SET date = :date, keeper = :keeper, isAvailable = :isAvailable  WHERE id={$day->getId()};";
+            $query = "UPDATE $this->tableName SET date = :date, id_keeper = :id_keeper, isAvailable = :isAvailable  WHERE id={$day->getId()};";
 
             $parameters["date"] = date("Y-m-d", strtotime($day->getDate()));
-            $parameters["keeper"] =  $day->getKeeper()->getId();
+            $parameters["id_keeper"] =  $day->getKeeper()->getId();
             $parameters["isAvailable"] = $day->getIsAvailable();
             $this->connection = Connection::GetInstance();
             $this->connection->ExecuteNonQuery($query, $parameters);
@@ -145,7 +145,7 @@ class DayDAO implements IDayDAO
                 $day->setIsAvailable($valuesArray["isAvailable"]);
 
                 $keeperDAO = new KeeperDAO();
-                $keeper = $keeperDAO->GetById($valuesArray["keeper"]);
+                $keeper = $keeperDAO->GetById($valuesArray["id_keeper"]);
                 $day->setKeeper($keeper);
 
                 array_push($this->dayList, $day);

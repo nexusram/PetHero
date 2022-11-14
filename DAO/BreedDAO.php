@@ -12,7 +12,7 @@ class BreedDAO implements IBreedDAO
 {
     private $breedList = array();
     private $connection;
-    private $tableName = "Breed";
+    private $tableName = "breed";
 
     public function Add(Breed $breed)
     {
@@ -73,10 +73,10 @@ class BreedDAO implements IBreedDAO
     // Update a breed in the table
     private function Update(Breed $breed) {
         try {
-            $query = "UPDATE $this->tableName SET name = :name, petType = :petType WHERE id = {$breed->getId()};";
+            $query = "UPDATE $this->tableName SET name = :name, id_petType = :id_petType WHERE id = {$breed->getId()};";
 
             $parameters["name"] = $breed->getName();
-            $parameters["petType"] = $breed->getPetType()->getId();
+            $parameters["id_petType"] = $breed->getPetType()->getId();
 
             $this->connection = Connection::GetInstance();
             $this->connection->ExecuteNonQuery($query, $parameters);
@@ -101,7 +101,7 @@ class BreedDAO implements IBreedDAO
                 $breed->setId($valuesArray["id"]);
                 $breed->setName($valuesArray["name"]);
                 $petTypeDAO = new PetTypeDAO();
-                $petType = $petTypeDAO->GetById($valuesArray["petType"]);
+                $petType = $petTypeDAO->GetById($valuesArray["id_petType"]);
                 $breed->setPetType($petType);
 
                 array_push($this->breedList, $breed);

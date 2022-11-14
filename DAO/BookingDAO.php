@@ -82,17 +82,17 @@ class BookingDAO implements IBookingDAO
     private function Insert(Booking $booking) {
         try {
 
-            $query = "INSERT INTO $this->tableName (startDate,endDate,state,validate,total,owner,keeper,pet,coupon) VALUES (:startDate,:endDate,:state,:validate,:total,:owner,:keeper,:pet,:coupon);";
+            $query = "INSERT INTO $this->tableName (startDate,endDate,state,validate,total,id_owner,id_keeper,id_pet,id_coupon) VALUES (:startDate,:endDate,:state,:validate,:total,:id_owner,:id_keeper,:id_pet,:id_coupon);";
 
             $valuesArray["startDate"] = $booking->getStartDate();
             $valuesArray["endDate"] = $booking->getEndDate();
             $valuesArray["state"] = $booking->getState();
             $valuesArray["validate"] = $booking->getValidate();
             $valuesArray["total"] = $booking->getTotal();
-            $valuesArray["owner"] = $booking->getOwner()->getId();
-            $valuesArray["keeper"] = $booking->getKeeper()->getId();
-            $valuesArray["pet"] = $booking->getPet()->getId();
-            $valuesArray["coupon"] = $booking->getCoupon()->getId();
+            $valuesArray["id_owner"] = $booking->getOwner()->getId();
+            $valuesArray["id_keeper"] = $booking->getKeeper()->getId();
+            $valuesArray["id_pet"] = $booking->getPet()->getId();
+            $valuesArray["id_coupon"] = $booking->getCoupon()->getId();
 
             $this->connection = Connection::GetInstance();
             $this->connection->ExecuteNonQuery($query, $valuesArray);
@@ -104,17 +104,17 @@ class BookingDAO implements IBookingDAO
     // Update a booking in the table
     private function Update(Booking $booking) {
         try {
-            $query = "UPDATE $this->tableName SET startDate = :startdate, endDate = :endDate, state = :state, validate = :validate, total = :total, owner = :owner, keeper = :keeper, pet = :pet, coupon = :coupon WHERE id = {$booking->getId()};";
+            $query = "UPDATE $this->tableName SET startDate = :startdate, endDate = :endDate, state = :state, validate = :validate, total = :total, id_owner = :id_owner, id_keeper = :id_keeper, id_pet = :id_pet, id_coupon = :id_coupon WHERE id = {$booking->getId()};";
             
             $parameters["startDate"] = $booking->getStartDate();
             $parameters["endDate"] = $booking->getEndDate();
             $parameters["state"] = $booking->getState();
             $parameters["validate"] = $booking->getValidate();
             $parameters["total"] = $booking->getTotal();
-            $parameters["owner"] = $booking->getOwner()->getId();
-            $parameters["keeper"] = $booking->getKeeper()->getId();
-            $parameters["pet"] = $booking->getPet()->getId();
-            $parameters["coupon"] = $booking->getCoupon()->getId();
+            $parameters["id_owner"] = $booking->getOwner()->getId();
+            $parameters["id_keeper"] = $booking->getKeeper()->getId();
+            $parameters["id_pet"] = $booking->getPet()->getId();
+            $parameters["id_coupon"] = $booking->getCoupon()->getId();
 
             $this->connection = Connection::GetInstance();
             $this->connection->ExecuteNonQuery($query, $parameters);
