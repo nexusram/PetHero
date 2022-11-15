@@ -5,9 +5,11 @@
 
     interface IUserDAO {
         function Add(User $user);
-        function Remove($id);
         function Modify(User $user);
-       function GetAll();
-
+        function GetAll();
+        function CountUser();
+        function GetById($id);
+        function GetByUserName($userName);
+        function GetByEmail($email);
     }
 ?>
