@@ -77,7 +77,8 @@ class KeeperController
 
         $this->keeperDAO->Add($keeper);
 
-        $this->ShowListView();
+        $userController = new UserController();
+        $userController->ShowProfileView();
     }
 
     private function SetActive(Keeper $keeper, $active)

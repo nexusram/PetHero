@@ -2,6 +2,7 @@
 
     namespace Controllers;
 
+    use DAO\KeeperDAO;
     use DAO\UserDAO;
 
     class UserController {
@@ -14,6 +15,8 @@
         public function ShowProfileView() {
             require_once(VIEWS_PATH . "validate-session.php");
             $user = $_SESSION["loggedUser"];
+            $keeperDAO = new KeeperDAO();
+            $keeper = $keeperDAO->GetByUserId($user->getId());
             require_once(VIEWS_PATH . "profile-user.php");
         }
 
