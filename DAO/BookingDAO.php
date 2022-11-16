@@ -167,4 +167,44 @@ class BookingDAO implements IBookingDAO
             throw $ex;
         }
     }
+
+    private function GetResult($query) {
+        try {
+            $this->connection = Connection::GetInstance();
+            $result = $this->connection->Execute($query);
+
+            $booking = null;
+
+            if(!empty($result)) {
+                $booking = new Booking();
+
+                $booking->setId($result[0][]);
+                $booking->setStartDate($result[0]["strartDate"]);
+                $booking->setEndDate($result[0]["endDate"]);
+                $booking->setState($result[0]["state"]);
+                $booking->setValidate($result[0]["validate"]);
+                $booking->setTotal($result[0]["total"]);
+
+                $userDAO = new UserDAO();
+                $user = $userDAO->GetById($result[0]["id_owner"]);
+                $booking->setOwner($user);
+
+                $keeperDAO = new KeeperDAO();
+                $keeper = $keeperDAO->GetById($result["id_keeper"]);
+                $booking->setKeeper($keeper);
+
+                $petDAO = new PetDAO();
+                $pet = $petDAO->GetPetById($result["id_pet"]);
+                $booking->setPet($pet);
+
+                $booking->setCoupon(new Coupon());
+            }
+        } catch (Exception $ex){
+            throw $ex;
+        }
+    }
+
+    private function SetAllQuery($query) {
+
+    }
 }

@@ -14,11 +14,11 @@ $returnKeeper = $keeperController->CheckKeeper($_SESSION["loggedUser"]->getId())
                if(!is_null($returnKeeper)) {
                     if(!$returnKeeper->getActive()) {
                          ?>
-                         | Owner
+                         <span class="text text-warning" >| Owner</span>
                          <?php
                     } else {
                     ?>
-                         | Keeper
+                         <span class="text text-info">| Keeper</span>
                     <?php
                     }
                }
