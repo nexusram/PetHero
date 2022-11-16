@@ -65,14 +65,14 @@ class UserDAO implements IUserDAO
     private function Insert(User $user)
     {
         $query = "INSERT INTO  $this->tableName (userType, name, surname, userName, password, email, birthDay, cellphone, address) VALUES (:userType, :name, :surname, :userName, :password, :email, :birthDay, :cellphone, :address);";
-        $this->GetAllQuery($query,$user);
+        $this->SetAllQuery($query,$user);
     }
 
     // Update a user in the table
     private function Update(User $user)
     {
         $query = "UPDATE $this->tableName SET userType = :userType, name = :name, surname = :surname, userName = :userName, password = :password, email = :email, birthDay = :birthDay, cellphone = :cellphone, address = :address WHERE id = {$user->getId()};";
-        $this->GetAllQuery($query,$user);
+        $this->SetAllQuery($query,$user);
     }
 
     // Set list pet with info of table
@@ -132,7 +132,7 @@ class UserDAO implements IUserDAO
         return $user;
     }
 
-    private function GetAllQuery($query,User $user)
+    private function SetAllQuery($query,User $user)
     {
         try {
             $parameters["userType"] = $user->getId();
