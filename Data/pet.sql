@@ -225,7 +225,7 @@ ALTER TABLE `pet`
   ADD CONSTRAINT pet_petSize_fk FOREIGN KEY(`id_petSize`) REFERENCES `petSize`(`id`);
 
 ALTER TABLE `user`
-  ADD CONSTRAINT user_userName_uk UNIQUE KEY(`userName`);
+  ADD CONSTRAINT user_userName_uk UNIQUE KEY(`userName`),
   ADD CONSTRAINT user_email_uk UNIQUE KEY(`email`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -6,7 +6,6 @@
 
     interface IPetTypeDAO {
         function Add(PetType $petType);
-        function Remove($id);
         function GetAll();
         function GetById($id);
     }

@@ -32,7 +32,7 @@ class HomeController
     {
         if (is_null($this->userDAO->GetByUserName($username))) {
             if ($this->utilities->getYearForDate($birthday) > 18) {
-                if(is_null($this->userDAO->GetByEmail($email))) {
+                if (is_null($this->userDAO->GetByEmail($email))) {
                     if ($password === $password_two) {
                         $this->AddUserRegister($name, $surname, $birthday, $username, $password, $email, $cellphone, $address);
                         $this->Index("Registered user successfully", "success");
@@ -104,9 +104,10 @@ class HomeController
 
     public function RememberPassword($username)
     {
-        if ($this->userDAO->GetByUserName($username)) {
+        $user = $this->userDAO->GetByUserName($username);
+        if (!is_null($user)) {
             $mail = new MailController();
-            $mail->sendMail($this->userDAO->GetByUsermail($username), "I forgot my password", "your password is", $this->userDAO->GetByUserPassword($username));
+            $mail->sendMail($user->getEmail(), "I forgot my password", "your password is", $user->getPassword());
             $this->Index("Password was sent", "success");
         } else {
             $this->ShowRememberPassword("The name is not registered");

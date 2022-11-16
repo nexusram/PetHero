@@ -200,6 +200,7 @@ class KeeperDAO implements IKeeperDAO
 
                 $userDAO = new UserDAO();
                 $user = $userDAO->GetById($valuesArray["id_user"]);
+                
                 $keeper->setUser($user);
 
                 $petSizeDAO = new PetSizeDAO();
