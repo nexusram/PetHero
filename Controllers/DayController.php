@@ -58,7 +58,7 @@
             }
             if(!$control) {
                 foreach($array as $value) {
-                    $this->LoadDay($value, $keeper->getId());
+                    $this->LoadDay($value, $keeper);
                 }
                 $this->ShowListView("Days added successfully", "success");
             } else {
@@ -66,10 +66,9 @@
             }
         }
 
-        private function LoadDay($date, $keeperId) {
+        private function LoadDay($date, $keeper) {
             $day = new Day();
-            $day->setDate(date("Y-m-d", $date));
-            $keeper = $this->keeperDAO->GetById($keeperId);
+            $day->setDate(date(FORMAT_DATE, $date));
             $day->setKeeper($keeper);
             // Por defecto esta disponible
             $day->setIsAvailable(1);
@@ -80,7 +79,7 @@
             $rta = false;
             $dayList = $this->dayDAO->GetListByKeeper($keeperId);
             foreach($dayList as $day) {
-                if(strcmp($day->getDate(), date("Y-m-d", $date)) == 0) {
+                if(strcmp($day->getDate(), date(FORMAT_DATE, $date)) == 0) {
                     $rta = true;
                 }
             }

@@ -73,7 +73,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                          } else {
                               echo "<div class='container alert alert-warning'>
                          <div class='content text-center'>
-                              <p><strong>You have no added days. to start add with the #Add button</strong></p>
+                              <p><strong>You haven't days disabled.</strong></p>
                          </div>
                     </div>";
                          }
@@ -82,10 +82,9 @@ include_once(VIEWS_PATH . "nav-user.php");
                     </table>
                     <a class="btn btn-dark" href="<?php echo FRONT_ROOT . "Day/ShowListView" ?>">Back</a>
           </div>
-          <?php
-          $controller = new HomeController();
-          $controller->Message($message, $type);
-          ?>
+               <?php
+                    include_once(VIEWS_PATH . "message.php");
+               ?>
           </div>
           <?php
           ?>

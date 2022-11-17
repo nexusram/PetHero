@@ -43,9 +43,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                     ?>
                </form>
                <?php
-               $type ="";
-               $controller = new HomeController();
-               $controller->Message($message, $type);
+                    include_once(VIEWS_PATH . "message.php");
                ?>
           </div>
           <div class="container">

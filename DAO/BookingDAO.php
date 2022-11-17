@@ -27,20 +27,15 @@ class BookingDAO implements IBookingDAO
     public function GetAll()
     {
         $this->RetrieveData();
+        
         return $this->bookingList;
     }
 
     public function GetById($id)
     {
-        $this->RetrieveData();
-
-        $arrayBooking = array_filter($this->bookingList, function ($booking) use ($id) {
-            return $booking->getId() == $id;
-        });
-
-        $arrayBooking = array_values($arrayBooking);
-
-        return (count($arrayBooking) > 0) ? $arrayBooking[0] : null;
+        $query = "SELECT * FROM $this->tableName WHERE id like '$id'";
+        
+        return $this->GetResult($query);
     }
 
     public function GetAllAcceptedByDate($startDate, $endDate)
@@ -58,69 +53,32 @@ class BookingDAO implements IBookingDAO
 
     public function GetActiveBookingOfUser($userId)
     {
-        $this->RetrieveData();
-
-        $arrayBooking = array_filter($this->bookingList, function ($booking) use ($userId) {
-            return ($booking->getUserId() == $userId && $booking->getState() == true) ? $booking : null;
-        });
-
-        return $arrayBooking;
+        $query = "SELECT * FROM $this->tableName WHERE id_owner = {$userId} and state = true";
+        
+        return $this->GetResult($query);
     }
 
     public function GetAllByUserId($userId)
     {
-        $this->RetrieveData();
-
-        $array = array_filter($this->bookingList, function ($booking) use ($userId) {
-            return $booking->getOwner()->getId() == $userId;
-        });
-
-        return $array;
+        $query = "SELECT * FROM $this->tableName WHERE id_owner = {$userId}";
+        
+        return $this->GetResult($query);
     }
 
     // Insert a boooking in the table
-    private function Insert(Booking $booking) {
-        try {
-
-            $query = "INSERT INTO $this->tableName (startDate,endDate,state,validate,total,id_owner,id_keeper,id_pet,id_coupon) VALUES (:startDate,:endDate,:state,:validate,:total,:id_owner,:id_keeper,:id_pet,:id_coupon);";
-
-            $valuesArray["startDate"] = $booking->getStartDate();
-            $valuesArray["endDate"] = $booking->getEndDate();
-            $valuesArray["state"] = $booking->getState();
-            $valuesArray["validate"] = $booking->getValidate();
-            $valuesArray["total"] = $booking->getTotal();
-            $valuesArray["id_owner"] = $booking->getOwner()->getId();
-            $valuesArray["id_keeper"] = $booking->getKeeper()->getId();
-            $valuesArray["id_pet"] = $booking->getPet()->getId();
-            $valuesArray["id_coupon"] = $booking->getCoupon()->getId();
-
-            $this->connection = Connection::GetInstance();
-            $this->connection->ExecuteNonQuery($query, $valuesArray);
-        } catch (Exception $ex) {
-            throw $ex;
-        }
+    private function Insert(Booking $booking)
+    {
+        $query = "INSERT INTO $this->tableName (startDate,endDate,state,validate,total,id_owner,id_keeper,id_pet,id_coupon) VALUES (:startDate,:endDate,:state,:validate,:total,:id_owner,:id_keeper,:id_pet,:id_coupon);";
+        
+        $this->SetAllQuery($query);
     }
 
     // Update a booking in the table
-    private function Update(Booking $booking) {
-        try {
-            $query = "UPDATE $this->tableName SET startDate = :startdate, endDate = :endDate, state = :state, validate = :validate, total = :total, id_owner = :id_owner, id_keeper = :id_keeper, id_pet = :id_pet, id_coupon = :id_coupon WHERE id = {$booking->getId()};";
-            
-            $parameters["startDate"] = $booking->getStartDate();
-            $parameters["endDate"] = $booking->getEndDate();
-            $parameters["state"] = $booking->getState();
-            $parameters["validate"] = $booking->getValidate();
-            $parameters["total"] = $booking->getTotal();
-            $parameters["id_owner"] = $booking->getOwner()->getId();
-            $parameters["id_keeper"] = $booking->getKeeper()->getId();
-            $parameters["id_pet"] = $booking->getPet()->getId();
-            $parameters["id_coupon"] = $booking->getCoupon()->getId();
-
-            $this->connection = Connection::GetInstance();
-            $this->connection->ExecuteNonQuery($query, $parameters);
-        } catch (Exception $ex) {
-            throw $ex;
-        }
+    private function Update(Booking $booking)
+    {
+        $query = "UPDATE $this->tableName SET startDate = :startdate, endDate = :endDate, state = :state, validate = :validate, total = :total, id_owner = :id_owner, id_keeper = :id_keeper, id_pet = :id_pet, id_coupon = :id_coupon WHERE id = {$booking->getId()};";
+        
+        $this->SetAllQuery($query);
     }
 
     // Set list boookig with info of table
@@ -168,8 +126,11 @@ class BookingDAO implements IBookingDAO
         }
     }
 
-    private function GetResult($query) {
+    /*return Result of Query */
+    private function GetResult($query)
+    {
         try {
+
             $this->connection = Connection::GetInstance();
             $result = $this->connection->Execute($query);
 
@@ -204,7 +165,24 @@ class BookingDAO implements IBookingDAO
         }
     }
 
-    private function SetAllQuery($query) {
+    private function SetAllQuery($query, Booking $booking)
+    {
+        try {
 
+            $valuesArray["startDate"] = $booking->getStartDate();
+            $valuesArray["endDate"] = $booking->getEndDate();
+            $valuesArray["state"] = $booking->getState();
+            $valuesArray["validate"] = $booking->getValidate();
+            $valuesArray["total"] = $booking->getTotal();
+            $valuesArray["id_owner"] = $booking->getOwner()->getId();
+            $valuesArray["id_keeper"] = $booking->getKeeper()->getId();
+            $valuesArray["id_pet"] = $booking->getPet()->getId();
+            $valuesArray["id_coupon"] = $booking->getCoupon()->getId();
+
+            $this->connection = Connection::GetInstance();
+            $this->connection->ExecuteNonQuery($query, $valuesArray);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
     }
 }

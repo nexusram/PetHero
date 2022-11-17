@@ -114,8 +114,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                     </table>
           </div>
           <?php
-           $controller = new HomeController();
-           $controller->Message($message, $type);
+               include_once(VIEWS_PATH . "message.php");
           ?>
      </section>
 </main>

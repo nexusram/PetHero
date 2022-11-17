@@ -77,8 +77,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                          Save
                     </button>
                     <?php
-                    $controller = new HomeController();
-                    $controller->Message($message, $type);
+                         include_once(VIEWS_PATH . "message.php");
                     ?>
                </form>
           </div>

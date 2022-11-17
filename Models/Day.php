@@ -5,7 +5,7 @@
     
     class Day {
         private $id;
-        private Keeper $keeper;
+        private $keeper;
         private $date;
         private $isAvailable;
 

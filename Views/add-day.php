@@ -14,10 +14,10 @@ include_once(VIEWS_PATH . "nav-user.php");
                          <div class="col-lg-2"></div>
                          <div class="col-lg-8">
                               <div class="form-group">
-                                    <label>Start Date</label>
-                                    <?php echo "<input class='form-control mb-3' type='date' name='startDate' min='" . date('Y-m-d') ."'required'>"; ?>
-                                    <label>End Date</label>
-                                    <?php echo "<input class='form-control mb-3' type='date' name='endDate' min='" . date('Y-m-d') . "'required'>"; ?>
+                                   <label>Start Date</label>
+                                   <input class='form-control mb-3' type="date" name="startDate" min= <?php echo date(FORMAT_DATE)?> required>
+                                   <label>End Date</label>
+                                   <input class='form-control mb-3' type="date" name="endDate" min= <?php echo date(FORMAT_DATE)?> required>
                               </div>
                          </div>
                     </div>
@@ -27,9 +27,9 @@ include_once(VIEWS_PATH . "nav-user.php");
                          </svg>
                          Add
                     </button>
+
                     <?php
-                     $controller = new HomeController();
-                     $controller->Message($message, $type);
+                         include_once(VIEWS_PATH . "message.php");
                     ?>
                </form>
           </div>

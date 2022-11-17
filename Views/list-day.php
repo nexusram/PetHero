@@ -37,7 +37,6 @@ include_once(VIEWS_PATH . "nav-user.php");
                          ?>
                          <?php
                          if (!empty($dayList)) {
-                              var_dump($dayList);
                               foreach ($dayList as $day) {
                                   
                          ?>
@@ -73,14 +72,15 @@ include_once(VIEWS_PATH . "nav-user.php");
                          ?>
                          </tbody>
                     </table>
-                    <form action="<?php echo FRONT_ROOT . "Day/ShowNotAvailableView"?>">
-                         <button class="btn btn-secondary" name="btn">Not Available Days</button>
-                    </form>
+                    <div>
+                         <a class="btn btn-secondary" href="<?php echo FRONT_ROOT . "Day/ShowNotAvailableView"?>">
+                              Not Available Days
+                         </a>
+                    </div>
           </div>
           <?php
-          $controller = new HomeController();
-          $controller->Message($message, $type);
-                    ?>
+               include_once(VIEWS_PATH . "message.php");
+          ?>
                </div>
           <?php
           ?>

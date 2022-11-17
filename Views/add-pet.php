@@ -99,8 +99,7 @@ $breedList = array();
                          Add
                     </button>
                     <?php
-                    $controller = new HomeController();
-                    $controller->Message($message, $type);
+                         include_once(VIEWS_PATH . "message.php");
                     ?>
                </form>
           </div>
