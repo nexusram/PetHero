@@ -13,19 +13,25 @@ class PetTypeDAO implements IPetTypeDAO
     private $connection;
     private $tableName = "PetType";
 
+    public function MaxPetType()
+    {
+        try {
+            $query = "SELECT MAX(id) as cont FROM $this->tableName";
+
+            $this->connection = Connection::GetInstance();
+            $result = $this->connection->Execute($query);
+        } catch (Exception $ex) {
+            throw $result;
+        }
+        return $result;
+    }
+
     public function Add(PetType $petType)
     {
-        $petType->setId($this->GetNextId()); //seteo el id autoincremental
-        try {
-
-            $query = "INSERT INTO . $this->tableName . (id,name) VALUES (:id,:name);";
-            $valuesArray["id"] = $petType->getId();
-            $valuesArray["name"] = $petType->getName();
-            $this->connection = Connection::GetInstance();
-            $this->connection->ExecuteNonQuery($query, $valuesArray);
-        } catch (Exception $ex) {
-            throw $ex;
-        }
+        $result = $this->MaxPetType();
+        $petType->setId(++$result); //seteo el id autoincremental
+        $query = "INSERT INTO . $this->tableName . (id,name) VALUES (:id,:name);";
+        $this->SetAllQuery($query, $petType);
     }
 
     public function GetAll()
@@ -36,50 +42,69 @@ class PetTypeDAO implements IPetTypeDAO
 
     private function RetrieveData()
     {
-        try {
-            $query = "SELECT * FROM $this->tableName";
-
-            $this->connection = Connection::GetInstance();
-
-            $resultSet = $this->connection->Execute($query);
-
-            foreach ($resultSet as $valuesArray) {
-                $petType = new PetType();
-                $petType->setId($valuesArray["id"]);
-                $petType->setName($valuesArray["name"]);
-                array_push($this->petTypeList, $petType);
-            }
-        } catch (Exception $ex) {
-            throw $ex;
-        }
+        $query = "SELECT * FROM $this->tableName";
+        $this->GetAllQuery($query);
     }
 
     public function Modify(petType $petType)
     {
-        $this->connection = Connection::GetInstance();
-        $consulta = "UPDATE  $this->tableName 
-        SET id= $petType->getId(),name= $petType->getName()
-         WHERE id = $petType->getId()";
-        $connection = $this->connection;
-        $connection->Execute($consulta);
+        $this->Update($petType);
     }
 
-    public function Remove($id)
+    public function GetById($id)
     {
-        $this->connection = Connection::GetInstance();
-        $aux = "DELETE From  $this->tableName  WHERE Id = $id";
-        $connection = $this->connection;
-        $connection->Execute($aux);
+        $query = "SELECT * FROM $this->tableName where id = {$id};";
+        return $this->GetResult($query);
     }
 
-    public function GetById($id) {
-        $this->RetrieveData();
-        $array = array_filter($this->petTypeList, function($petType) use($id) {
-            return $petType->getId() == $id;
-        });
+    private function Update(PetType $petType)
+    {
+        $query = "UPDATE $this->tableName SET id = :id, name = :name WHERE id = {$petType->getId()};";
+        $this->SetAllQuery($query,$petType);
+    }
 
-        $array = array_values($array);
+    /*return Result of Query */
+    private function GetResult($query)
+    {
+        try {
+            $this->connection = Connection::GetInstance();
+            $result = $this->connection->Execute($query);
+            $petType = null;
+            if (!empty($result)) {
 
-        return (count($array) > 0) ? $array[0] : null;
+                $petType = new PetType();
+                $petType->setId($result[0]['id']);
+                $petType->setName($result[0]['name']);
+            }
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+        return $petType;
+    }
+
+    private function GetAllQuery($query)
+    {
+        $this->petTypeList = array();
+        $this->connection = Connection::GetInstance();
+        $parameters = $this->connection->Execute($query);
+        foreach ($parameters as $valuesArray) {
+            $petType = new PetType();
+            $petType->setId($valuesArray["id"]);
+            $petType->setName($valuesArray["name"]);
+            array_push($this->petTypeList, $petType);
+        }
+    }
+
+    private function SetAllQuery($query,PetType $petType)
+    {
+        try {
+            $parameters["id"] = $petType->getId();
+            $parameters["name"] = $petType->getName();
+            var_dump($petType->getId());
+            $this->connection = Connection::GetInstance();
+            $this->connection->ExecuteNonQuery($query, $parameters);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
     }
 }
