@@ -12,12 +12,30 @@ class PetSizeDAO implements IPetSizeDAO
     private $connection;
     private $tableName = "PetSize";
 
+    public function MaxPetType()
+    {
+        try {
+            $query = "SELECT MAX(id) as cont FROM $this->tableName";
+
+            $this->connection = Connection::GetInstance();
+            $result = $this->connection->Execute($query);
+        } catch (Exception $ex) {
+            throw $result;
+        }
+        return $result;
+    }
+
     public function Add(PetSize $petSize)
     {
-        $petSize->setId($this->GetNextId()); //seteo el id autoincremental
-        try {
+        $result = $this->MaxPetType();
+        $petSize->setId(++$result); //seteo el id autoincremental
+        $query = "INSERT INTO  $this->tableName (id,name) VALUES (:id,:name);";
+        $this->SetAllQuery($petSize, $query);
+    }
 
-            $query = "INSERT INTO  $this->tableName (id,name) VALUES (:id,:name);";
+    private function SetAllQuery(PetSize $petSize, $query)
+    {
+        try {
             $valuesArray["id"] = $petSize->getId();
             $valuesArray["name"] = $petSize->getName();
             $this->connection = Connection::GetInstance();
@@ -35,11 +53,14 @@ class PetSizeDAO implements IPetSizeDAO
 
     private function RetrieveData()
     {
-        //$this->petSizeList = array();
+        $this->petSizeList = array();
+        $query = "SELECT * FROM $this->tableName";
+        $this->GetAllQuery($query);
+    }
+
+    private function GetAllQuery($query)
+    {
         try {
-
-            $query = "SELECT * FROM $this->tableName";
-
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query);
@@ -50,7 +71,6 @@ class PetSizeDAO implements IPetSizeDAO
                 $petSize->setName($valuesArray["name"]);
                 array_push($this->petSizeList, $petSize);
             }
-
         } catch (Exception $ex) {
             throw $ex;
         }
@@ -58,31 +78,33 @@ class PetSizeDAO implements IPetSizeDAO
 
     public function Modify(PetSize $petSize)
     {
-        $this->connection = Connection::GetInstance();
-        $consulta = "UPDATE $this->tableName 
-        SET id= $petSize->getId(),name= $petSize->getName()
-         WHERE id = $petSize->getId()";
+        $query = "UPDATE $this->tableName SET id = :id, name = :name WHERE id = {$petSize->getId()};";
+        $this->SetAllQuery($petSize, $query);
         $connection = $this->connection;
-        $connection->Execute($consulta);
-    }
-
-    public function Remove($id)
-    {
-        $this->connection = Connection::GetInstance();
-        $aux = "DELETE From  $this->tableName WHERE Id = $id";
-        $connection = $this->connection;
-        $connection->Execute($aux);
+        $connection->Execute($query);
     }
 
     public function GetById($id)
     {
-        $this->RetrieveData();
-        $array = array_filter($this->petSizeList, function ($petSize) use ($id) {
-            return $petSize->getId() == $id;
-        });
-
-        $array = array_values($array);
-
-        return (count($array) > 0) ? $array[0] : null;
+        $query = "SELECT * FROM $this->tableName where id = {$id};";
+        return $this->GetResult($query);
     }
+      /*return Result of Query */
+      private function GetResult($query)
+      {
+          try {
+              $this->connection = Connection::GetInstance();
+              $result = $this->connection->Execute($query);
+              $petSize = null;
+              if (!empty($result)) {
+  
+                  $petSize = new PetSize();
+                  $petSize->setId($result[0]['id']);
+                  $petSize->setName($result[0]['name']);
+              }
+          } catch (Exception $ex) {
+              throw $ex;
+          }
+          return $petSize;
+      }
 }
