@@ -11,8 +11,7 @@ $returnKeeper = $keeperController->CheckKeeper($_SESSION["loggedUser"]->getId())
      <span class="navbar-text">
           <strong> PET HERO</strong> APP
           <?php
-               if(!is_null($returnKeeper)) {
-                    if(!$returnKeeper->getActive()) {
+                    if(is_null($returnKeeper) || !$returnKeeper->getActive()) {
                          ?>
                          <span class="text text-warning" >| Owner</span>
                          <?php
@@ -21,7 +20,6 @@ $returnKeeper = $keeperController->CheckKeeper($_SESSION["loggedUser"]->getId())
                          <span class="text text-info">| Keeper</span>
                     <?php
                     }
-               }
           ?>
      </span>
      <ul class="navbar-nav ml-auto mr-auto">
