@@ -51,6 +51,12 @@ class BookingController
         require(VIEWS_PATH . "keeper-filters.php");
     }
 
+    public function ShowValidateView() {
+        require_once(VIEWS_PATH . "validate-session.php");
+
+        require_once(VIEWS_PATH . "booking-list-keeper.php");
+    }
+
     public function FilterKeeper($idPet, $startDate, $endDate)
     {
         require_once(VIEWS_PATH . "validate-session.php");
