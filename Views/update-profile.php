@@ -6,7 +6,6 @@ include_once(VIEWS_PATH . "nav-user.php");
      <section id="listado" class="mb-5">
           <div class="container">
                <h2 class="mb-4">My Profile | Update</h2>
-               <a href="javascript:window.history.back();">back</a>
                <table class="table bg-light-alpha">
                     <form action="<?php echo FRONT_ROOT . "User/Update" ?>">
                          <thead>
@@ -20,7 +19,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                               </tr>
                               <tr>
                                    <th>Birthday</th>
-                                   <td><input type="text" name="birthday" value="<?php echo $_SESSION["loggedUser"]->getBirthday() ?>" class="form-control" required>
+                                   <td><input type="Date" name="birthday" value="<?php echo $_SESSION["loggedUser"]->getBirthday() ?>" class="form-control" required>
                               </tr>
                               <tr>
                                    <th>Username</th>
@@ -28,13 +27,14 @@ include_once(VIEWS_PATH . "nav-user.php");
                               </tr>
                               <tr>
                                    <th>Email</th>
-                                   <td><input type="text" name="email" value="<?php echo $_SESSION["loggedUser"]->getEmail() ?>" class="form-control" required></td>
+                                   <td><input type="email" name="email" value="<?php echo $_SESSION["loggedUser"]->getEmail() ?>" class="form-control" required></td>
                               </tr>
                               <tr>
                                    <th>Cellphone</th>
-                                   <td><input type="text" name="cellphone" value="<?php echo $_SESSION["loggedUser"]->getCellphone() ?>" class="form-control" required></td>
+                                   <td><input type="num" name="cellphone" value="<?php echo $_SESSION["loggedUser"]->getCellphone() ?>" class="form-control" required></td>
                               </tr>
                               <tr>
+                              
                                    <th>Address</th>
                                    <td><input type="text" name="address" value="<?php echo $_SESSION["loggedUser"]->getAddress() ?>" class="form-control" required></td>
                               </tr>
@@ -47,7 +47,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                                         </svg>
                                         Update
                                    </button>
-                                   <a class="btn btn-danger" href="<?php echo FRONT_ROOT . "Home/ShowPetListView" ?>">
+                                   <a class="btn btn-danger" href="<?php echo FRONT_ROOT . "User/ShowProfileView" ?>">
                                         X Cancel
                                    </a>
                               </td>

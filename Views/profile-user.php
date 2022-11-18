@@ -66,9 +66,10 @@ include_once(VIEWS_PATH . "nav-user.php");
                          <?php
                          }
                          ?>
+                         <a type="submit" name="btn" class="btn btn-success" href="<?php echo FRONT_ROOT . "User/ShowUpdateView" ?>">
+                              Update
+                         </a>
                     </thead>
-                    <tbody>
-                    </tbody>
                </table>
           </div>
      </section>
