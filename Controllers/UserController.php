@@ -31,7 +31,7 @@
             require_once(VIEWS_PATH . "contact.php");
         }
 
-        public function Update($name, $surname, $birthday, $username, $email, $cellphone, $address) {
+        public function Update($name, $surname, $birthday, $cellphone, $address) {
             require_once(VIEWS_PATH . "validate-session.php");
 
             $user = $this->userDAO->GetByUserName($_SESSION["loggedUser"]->getUserName());
@@ -40,8 +40,6 @@
                 $user->setName($name);
                 $user->setSurname($surname);
                 $user->setBirthDay($birthday);
-                $user->setUserName($username);
-                $user->setEmail($email);
                 $user->setCellphone($cellphone);
                 $user->setAddress($address);
 

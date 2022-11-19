@@ -23,18 +23,17 @@ include_once(VIEWS_PATH . "nav-user.php");
                               </tr>
                               <tr>
                                    <th>Username</th>
-                                   <td><input type="text" name="username" value="<?php echo $_SESSION["loggedUser"]->getUserName() ?>" class="form-control" required>
+                                   <td><input type="text" name="username" value="<?php echo $_SESSION["loggedUser"]->getUserName() ?>" class="form-control" disabled required>
                               </tr>
                               <tr>
                                    <th>Email</th>
-                                   <td><input type="email" name="email" value="<?php echo $_SESSION["loggedUser"]->getEmail() ?>" class="form-control" required></td>
+                                   <td><input type="email" name="email" value="<?php echo $_SESSION["loggedUser"]->getEmail() ?>" class="form-control" disabled required></td>
                               </tr>
                               <tr>
                                    <th>Cellphone</th>
                                    <td><input type="num" name="cellphone" value="<?php echo $_SESSION["loggedUser"]->getCellphone() ?>" class="form-control" required></td>
                               </tr>
                               <tr>
-                              
                                    <th>Address</th>
                                    <td><input type="text" name="address" value="<?php echo $_SESSION["loggedUser"]->getAddress() ?>" class="form-control" required></td>
                               </tr>

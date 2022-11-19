@@ -35,22 +35,23 @@ class KeeperDAO implements IKeeperDAO
             $this->connection = Connection::GetInstance();
 
             $valuesArray = $this->connection->Execute($query);
+
             $keeper = new Keeper();
-            $keeper->setId($valuesArray["id"]);
+            $keeper->setId($valuesArray[0]["id"]);
 
             $userDAO = new UserDAO();
-            $user = $userDAO->GetById($valuesArray["id_user"]);
+            $user = $userDAO->GetById($valuesArray[0]["id_user"]);
 
             $keeper->setUser($user);
 
             $petSizeDAO = new PetSizeDAO();
-            $petSize = $petSizeDAO->GetById($valuesArray["id_petSize"]);
+            $petSize = $petSizeDAO->GetById($valuesArray[0]["id_petSize"]);
             $keeper->setPetSize($petSize);
 
-            $keeper->setRemuneration($valuesArray["remuneration"]);
-            $keeper->setDescription($valuesArray["description"]);
-            $keeper->setScore($valuesArray["score"]);
-            $keeper->setActive($valuesArray["active"]);
+            $keeper->setRemuneration($valuesArray[0]["remuneration"]);
+            $keeper->setDescription($valuesArray[0]["description"]);
+            $keeper->setScore($valuesArray[0]["score"]);
+            $keeper->setActive($valuesArray[0]["active"]);
         } catch (Exception $ex) {
             throw $ex;
         }

@@ -70,7 +70,7 @@ class BookingDAO implements IBookingDAO
     {
         $query = "INSERT INTO $this->tableName (startDate,endDate,state,validate,total,id_owner,id_keeper,id_pet,id_coupon) VALUES (:startDate,:endDate,:state,:validate,:total,:id_owner,:id_keeper,:id_pet,:id_coupon);";
         
-        $this->SetAllQuery($query);
+        $this->SetAllQuery($query, $booking);
     }
 
     // Update a booking in the table
@@ -78,7 +78,7 @@ class BookingDAO implements IBookingDAO
     {
         $query = "UPDATE $this->tableName SET startDate = :startdate, endDate = :endDate, state = :state, validate = :validate, total = :total, id_owner = :id_owner, id_keeper = :id_keeper, id_pet = :id_pet, id_coupon = :id_coupon WHERE id = {$booking->getId()};";
         
-        $this->SetAllQuery($query);
+        $this->SetAllQuery($query, $booking);
     }
 
     // Set list boookig with info of table
@@ -139,8 +139,8 @@ class BookingDAO implements IBookingDAO
             if(!empty($result)) {
                 $booking = new Booking();
 
-                $booking->setId($result[0][]);
-                $booking->setStartDate($result[0]["strartDate"]);
+                $booking->setId($result[0]["id"]);
+                $booking->setStartDate($result[0]["startDate"]);
                 $booking->setEndDate($result[0]["endDate"]);
                 $booking->setState($result[0]["state"]);
                 $booking->setValidate($result[0]["validate"]);
@@ -151,11 +151,11 @@ class BookingDAO implements IBookingDAO
                 $booking->setOwner($user);
 
                 $keeperDAO = new KeeperDAO();
-                $keeper = $keeperDAO->GetById($result["id_keeper"]);
+                $keeper = $keeperDAO->GetById($result[0]["id_keeper"]);
                 $booking->setKeeper($keeper);
 
                 $petDAO = new PetDAO();
-                $pet = $petDAO->GetPetById($result["id_pet"]);
+                $pet = $petDAO->GetPetById($result[0]["id_pet"]);
                 $booking->setPet($pet);
 
                 $booking->setCoupon(new Coupon());

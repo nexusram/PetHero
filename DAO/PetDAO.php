@@ -40,8 +40,8 @@ class PetDAO implements IPetDAO
 
     public function GetActivePetsOfUser($userId)
     {
-        $query = "SELECT * FROM $this->tableName where id = {$userId} AND active = 1;";
-        return $this->GetResult($query);
+        $query = "SELECT * FROM $this->tableName where id_user = {$userId} AND active = 1;";
+        return $this->GetAllQuery($query);
     }
 
     public function GetPetById($id)
@@ -55,7 +55,7 @@ class PetDAO implements IPetDAO
         try {
             $this->connection = Connection::GetInstance();
             $value = $this->connection->Execute($query);
-            $petReturn = null;
+            
             $pet = new Pet();
             if (!empty($result)) {
                 $pet->setId($value[0]["id"]);
@@ -144,6 +144,8 @@ class PetDAO implements IPetDAO
             $this->connection = Connection::GetInstance();
             $resultSet = $this->connection->Execute($query);
 
+            $petList = array();
+            
             foreach ($resultSet as $value) {
                 $pet = new Pet();
                 $pet->setId($value["id"]);
@@ -173,10 +175,11 @@ class PetDAO implements IPetDAO
                 $petSize = $petSizeDAO->GetById($value["id_petSize"]);
                 $pet->setPetSize($petSize);
 
-                array_push($this->petList, $pet);
+                array_push($petList, $pet);
             }
         } catch (Exception $ex) {
             throw $ex;
         }
+        return $petList;
     }
 }
