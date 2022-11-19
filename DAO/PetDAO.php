@@ -54,35 +54,35 @@ class PetDAO implements IPetDAO
     {
         try {
             $this->connection = Connection::GetInstance();
-            $value = $this->connection->Execute($query);
+            $result = $this->connection->Execute($query);
             
             $pet = new Pet();
             if (!empty($result)) {
-                $pet->setId($value[0]["id"]);
-                $pet->setName($value[0]["name"]);
-                $pet->setObservation($value[0]["observation"]);
-                $pet->setPicture($value[0]["picture"]);
-                $pet->setVacunationPlan($value[0]["vacunationPlan"]);
-                $pet->setVideo($value[0]["video"]);
-                $pet->setActive($value[0]["active"]);
+                $pet->setId($result[0]["id"]);
+                $pet->setName($result[0]["name"]);
+                $pet->setObservation($result[0]["observation"]);
+                $pet->setPicture($result[0]["picture"]);
+                $pet->setVacunationPlan($result[0]["vacunationPlan"]);
+                $pet->setVideo($result[0]["video"]);
+                $pet->setActive($result[0]["active"]);
 
                 // Set User
                 $userDAO = new UserDAO();
-                $user = $userDAO->GetById($value[0]["id_user"]);
+                $user = $userDAO->GetById($result[0]["id_user"]);
                 $pet->setUser($user);
 
                 // Set Breed
                 $breedDAO = new BreedDAO();
-                $breed = $breedDAO->GetById($value[0]["id_breed"]);
+                $breed = $breedDAO->GetById($result[0]["id_breed"]);
                 $pet->setBreed($breed);
                 // Set petType and petSize
 
                 $petTypeDAO = new PetTypeDAO();
-                $petType = $petTypeDAO->GetById($value[0]["id_petType"]);
+                $petType = $petTypeDAO->GetById($result[0]["id_petType"]);
                 $pet->setPetType($petType);
 
                 $petSizeDAO = new PetSizeDAO();
-                $petSize = $petSizeDAO->GetById($value[0]["id_petSize"]);
+                $petSize = $petSizeDAO->GetById($result[0]["id_petSize"]);
                 $pet->setPetSize($petSize);
             }
         } catch (Exception $ex) {
@@ -90,6 +90,7 @@ class PetDAO implements IPetDAO
         }
         return $pet;
     }
+
     public function GetAll()
     {
         $this->RetrieveData();
