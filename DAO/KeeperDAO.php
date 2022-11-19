@@ -4,6 +4,7 @@ namespace DAO;
 
 use DAO\IViews as IViews;
 use DAO\Connection as Connection;
+use DateTime;
 use \Exception as Exception;
 use Models\Keeper;
 
@@ -107,51 +108,23 @@ class KeeperDAO implements IKeeperDAO
 
     public function GetAllFiltered($pet, $startDate, $endDate)
     {
-        $arrayKeeper = array();
-        if ($this->CheckForSize($pet->getPetSize())) //si el primer filtro devuelve true es para filtrar
-        {
-            $dayDAO = new DayDAO();
-            $days = $dayDAO->GetAll();
 
-            $startDate = strtotime($startDate);
-            $endDate = strtotime($endDate);
+        $query = "SELECT k.id, k.id_user, k.id_petSize, k.remuneration, k.description, k.score, k.active
+        FROM $this->tableName k
+        JOIN day d ON d.id_keeper = k.id
+        WHERE k.id_petSize = {$pet->getPetSize()->getId()}
+        AND d.date BETWEEN '{$startDate}' AND '{$endDate}'
+        AND d.isAvailable = 1
+        AND k.id_user <> {$_SESSION["loggedUser"]->getId()}";
 
-            $rangeArray = array();
-            for ($i = $startDate; $i <= $endDate; $i += 86400) {
-                $date = date("Y-m-d", $i);
-                array_push($rangeArray, $date);
-            }
+        $keeperList = $this->GetAllQuery($query);
 
-            $arrayDay = array();
-            foreach ($days as $day) {
-                if (in_array($day->getDate(), $rangeArray) && $day->getIsAvailable()) {
-                    array_push($arrayDay, $day);
-                }
-            }
+        $diff = (new DateTime($startDate))->diff(new DateTime($endDate));
 
-            foreach ($arrayDay as $day) {
-                array_push($arrayKeeper, $day->getKeeper());
-            } /// Recorro la lista de dias disponibles y agrego los keepers al arrayKeeper, me falta el ultimo filtro
+        var_dump($keeperList);
+        die;
 
-            $bookingDAO = new BookingDAO();
-            $bookingsAccepted = $bookingDAO->GetAllAcceptedByDate(date("d-m-Y", $startDate), date("d-m-Y", $endDate));
-
-            if (!is_null($bookingsAccepted)) {
-                foreach ($bookingsAccepted as $booking) {
-                    if (
-                        $booking->getBreed() == $pet->getBreed() &&
-                        $booking->getBreed()->getPetType() == $pet->getType()
-                    ) {
-                        array_push($arrayKeeper, $booking->getKeeper());
-                    } ///tercer filtro si hay reservas y el tipo de mascota de la reserva es igual al de la mascota recibida por parametro añado el cuidador a la lista.
-                }
-            }
-            //ultimo filtro, filtrado por tamaño
-            $arrayKeeper = array_filter($arrayKeeper, function ($keeper) use ($pet) {
-                return $keeper->getPetSize() == $pet->getPetSize();
-            });
-        }
-        return $arrayKeeper;
+        return $keeperList;
     }
 
     public function Exist($dayList, $i)
@@ -212,6 +185,8 @@ class KeeperDAO implements IKeeperDAO
 
             $resultSet = $this->connection->Execute($query);
 
+            $keeperList = array();
+
             foreach ($resultSet as $valuesArray) {
                 $keeper = new Keeper();
                 $keeper->setId($valuesArray["id"]);
@@ -229,10 +204,12 @@ class KeeperDAO implements IKeeperDAO
                 $keeper->setDescription($valuesArray["description"]);
                 $keeper->setScore($valuesArray["score"]);
                 $keeper->setActive($valuesArray["active"]);
-                array_push($this->keeperList, $keeper);
+
+                array_push($keeperList, $keeper);
             }
         } catch (Exception $ex) {
             throw $ex;
         }
+        return $keeperList;
     }
 }
