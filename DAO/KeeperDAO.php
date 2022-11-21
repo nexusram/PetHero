@@ -60,7 +60,6 @@ class KeeperDAO implements IKeeperDAO
     }
     public function GetAll()
     {
-        $this->keeperList=array();
         $this->RetrieveData();
         return $this->keeperList;
     }
@@ -85,7 +84,7 @@ class KeeperDAO implements IKeeperDAO
 
     public function GetByUserId($userId)
     {
-        $this->RetrieveData();
+        $this->keeperList = $this->GetAllQuery("SELECT  * FROM $this->tableName");
 
         $array = array_filter($this->keeperList, function ($keeper) use ($userId) {
             return $keeper->getUser()->getId() == $userId;
@@ -108,23 +107,85 @@ class KeeperDAO implements IKeeperDAO
 
     public function GetAllFiltered($pet, $startDate, $endDate)
     {
+        $this->keeperList = $this->FilterKeeper($pet, $startDate, $endDate);
 
-        $query = "SELECT k.id, k.id_user, k.id_petSize, k.remuneration, k.description, k.score, k.active
-        FROM $this->tableName k
-        JOIN day d ON d.id_keeper = k.id
-        WHERE k.id_petSize = {$pet->getPetSize()->getId()}
-        AND d.date BETWEEN '{$startDate}' AND '{$endDate}'
-        AND d.isAvailable = 1
-        AND k.id_user <> {$_SESSION["loggedUser"]->getId()}";
+        return $this->keeperList;
+    }
 
-        $keeperList = $this->GetAllQuery($query);
+    private function FilterKeeper($pet, $startDate, $endDate) {
 
+        $keeperList = $this->FilterForDatesAvailables($pet, $startDate, $endDate);
+
+        $bookingDAO = new BookingDAO();
+        $keeperFilterList = array();
+
+        if(!empty($keeperList)) {
+            foreach($keeperList as $keeper) {
+                $bookingList = array();
+                $bookingList = $bookingDAO->GetListByKeeperIdAndDates($keeper->getId(), $startDate, $endDate);
+
+                if(!empty($bookingList)) {
+                    foreach($bookingList as $booking) {
+                        if($booking->getPet()->getBreed()->getId() == $pet->getBreed()->getId() && $booking->getPet()->getId() != $pet->getId()) {
+                            array_push($keeperFilterList, $keeper);
+                        }
+                    }
+                } else {
+                    array_push($keeperFilterList, $keeper);
+                }
+            }
+        }
+        return $keeperFilterList;
+    }
+
+    private function FilterForDatesAvailables($pet, $startDate, $endDate) {
+        $keeperList = array();
         $diff = (new DateTime($startDate))->diff(new DateTime($endDate));
+        $daysOfQuantity = $diff->format("%d")+1;
 
-        var_dump($keeperList);
-        die;
+        try {
+            $query = "CALL `sp_filter_keeper`(?, ? , ?, ?)";
 
+            $parameters["petSize"] = $pet->getPetSize()->getId();
+            $parameters["startDate"] = $startDate;
+            $parameters["endDate"] = $endDate;
+            $parameters["id_user"] = $_SESSION["loggedUser"]->getId();
+
+            $this->connection = Connection::GetInstance();
+            $resultSet = $this->connection->Execute($query, $parameters, QueryType::StoredProcedure);
+
+            foreach($resultSet as $value) {
+                if($value['quantity'] == $daysOfQuantity) {
+                    $keeper = $this->SetKeeper($value["id"], $value["id_user"], $value["id_petSize"], $value["remuneration"], $value["description"], $value["score"], $value["active"]);
+                    array_push($keeperList, $keeper);
+                }
+            }
+            
+        } catch (Exception $ex){
+            throw $ex;
+        }
         return $keeperList;
+    }
+
+    private function SetKeeper($id, $id_user, $id_petSize, $remuneration, $description, $score, $active) {
+        $keeper = new Keeper();
+        $keeper->setId($id);
+
+        $userDAO = new UserDAO();
+        $user = $userDAO->GetById($id_user);
+
+        $keeper->setUser($user);
+
+        $petSizeDAO = new PetSizeDAO();
+        $petSize = $petSizeDAO->GetById($id_petSize);
+        $keeper->setPetSize($petSize);
+
+        $keeper->setRemuneration($remuneration);
+        $keeper->setDescription($description);
+        $keeper->setScore($score);
+        $keeper->setActive($active);
+
+        return $keeper;
     }
 
     public function Exist($dayList, $i)
@@ -166,7 +227,7 @@ class KeeperDAO implements IKeeperDAO
     // Update a keeper in the table
     private function Update(Keeper $keeper)
     {
-        $query = "UPDATE $this->tableName SET id_user = :id_user, id_petSize = :id_petSize, remuneration = :remuneration, description = :description, score = :score, active = :active";
+        $query = "UPDATE $this->tableName SET id_user = :id_user, id_petSize = :id_petSize, remuneration = :remuneration, description = :description, score = :score, active = :active WHERE id = {$keeper->getId()}";
         $this->SetAllQuery($keeper, $query);
     }
 
@@ -175,7 +236,7 @@ class KeeperDAO implements IKeeperDAO
     {
         $this->keeperList = array();
         $query = "SELECT * FROM $this->tableName";
-        $this->GetAllQuery($query);
+        $this->keeperList = $this->GetAllQuery($query);
     }
 
     private function GetAllQuery($query)

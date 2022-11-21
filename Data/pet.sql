@@ -33,11 +33,9 @@ CREATE TABLE `booking` (
   `endDate` date NOT NULL,
   `state` tinyint(1) NOT NULL,
   `validate` int(100) NOT NULL,
-  `total` float NOT NULL,
   `id_owner` int(100) NOT NULL,
   `id_keeper` int(100) NOT NULL,
-  `id_pet` int(100) NOT NULL,
-  `id_coupon` int(100) NOT NULL
+  `id_pet` int(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -81,13 +79,6 @@ CREATE TABLE `keeper` (
   `active` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `keeper`
---
-
-INSERT INTO `keeper` (`id`, `id_user`, `id_petSize`, `remuneration`, `description`, `score`, `active`) VALUES
-(0, 1, 1, 20, 'bb', '0', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -119,13 +110,6 @@ CREATE TABLE `petSize` (
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `petsize`
---
-
-INSERT INTO `petSize` (`id`, `name`) VALUES
-(1, 'large');
-
 -- --------------------------------------------------------
 
 --
@@ -137,12 +121,6 @@ CREATE TABLE `petType` (
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `pettype`
---
-
-INSERT INTO `petType` (`id`, `name`) VALUES
-(1, 'dog');
 
 -- --------------------------------------------------------
 
@@ -162,13 +140,6 @@ CREATE TABLE `user` (
   `address` varchar(100) NOT NULL,
   `userName` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `user`
---
-
-INSERT INTO `user` (`id`, `userType`, `name`, `surname`, `password`, `email`, `birthDay`, `cellphone`, `address`, `userName`) VALUES
-(1, 3, 'nahu', 'nahu', 'gta', 'nahu@hotmail.com', '1997-12-12', 549223595, 'jacinto', 'nahu');
 
 -- --------------------------------------------------------
 
@@ -196,8 +167,7 @@ CREATE TABLE `coupon` (
 ALTER TABLE `booking`
   ADD CONSTRAINT booking_user_fk FOREIGN KEY(`id_owner`) REFERENCES `user`(`id`),
   ADD CONSTRAINT booking_keeper_fk FOREIGN KEY(`id_keeper`) REFERENCES `keeper`(`id`),
-  ADD CONSTRAINT booking_pet_fk FOREIGN KEY(`id_pet`) REFERENCES `pet`(`id`),
-  ADD CONSTRAINT booking_coupon_fk FOREIGN KEY(`id_coupon`) REFERENCES `coupon`(`id`);
+  ADD CONSTRAINT booking_pet_fk FOREIGN KEY(`id_pet`) REFERENCES `pet`(`id`);
 --
 -- Indices de la tabla `breed`
 --
@@ -228,6 +198,97 @@ ALTER TABLE `user`
   ADD CONSTRAINT user_userName_uk UNIQUE KEY(`userName`),
   ADD CONSTRAINT user_email_uk UNIQUE KEY(`email`);
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+--
+-- INSERT TO
+--
+
+INSERT INTO `petType` (`name`) VALUES
+('Dog'),
+('Cat'),
+('Guinea pig'),
+('Piton');
+
+INSERT INTO `breed` (`name`, `id_petType`) VALUES
+('None', 1),
+('Colli', 1),
+('Caniche', 1),
+('Grand Danes', 1),
+('Bull Dog France', 1),
+('Pitbull', 1),
+('Dogo Argentino', 1),
+('Border Colli', 1),
+('Doberman', 1),
+('Chiguagua', 1),
+('Salchicha', 1),
+('Golden Retriever', 1),
+('German shepherd', 1),
+('Terrier', 1),
+('Galgo', 1),
+('Coker', 1),
+('Beagle', 1),
+('Boxer', 1),
+('Yorkshire terrier', 1),
+('Abisinio', 2),
+('Siames', 2),
+('Persa', 2),
+('Kohana', 2),
+('British shorthair', 2),
+('Elfo', 2),
+('Van turco', 2),
+('Habana', 2),
+('Ashera', 2),
+('Khao manee', 2),
+('Montes', 2),
+('Javanes', 2),
+('Sokoke', 2),
+('Teddy', 3),
+('American', 3),
+('American satin', 3),
+('Texel', 3),
+('White crested', 3),
+('Abyssinian', 3),
+('Abyssinian satin', 3),
+('Coronet', 3),
+('Peruvian', 3),
+('Peruvian Satin',3 ),
+('Antaresia', 4),
+('Aspidites', 4),
+('Bothrochilus', 4),
+('Liasis', 4),
+('Malayopython', 4);
+
+INSERT INTO `petSize` (`name`) VALUES
+('Small'),
+('Medium'),
+('Largue');
+
+INSERT INTO `user` (`userType`, `name`, `surname`, `password`, `email`, `birthDay`, `cellphone`, `address`, `userName`) VALUES
+(1, 'Nahuel', 'Suarez', 'nahu123', 'nahuelsuarez97@hotmail.com', '1997-12-01', '549223595', 'Avenida Jacinto Peralta Ramos', 'Nahu'),
+(1, 'Axel', 'Caceres', 'axel123', 'axelcaceres36@gmail.com', '2001-03-24', '2236976480', 'Avenida Colon 7520', 'Axel'),
+(1, 'Mauro', 'Triaca', 'mauro123', 'maurotriaca@gmail.com', '1999-05-12', '2235556667', '3 de febrero 2550', 'Mauro');
+
+
+
+INSERT INTO `keeper` (`id_user`, `id_petSize`, `remuneration`, `description`, `score`, `active`) VALUES
+(1, 1, 2000, 'Trusted person. I have experience in the field. At the moment I only take care of small dogs. Check in time 11 a.m. Departure time 16 p.m', 0, 0),
+(2, 2, 5000, 'I have experience in the field. I like big dogs. I give special care, VIP category. Check in time 9 a.m. Departure time 19 p.m', 0, 1),
+(3, 3, 4500, 'I just started in the field. I love pets of all sizes and types, but right now I only care for the big ones. Check in time 7 a.m. Departure time 17 p.m', 0 , 1);
+
+--
+-- SP PET
+--
+
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `sp_filter_keeper` $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_filter_keeper` (in `petsize` int, in `startDate` date, in `endDate` date, in `id_user` int)
+begin 
+    SELECT k.id, k.id_user, k.id_petSize, k.remuneration, k.description, k.score, k.active, count(d.date) as 'quantity'
+    FROM `keeper` k
+    JOIN `day` d on k.id = d.id_keeper
+    WHERE k.id_petSize = `petsize`
+    AND d.isAvailable = true
+    AND d.date between `startDate` and `endDate`
+    AND k.id_user <> `id_user`
+    group by k.id;
+end $$

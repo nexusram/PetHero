@@ -68,7 +68,7 @@ class BookingDAO implements IBookingDAO
     // Insert a boooking in the table
     private function Insert(Booking $booking)
     {
-        $query = "INSERT INTO $this->tableName (startDate,endDate,state,validate,total,id_owner,id_keeper,id_pet,id_coupon) VALUES (:startDate,:endDate,:state,:validate,:total,:id_owner,:id_keeper,:id_pet,:id_coupon);";
+        $query = "INSERT INTO $this->tableName (startDate,endDate,state,validate,id_owner,id_keeper,id_pet) VALUES (:startDate,:endDate,:state,:validate,:id_owner,:id_keeper,:id_pet);";
         
         $this->SetAllQuery($query, $booking);
     }
@@ -76,7 +76,7 @@ class BookingDAO implements IBookingDAO
     // Update a booking in the table
     private function Update(Booking $booking)
     {
-        $query = "UPDATE $this->tableName SET startDate = :startdate, endDate = :endDate, state = :state, validate = :validate, total = :total, id_owner = :id_owner, id_keeper = :id_keeper, id_pet = :id_pet, id_coupon = :id_coupon WHERE id = {$booking->getId()};";
+        $query = "UPDATE $this->tableName SET startDate = :startdate, endDate = :endDate, state = :state, validate = :validate, id_owner = :id_owner, id_keeper = :id_keeper, id_pet = :id_pet WHERE id = {$booking->getId()};";
         
         $this->SetAllQuery($query, $booking);
     }
@@ -100,7 +100,6 @@ class BookingDAO implements IBookingDAO
                 $booking->setEndDate($valuesArray["endDate"]);
                 $booking->setState($valuesArray["state"]);
                 $booking->setValidate($valuesArray["validate"]);
-                $booking->setTotal($valuesArray["total"]);
 
                 $userDAO = new UserDAO();
                 $user = $userDAO->GetById($valuesArray["id_owner"]);
@@ -112,11 +111,6 @@ class BookingDAO implements IBookingDAO
                 $petDAO = new PetDAO();
                 $pet = $petDAO->GetPetById($valuesArray["id_pet"]);
                 $booking->setPet($pet);
-
-                //$couponDAO = new CouponDAO();
-                //$coupon = CouponDAO->GetById($value["coupon"]);
-                $coupon = new Coupon();
-                $booking->setCoupon($coupon);
 
                 array_push($this->bookingList, $booking);
             }
@@ -144,7 +138,6 @@ class BookingDAO implements IBookingDAO
                 $booking->setEndDate($result[0]["endDate"]);
                 $booking->setState($result[0]["state"]);
                 $booking->setValidate($result[0]["validate"]);
-                $booking->setTotal($result[0]["total"]);
 
                 $userDAO = new UserDAO();
                 $user = $userDAO->GetById($result[0]["id_owner"]);
@@ -157,8 +150,6 @@ class BookingDAO implements IBookingDAO
                 $petDAO = new PetDAO();
                 $pet = $petDAO->GetPetById($result[0]["id_pet"]);
                 $booking->setPet($pet);
-
-                $booking->setCoupon(new Coupon());
             }
         } catch (Exception $ex){
             throw $ex;
@@ -173,16 +164,59 @@ class BookingDAO implements IBookingDAO
             $valuesArray["endDate"] = $booking->getEndDate();
             $valuesArray["state"] = $booking->getState();
             $valuesArray["validate"] = $booking->getValidate();
-            $valuesArray["total"] = $booking->getTotal();
             $valuesArray["id_owner"] = $booking->getOwner()->getId();
             $valuesArray["id_keeper"] = $booking->getKeeper()->getId();
             $valuesArray["id_pet"] = $booking->getPet()->getId();
-            $valuesArray["id_coupon"] = $booking->getCoupon()->getId();
 
             $this->connection = Connection::GetInstance();
             $this->connection->ExecuteNonQuery($query, $valuesArray);
         } catch (Exception $ex) {
             throw $ex;
         }
+    }
+
+    public function GetListByKeeperIdAndDates($keeperId, $startDate, $endDate) {
+
+        $bookingList = array(); 
+        
+        $query = "SELECT b.id, b.startDate, b.endDate, b.state, b.validate, b.id_owner, b.id_keeper, b.id_pet
+        FROM $this->tableName b
+        JOIN pet p on p.id = b.id_pet
+        WHERE b.startDate = '{$startDate}'
+        AND b.endDate = '{$endDate}'
+        AND b.id_keeper = {$keeperId}";
+
+        try{
+            $this->connection = Connection::GetInstance();
+            $resultSet = $this->connection->Execute($query);
+
+            foreach($resultSet as $value) {
+                $booking = new Booking();
+
+                $booking->setId($value["id"]);
+                $booking->setStartDate($value["startDate"]);
+                $booking->setEndDate($value["endDate"]);
+                $booking->setState($value["state"]);
+                $booking->setValidate($value["validate"]);
+
+                $userDAO = new UserDAO();
+                $user = $userDAO->GetById($value["id_owner"]);
+                $booking->setOwner($user);
+                $keeperDAO = new KeeperDAO();
+                $keeper = $keeperDAO->GetById($value["id_keeper"]);
+                $booking->setKeeper($keeper);
+
+                $petDAO = new PetDAO();
+                $pet = $petDAO->GetPetById($value["id_pet"]);
+                $booking->setPet($pet);
+
+                array_push($bookingList, $booking);
+            }
+
+        } catch(Exception $ex) {
+            throw $ex;
+        }
+
+        return $bookingList;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use DAO\BookingDAO;
 use DAO\KeeperDAO;
 use DAO\PetSizeDAO;
 use DAO\UserDAO;
@@ -27,11 +28,7 @@ class KeeperController
         $petSizeList = $petSizeDAO->GetAll();
         $keeper = $this->CheckKeeper($_SESSION["loggedUser"]->getId());
         if ($keeper) {
-            if ($keeper->getActive()) {
-                $this->ShowListView();
-            } else {
-                $this->SetActive($keeper, true);
-            }
+            $this->SetActive($keeper, true);
         } else {
             require_once(VIEWS_PATH . "add-keeper.php");
         }
@@ -46,6 +43,14 @@ class KeeperController
         $keeperList = $this->keeperDAO->GetAll();
 
         require_once(VIEWS_PATH . "keeper-list.php");
+    }
+
+    public function ShowValidateView()
+    {
+        require_once(VIEWS_PATH . "validate-session.php");
+
+        $bookingController= new BookingController();
+        $bookingController->ShowValidateView();
     }
 
     // Chequea que un usuario sea keeper
@@ -89,7 +94,7 @@ class KeeperController
 
         $this->keeperDAO->Modify($keeper);
 
-        $this->ShowListView();
+        $this->ShowValidateView();
     }
 
     public function ReturnOwner()

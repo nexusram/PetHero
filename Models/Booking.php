@@ -12,12 +12,10 @@
         private User $owner;
         private Keeper $keeper;
         private Pet $pet;
-        private Coupon $coupon;
         private $startDate;
         private $endDate;
         private $state;
         private $validate;
-        private $total;
 
         /**
          * Get the value of id
@@ -100,26 +98,6 @@
         }
 
         /**
-         * Get the value of coupon
-         */ 
-        public function getCoupon()
-        {
-                return $this->coupon;
-        }
-
-        /**
-         * Set the value of coupon
-         *
-         * @return  self
-         */ 
-        public function setCoupon(Coupon $coupon)
-        {
-                $this->coupon = $coupon;
-
-                return $this;
-        }
-
-        /**
          * Get the value of startDate
          */ 
         public function getStartDate()
@@ -195,26 +173,6 @@
         public function setValidate($validate)
         {
                 $this->validate = $validate;
-
-                return $this;
-        }
-
-        /**
-         * Get the value of total
-         */ 
-        public function getTotal()
-        {
-                return $this->total;
-        }
-
-        /**
-         * Set the value of total
-         *
-         * @return  self
-         */ 
-        public function setTotal($total)
-        {
-                $this->total = $total;
 
                 return $this;
         }

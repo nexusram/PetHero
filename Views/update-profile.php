@@ -6,36 +6,38 @@ include_once(VIEWS_PATH . "nav-user.php");
      <section id="listado" class="mb-5">
           <div class="container">
                <h2 class="mb-4">My Profile | Update</h2>
-               <table class="table bg-light-alpha">
+               <table class="table table-bordered table-dark">
                     <form action="<?php echo FRONT_ROOT . "User/Update" ?>">
                          <thead>
                               <tr>
                                    <th>Name</th>
-                                   <td><input type="text" name="name" value="<?php echo $_SESSION["loggedUser"]->getName() ?>" class="form-control" required></td>
+                                   <td><input type="text" name="name" value="<?php echo $_SESSION["loggedUser"]->getName() ?>" class="form-control text-white" style="background-color:transparent" required></td>
                               </tr>
                               <tr>
                                    <th>Surname</th>
-                                   <td><input type="text" name="surname" value="<?php echo $_SESSION["loggedUser"]->getSurname() ?>" class="form-control" required></td>
+                                   <td><input type="text" name="surname" value="<?php echo $_SESSION["loggedUser"]->getSurname() ?>" class="form-control text-white" style="background-color:transparent" required></td>
                               </tr>
                               <tr>
                                    <th>Birthday</th>
-                                   <td><input type="Date" name="birthday" value="<?php echo $_SESSION["loggedUser"]->getBirthday() ?>" class="form-control" required>
+                                   <td><input type="Date" name="birthday" value="<?php echo $_SESSION["loggedUser"]->getBirthday() ?>" class="form-control text-white" style="background-color:transparent" required>
                               </tr>
+                              <!-- 
                               <tr>
                                    <th>Username</th>
-                                   <td><input type="text" name="username" value="<?php echo $_SESSION["loggedUser"]->getUserName() ?>" class="form-control" disabled required>
+                                   <td><input type="text" name="username" value="<?php echo $_SESSION["loggedUser"]->getUserName() ?>" class="form-control text-white" style="background-color:grey" disabled required>
                               </tr>
                               <tr>
                                    <th>Email</th>
-                                   <td><input type="email" name="email" value="<?php echo $_SESSION["loggedUser"]->getEmail() ?>" class="form-control" disabled required></td>
+                                   <td><input type="email" name="email" value="<?php echo $_SESSION["loggedUser"]->getEmail() ?>" class="form-control text-white" style="background-color:grey" disabled required></td>
                               </tr>
+                              --->
                               <tr>
                                    <th>Cellphone</th>
-                                   <td><input type="num" name="cellphone" value="<?php echo $_SESSION["loggedUser"]->getCellphone() ?>" class="form-control" required></td>
+                                   <td><input type="num" name="cellphone" value="<?php echo $_SESSION["loggedUser"]->getCellphone() ?>" class="form-control text-white" style="background-color:transparent" required></td>
                               </tr>
                               <tr>
                                    <th>Address</th>
-                                   <td><input type="text" name="address" value="<?php echo $_SESSION["loggedUser"]->getAddress() ?>" class="form-control" required></td>
+                                   <td><input type="text" name="address" value="<?php echo $_SESSION["loggedUser"]->getAddress() ?>" class="form-control text-white" style="background-color:transparent" required></td>
                               </tr>
                          </thead>
                          <tbody>

@@ -2,7 +2,8 @@
 
     namespace Controllers;
 
-    use DAO\PetDAO;
+use DAO\BreedDAO;
+use DAO\PetDAO;
     use DAO\PetSizeDAO;
     use DAO\PetTypeDAO;
     use Exception;
@@ -41,6 +42,9 @@
 
             $petSizeDAO = new PetSizeDAO();
             $petSizeList = $petSizeDAO->GetAll();
+
+            $breedDAO = new BreedDAO();
+            $breedList = $breedDAO->GetAll();
 
             $pet = $this->petDAO->GetPetById($id);
             require_once(VIEWS_PATH . "modify-pet.php");
@@ -120,7 +124,7 @@
                 $this->ShowPetListView("There was an error trying to unsubscribe the pet");
             }
         }
-/*
+
         public function Modify($id="", $name="", $petType="", $breed="", $petSize="", $observation="", $picture="", $vacunationPlan="", $video="") {
             require_once(VIEWS_PATH . "validate-session.php");
 
@@ -136,7 +140,9 @@
                 $petTypeObj->setId(intval($petType));
                 $pet->setPetType($petTypeObj);
 
-                $pet->setBreed($breed);
+                $breedDAO = new BreedDAO();
+                $breedAux = $breedDAO->GetById($breed);
+                $pet->setBreed($breedAux);
 
                 $petSizeObj = new PetSize();
                 $petSizeObj->setId(intval($petSize));
@@ -181,7 +187,7 @@
                 $this->ShowPetListView("There was an error trying to modify the pet");
             }
         }
-*/
+
         private function ValidateImage($image) {
             $type = $image["type"];
             $size = $image["size"];

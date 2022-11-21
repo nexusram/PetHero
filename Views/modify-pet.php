@@ -37,7 +37,21 @@ include_once(VIEWS_PATH . "nav-user.php");
                                    </select>
 
                                    <label for="">Breed</label>
-                                   <input type="text" name="breed" class="form-control" value="<?php echo $pet->getBreed() ?>">
+                                   <select class="form-control" name="breed" id="breed" required>
+                                        <?php
+                                        foreach ($breedList as $breed) {
+                                             if ($breed->getId() == $pet->getBreed()->getId()) {
+                                                  echo "<option selected value=" . $breed->getId() . ">
+                                                       " . $breed->getName() . "
+                                                       </option>";
+                                             } else {
+                                                  echo "<option value=" . $breed->getId() . ">
+                                                       " . $breed->getName() . "
+                                                       </option>";
+                                             }
+                                        }
+                                        ?>
+                                   </select>
 
                                    <label for="">Pet Size</label>
                                    <select class="form-control" name="petSize" id="petSize" required>
@@ -60,10 +74,10 @@ include_once(VIEWS_PATH . "nav-user.php");
                                    <input type="textarea" name="observation" class="form-control" value="<?php echo $pet->getObservation() ?>">
 
                                    <label for="">Picture</label>
-                                   <input type="file" name="picture" class="form-control">
+                                   <input type="file" name="picture" class="form-control" required>
 
                                    <label for="">Vacunation Plan</label>
-                                   <input type="file" name="vacunationPlan" class="form-control">
+                                   <input type="file" name="vacunationPlan" class="form-control" required>
 
                                    <label for="">Video</label>
                                    <input type="file" name="video" class="form-control">
