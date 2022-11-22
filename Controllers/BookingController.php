@@ -59,6 +59,21 @@ class BookingController
         require_once(VIEWS_PATH . "booking-list-keeper.php");
     }
 
+    
+    public function ShowAccepted(){
+        require_once(VIEWS_PATH . "validate-session.php");
+
+        $bookingList = $this->bookingDAO->GetAllByUserId($_SESSION["loggedUser"]->getId());
+        require_once(VIEWS_PATH . "booking-list-keeper-accepted.php");
+    }
+
+    public function ShowInWait(){
+        require_once(VIEWS_PATH . "validate-session.php");
+
+        $bookingList = $this->bookingDAO->GetAllByUserId($_SESSION["loggedUser"]->getId());
+        require_once(VIEWS_PATH . "booking-list-keeper-wait.php");
+    }
+
     public function ShowRefused(){
         require_once(VIEWS_PATH . "validate-session.php");
 
