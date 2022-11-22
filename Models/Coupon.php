@@ -31,25 +31,7 @@
                 return $this;
         }
 
-        /**
-         * Get the value of idBooking
-         */ 
-        public function getBooking()
-        {
-                return $this->idBooking;
-        }
-
-        /**
-         * Set the value of idBooking
-         *
-         * @return  self
-         */ 
-        public function setBooking(Booking $booking)
-        {
-                $this->Booking = $booking;
-
-                return $this;
-        }
+       
 
         /**
          * Get the value of method
@@ -127,6 +109,26 @@
         public function setTotal($total)
         {
                 $this->total = $total;
+
+                return $this;
+        }
+
+        /**
+         * Get the value of booking
+         */ 
+        public function getBooking()
+        {
+                return $this->booking;
+        }
+
+        /**
+         * Set the value of booking
+         *
+         * @return  self
+         */ 
+        public function setBooking(Booking $booking)
+        {
+                $this->booking = $booking;
 
                 return $this;
         }

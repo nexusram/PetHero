@@ -31,7 +31,7 @@ CREATE TABLE `booking` (
   `id` int(100) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
-  `state` tinyint(1) NOT NULL,
+  `state` int(1) NOT NULL,
   `validate` int(100) NOT NULL,
   `id_owner` int(100) NOT NULL,
   `id_keeper` int(100) NOT NULL,
