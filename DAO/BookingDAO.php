@@ -100,6 +100,7 @@ class BookingDAO implements IBookingDAO
                 $booking->setEndDate($valuesArray["endDate"]);
                 $booking->setState($valuesArray["state"]);
                 $booking->setValidate($valuesArray["validate"]);
+                $booking->setTotal($valuesArray["total"]);
 
                 $userDAO = new UserDAO();
                 $user = $userDAO->GetById($valuesArray["id_owner"]);
@@ -138,6 +139,8 @@ class BookingDAO implements IBookingDAO
                 $booking->setEndDate($result[0]["endDate"]);
                 $booking->setState($result[0]["state"]);
                 $booking->setValidate($result[0]["validate"]);
+                $booking->setTotal($result[0]["total"]);
+                
 
                 $userDAO = new UserDAO();
                 $user = $userDAO->GetById($result[0]["id_owner"]);

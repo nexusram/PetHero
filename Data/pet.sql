@@ -35,7 +35,8 @@ CREATE TABLE `booking` (
   `validate` int(100) NOT NULL,
   `id_owner` int(100) NOT NULL,
   `id_keeper` int(100) NOT NULL,
-  `id_pet` int(100) NOT NULL
+  `id_pet` int(100) NOT NULL,
+   `total` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

@@ -4,6 +4,7 @@ namespace Controllers;
 
 
 use DAO\BookingDAO;
+use DAO\CouponDAO;
 use DAO\PetDAO;
 use DAO\KeeperDAO as KeeperDAO;
 use DAO\PetSizeDAO;
@@ -53,7 +54,16 @@ class BookingController
 
     public function ShowValidateView() {
         require_once(VIEWS_PATH . "validate-session.php");
+
+        $bookingList = $this->bookingDAO->GetAllByUserId($_SESSION["loggedUser"]->getId());
         require_once(VIEWS_PATH . "booking-list-keeper.php");
+    }
+
+    public function ShowRefused(){
+        require_once(VIEWS_PATH . "validate-session.php");
+
+        $bookingList = $this->bookingDAO->GetAllByUserId($_SESSION["loggedUser"]->getId());
+        require_once(VIEWS_PATH . "booking-list-keeper-refused.php");
     }
 
     public function FilterKeeper($idPet, $startDate, $endDate)
@@ -86,6 +96,12 @@ class BookingController
         $booking->setStartDate($startDate);
         $booking->setEndDate($endDate);
         $booking->setValidate(0);
+
+        $dif = $startDate->date_diff($endDate);
+
+        $total = $dif * $this->keeperDAO->GetById($keeper)->getRemuneration();
+           //total es el calculo de la diferencia de fechas * la remuneracion por dia del keeper 
+        $booking->setTotal($total);
 
         $this->bookingDAO->Add($booking);
 
