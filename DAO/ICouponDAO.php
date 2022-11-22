@@ -6,6 +6,5 @@
     interface ICouponDAO{
         public function Add(Coupon $coupon);
         public function GetAllByIdKeeper($idkeeper);
-        public function Remove($id);
+        public function GetAll();
     }
-?>
