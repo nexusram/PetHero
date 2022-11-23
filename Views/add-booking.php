@@ -1,7 +1,4 @@
 <?php
-
-use Controllers\HomeController;
-
 include_once(VIEWS_PATH . "validate-session.php");
 include_once(VIEWS_PATH . "nav-user.php");
 ?>

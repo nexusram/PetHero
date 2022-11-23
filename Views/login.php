@@ -5,8 +5,6 @@
           </header>
           <form action="<?php
 
-                         use Controllers\HomeController;
-
                          echo FRONT_ROOT . "Home/Login" ?>" method="post" class="login-form bg-dark p-5 text-white">
                <div class="form-group text-center">
                     <h1>Login</h1>
