@@ -33,7 +33,7 @@ class BookingDAO implements IBookingDAO
 
     public function GetById($id)
     {
-        $query = "SELECT * FROM $this->tableName WHERE id like '$id'";
+        $query = "SELECT * FROM $this->tableName WHERE id = {$id}";
         
         return $this->GetResult($query);
     }
@@ -62,13 +62,23 @@ class BookingDAO implements IBookingDAO
     {
         $query = "SELECT * FROM $this->tableName WHERE id_owner = {$userId}";
         
-        return $this->GetResult($query);
+        $this->RetrieveData($query);
+
+        return $this->bookingList;
+    }
+
+    public function GetInWaitByKeeperId($keeperId) {
+        $query = "SELECT * FROM $this->tableName WHERE id_keeper = {$keeperId} AND state = 0";
+
+        $this->RetrieveData($query);
+
+        return $this->bookingList;
     }
 
     // Insert a boooking in the table
     private function Insert(Booking $booking)
     {
-        $query = "INSERT INTO $this->tableName (startDate,endDate,state,validate,id_owner,id_keeper,id_pet) VALUES (:startDate,:endDate,:state,:validate,:id_owner,:id_keeper,:id_pet);";
+        $query = "INSERT INTO $this->tableName (startDate,endDate,state,validate,id_owner,id_keeper,id_pet, total) VALUES (:startDate,:endDate,:state,:validate,:id_owner,:id_keeper,:id_pet, :total);";
         
         $this->SetAllQuery($query, $booking);
     }
@@ -76,17 +86,16 @@ class BookingDAO implements IBookingDAO
     // Update a booking in the table
     private function Update(Booking $booking)
     {
-        $query = "UPDATE $this->tableName SET startDate = :startdate, endDate = :endDate, state = :state, validate = :validate, id_owner = :id_owner, id_keeper = :id_keeper, id_pet = :id_pet WHERE id = {$booking->getId()};";
+        $query = "UPDATE $this->tableName SET startDate = :startdate, endDate = :endDate, state = :state, validate = :validate, id_owner = :id_owner, id_keeper = :id_keeper, id_pet = :id_pet, total = :total WHERE id = {$booking->getId()};";
         
         $this->SetAllQuery($query, $booking);
     }
 
     // Set list boookig with info of table
-    private function RetrieveData()
+    private function RetrieveData($query)
     {
+        $this->bookingList = array();
         try {
-
-            $query = "SELECT * FROM " . $this->tableName;
 
             $this->connection = Connection::GetInstance();
 
@@ -157,6 +166,7 @@ class BookingDAO implements IBookingDAO
         } catch (Exception $ex){
             throw $ex;
         }
+        return $booking;
     }
 
     private function SetAllQuery($query, Booking $booking)
@@ -170,6 +180,7 @@ class BookingDAO implements IBookingDAO
             $valuesArray["id_owner"] = $booking->getOwner()->getId();
             $valuesArray["id_keeper"] = $booking->getKeeper()->getId();
             $valuesArray["id_pet"] = $booking->getPet()->getId();
+            $valuesArray["total"] = $booking->getTotal();
 
             $this->connection = Connection::GetInstance();
             $this->connection->ExecuteNonQuery($query, $valuesArray);

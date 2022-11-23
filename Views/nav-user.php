@@ -5,7 +5,6 @@ use Controllers\KeeperController;
 
 $keeperController = new KeeperController();
 $returnKeeper = $keeperController->CheckKeeper($_SESSION["loggedUser"]->getId());
-
 ?>
 <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
      <span class="navbar-text">

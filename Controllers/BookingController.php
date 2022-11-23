@@ -9,6 +9,7 @@ use DAO\PetDAO;
 use DAO\KeeperDAO as KeeperDAO;
 use DAO\PetSizeDAO;
 use DAO\UserDAO;
+use DateTime;
 use Models\Booking;
 use Models\Coupon;
 use Models\Keeper;
@@ -34,7 +35,6 @@ class BookingController
     {
         require_once(VIEWS_PATH . "validate-session.php");
         $bookingList = $this->bookingDAO->GetAllByUserId($_SESSION["loggedUser"]->getId()); ////devuleve todos los booking
-
         require_once(VIEWS_PATH . "booking-list.php");
     }
 
@@ -54,31 +54,27 @@ class BookingController
 
     public function ShowValidateView() {
         require_once(VIEWS_PATH . "validate-session.php");
+        include_once(VIEWS_PATH . "nav-user.php");
 
         $bookingList = $this->bookingDAO->GetAllByUserId($_SESSION["loggedUser"]->getId());
         require_once(VIEWS_PATH . "booking-list-keeper.php");
     }
 
     
-    public function ShowAccepted(){
+    public function ShowConfirmed(){
         require_once(VIEWS_PATH . "validate-session.php");
+        include_once(VIEWS_PATH . "nav-user.php");
 
-        $bookingList = $this->bookingDAO->GetAllByUserId($_SESSION["loggedUser"]->getId());
-        require_once(VIEWS_PATH . "booking-list-keeper-accepted.php");
+        $bookingList = $this->bookingDAO->GetAllByUserId($returnKeeper->getId());
+        require_once(VIEWS_PATH . "booking-list-keeper-confirmed.php");
     }
 
-    public function ShowInWait(){
+    public function ShowInWait($message="", $type=""){
         require_once(VIEWS_PATH . "validate-session.php");
+        include_once(VIEWS_PATH . "nav-user.php");
 
-        $bookingList = $this->bookingDAO->GetAllByUserId($_SESSION["loggedUser"]->getId());
+        $bookingList = $this->bookingDAO->GetInWaitByKeeperId($returnKeeper->getId());
         require_once(VIEWS_PATH . "booking-list-keeper-wait.php");
-    }
-
-    public function ShowRefused(){
-        require_once(VIEWS_PATH . "validate-session.php");
-
-        $bookingList = $this->bookingDAO->GetAllByUserId($_SESSION["loggedUser"]->getId());
-        require_once(VIEWS_PATH . "booking-list-keeper-refused.php");
     }
 
     public function FilterKeeper($idPet, $startDate, $endDate)
@@ -103,23 +99,37 @@ class BookingController
 
         $userDAO = new UserDAO();
 
-        $booking = new Booking();
-
         $booking->setOwner($userDAO->GetById($_SESSION["loggedUser"]->getId()));
         $booking->setKeeper($this->keeperDAO->GetById($keeper));
         $booking->setPet($this->petDAO->GetPetById($pet));
         $booking->setStartDate($startDate);
         $booking->setEndDate($endDate);
         $booking->setValidate(0);
+        // For default it is wait
+        $booking->setState(0);
 
-        $dif = $startDate->date_diff($endDate);
+        $diff = ((new DateTime($startDate))->diff(new DateTime($endDate)))->format("%d")+1;
 
-        $total = $dif * $this->keeperDAO->GetById($keeper)->getRemuneration();
+        $total = ($diff) * $this->keeperDAO->GetById($keeper)->getRemuneration();
            //total es el calculo de la diferencia de fechas * la remuneracion por dia del keeper 
         $booking->setTotal($total);
 
         $this->bookingDAO->Add($booking);
 
         $this->ShowListView();
+    }
+
+    public function ChangeState($bookingId , $state) {
+        $booking = $this->bookingDAO->GetById($bookingId);
+
+        if(!is_null($booking)) {
+            $booking->setState(intval($state));
+            
+            $this->bookingDAO->Modify($booking);
+
+            $this->ShowConfirmed("The reservation has been confirmed", "success");
+        } else {
+            $this->ShowInWait("There was an error trying to perform the action");
+        }
     }
 }

@@ -37,12 +37,12 @@ include_once(VIEWS_PATH . "nav-user.php");
                                                   <td><?php echo $booking->getKeeper()->getUser()->getName() ." ". $booking->getKeeper()->getUser()->getSurname() ?></td>
                                                   <td>
                                                        <?php
-                                                       if($booking->getValidate() == 1) {
-                                                            echo "<span class='badge bg-success p-2'>Validated</span>";
-                                                       } else if ($booking->getValidate() == 0){
-                                                            echo "<span class='badge bg-warning p-2'>Earring</span>";
+                                                       if($booking->getState() == 1) {
+                                                            echo "<span class='badge bg-success p-2'>Confirm</span>";
+                                                       } else if ($booking->getState() == 0){
+                                                            echo "<span class='badge bg-warning p-2'>In wait</span>";
                                                        } else {
-                                                            echo "<span class='badge bg-danger p-2'>Refused</span>";
+                                                            echo "<span class='badge bg-danger p-2'>Declined</span>";
                                                        }
                                                        ?>
                                                   </td>

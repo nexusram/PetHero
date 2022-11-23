@@ -135,7 +135,6 @@ class UserDAO implements IUserDAO
     private function SetAllQuery($query,User $user)
     {
         try {
-            $parameters["userType"] = $user->getId();
             $parameters["userType"] = $user->getUserType();
             $parameters["name"] = $user->getName();
             $parameters["surname"] = $user->getSurname();

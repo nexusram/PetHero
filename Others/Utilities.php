@@ -14,5 +14,9 @@ use DateTime;
 
             return $diference->format("%y");
         }
+
+        public function getDiference($dateOne, $dateTwo) {
+            return $diff = (new DateTime($dateOne))->diff(new DateTime($dateTwo))->format("%d")+1;
+        }
     }
 ?>
