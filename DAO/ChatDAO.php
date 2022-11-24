@@ -7,7 +7,7 @@
     use Models\Chat;
 
     class ChatDAO{
-        private $chatList = array();
+        //private $chatList = array();
         private $connection;
         private $tableName = "chat";
 
@@ -46,30 +46,19 @@
                 $chat->setStatus($result[0]["status"]);
 
                 // Set User messenger
-                $chat->setMessenger_user_id($result[0]["messenger_user_id"]);
                 $userDAO = new UserDAO();
-                $user = $userDAO->GetById($result[0]["id_user"]);
-                $pet->setUser($user);
+                $user = $userDAO->GetById($result[0]["messenger_user_id"]);
+                $chat->setMessenger_user_id($user);
 
                 // Set User Reciever
-                $chat->setReciever_user_id($result[0]["reciever_user_id"]);
-                $breedDAO = new BreedDAO();
-                $breed = $breedDAO->GetById($result[0]["id_breed"]);
-                $pet->setBreed($breed);
-                // Set petType and petSize
+                $reciever = $userDAO->GetById($result[0]["reciever_user_id"]);
+                $chat->setReciever_user_id($reciever);
 
-                $petTypeDAO = new PetTypeDAO();
-                $petType = $petTypeDAO->GetById($result[0]["id_petType"]);
-                $pet->setPetType($petType);
-
-                $petSizeDAO = new PetSizeDAO();
-                $petSize = $petSizeDAO->GetById($result[0]["id_petSize"]);
-                $pet->setPetSize($petSize);
                 }
             } catch (Exception $ex) {
             throw $ex;
             }
-            return $pet;
+            return $chat;
         }
 
         private function Insert(Chat $chat)
@@ -95,10 +84,7 @@
             }
         }
 
-        
-
-
-
+     
     }
 
 ?>
