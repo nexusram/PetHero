@@ -9,7 +9,7 @@
     class ChatDAO{
         //private $chatList = array();
         private $connection;
-        private $tableName = "chat";
+        private $tableName = "Chat";
 
         public function Add(Chat $chat)
         {
@@ -17,9 +17,11 @@
         }
 
         public function GetUserChats($userId){
+            echo $this->tableName;
+          
             $query = "SELECT DISTINCT reciever_user_id FROM $this->tableName
             WHERE messenger_user_id = {$userId};";
-
+           
             return $this->GetResult($query);
         }
     
@@ -37,7 +39,7 @@
         try {
             $this->connection = Connection::GetInstance();
             $result = $this->connection->Execute($query);
-            
+           
             $chat = new Chat();
             if (!empty($result)) {
                 $chat->setId($result[0]["id"]);

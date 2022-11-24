@@ -37,10 +37,11 @@
             try
             {
                 $this->Prepare($query);
-                
+    
                 $this->BindParameters($parameters, $queryType);
                 
                 $this->pdoStatement->execute();
+                
 
                 return $this->pdoStatement->fetchAll();
             }
@@ -57,7 +58,7 @@
                 $this->Prepare($query);
                 
                 $this->BindParameters($parameters, $queryType);
-
+              
                 $this->pdoStatement->execute();
 
                 return $this->pdoStatement->rowCount();
@@ -71,7 +72,7 @@
         private function Prepare($query)
         {
             try
-            {
+            {   
                 $this->pdoStatement = $this->pdo->prepare($query);
             }
             catch(Exception $ex)
@@ -81,8 +82,7 @@
         }
         
         private function BindParameters($parameters = array(), $queryType = QueryType::Query)
-        {
-            $i = 0;
+        {   $i = 0;
 
             foreach($parameters as $parameterName => $value)
             {                
