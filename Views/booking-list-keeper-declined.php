@@ -9,7 +9,7 @@ include_once(VIEWS_PATH . "nav-user.php");
 <main class="py-5">
      <section id="listado" class="mb-5">
           <div class="container">
-               <h2 class="mb-4">Booking's <strong class="text text-primary">"Confirmed"</strong></h2>
+               <h2 class="mb-4">Booking's <strong class="text text-primary">"Declined"</strong></h2>
                <table class="table table-dark text-center"> 
                     <thead>
                          <th>Pet</th>
@@ -24,33 +24,32 @@ include_once(VIEWS_PATH . "nav-user.php");
                               if(!empty($bookingList)){
                                    foreach($bookingList as $booking) {
                                         ?>
-                                        <tr>
-                                             <td><?php echo $booking->getPet()->getName();?></td>
-                                             <td><?php echo $booking->getStartDate(); ?></td>
-                                             <td><?php echo $booking->getEndDate(); ?></td>
-                                             <td><?php echo $booking->getKeeper()->getRemuneration() ?></td>
-                                             <td><?php $date = new Utilities(); echo $date->getDiference($booking->getStartDate(), $booking->getEndDate()) ?></td>
-                                             <td><?php echo $booking->getTotal()?></td>
-                                        </tr>
+                                             <tr>
+                                                  <td><?php echo $booking->getPet()->getName();?></td>
+                                                  <td><?php echo $booking->getStartDate(); ?></td>
+                                                  <td><?php echo $booking->getEndDate(); ?></td>
+                                                  <td><?php echo $booking->getKeeper()->getRemuneration() ?></td>
+                                                  <td><?php $date = new Utilities(); echo $date->getDiference($booking->getStartDate(), $booking->getEndDate()) ?></td>
+                                                  <td><?php echo $booking->getTotal()?></td>
+                                             </tr>
                                         <?php
-                                   }
                               }
+                           }  
                          ?>
                     </tbody>
                </table>
-
+               
                <?php
                require_once(VIEWS_PATH . "menu-list.php");
                ?>
-
+          </div>
           <div class="mt-3">
           <?php
                require_once(VIEWS_PATH . "message.php");
           ?>
           </div>
-
-          </div>
      </section>
 </main>
-
-<?php include('footer.php') ?>
+<?php
+include('footer.php')
+?>

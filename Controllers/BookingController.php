@@ -52,7 +52,7 @@ class BookingController
         require(VIEWS_PATH . "keeper-filters.php");
     }
 
-    public function ShowValidateView() {
+    public function ShowPaymentView($message="", $type="") {
         require_once(VIEWS_PATH . "validate-session.php");
         include_once(VIEWS_PATH . "nav-user.php");
 
@@ -60,21 +60,37 @@ class BookingController
         require_once(VIEWS_PATH . "booking-list-keeper.php");
     }
 
-    
-    public function ShowConfirmed(){
+    public function ShowConfirmedView($message="", $type="") {
         require_once(VIEWS_PATH . "validate-session.php");
         include_once(VIEWS_PATH . "nav-user.php");
 
-        $bookingList = $this->bookingDAO->GetAllByUserId($returnKeeper->getId());
+        $bookingList = $this->bookingDAO->GetListByKeeperIdAndState($returnKeeper->getId(), 1);
+
         require_once(VIEWS_PATH . "booking-list-keeper-confirmed.php");
     }
 
-    public function ShowInWait($message="", $type=""){
+    public function ShowInWaitView($message="", $type="") {
         require_once(VIEWS_PATH . "validate-session.php");
         include_once(VIEWS_PATH . "nav-user.php");
 
-        $bookingList = $this->bookingDAO->GetInWaitByKeeperId($returnKeeper->getId());
+        $bookingList = $this->bookingDAO->GetListByKeeperIdAndState($returnKeeper->getId(), 0);
         require_once(VIEWS_PATH . "booking-list-keeper-wait.php");
+    }
+
+    public function ShowDeclinedView($message="", $type="") {
+        require_once(VIEWS_PATH . "validate-session.php");
+        include_once(VIEWS_PATH . "nav-user.php");
+
+        $bookingList = $this->bookingDAO->GetListByKeeperIdAndState($returnKeeper->getId(), -1);
+        require_once(VIEWS_PATH . "booking-list-keeper-declined.php");
+    }
+
+    public function ShowHistoryView($message="", $type="") {
+        require_once(VIEWS_PATH . "validate-session.php");
+        include_once(VIEWS_PATH . "nav-user.php");
+
+        $bookingList = $this->bookingDAO->GetListByKeeperId($returnKeeper->getId());
+        require_once(VIEWS_PATH . "booking-list-keeper-history.php");
     }
 
     public function FilterKeeper($idPet, $startDate, $endDate)
@@ -120,6 +136,7 @@ class BookingController
     }
 
     public function ChangeState($bookingId , $state) {
+        $rta = false;
         $booking = $this->bookingDAO->GetById($bookingId);
 
         if(!is_null($booking)) {
@@ -127,9 +144,37 @@ class BookingController
             
             $this->bookingDAO->Modify($booking);
 
-            $this->ShowConfirmed("The reservation has been confirmed", "success");
-        } else {
-            $this->ShowInWait("There was an error trying to perform the action");
+            $rta = true;
         }
+
+        return $rta;
+    }
+
+    public function Confirm($bookingId) {
+        if($this->ChangeState($bookingId, 1)) {
+
+            $booking = $this->bookingDAO->GetById($bookingId);
+            $coupon = new Coupon();
+            $coupon->setBooking($booking);
+            $coupon->setTotal($booking->getTotal() * 0.5);
+            $coupon->setMethod("NA");
+            $coupon->setIsPayment(0);
+            $coupon->setDiscount(0);
+
+            $couponDAO = new CouponDAO();
+            $couponDAO->Add($coupon);
+
+            $this->ShowConfirmedView("The reservation has been confirmed", "success");
+        } else {
+            $this->ShowInWaitView("There was an error trying to perform the action");
+        }        
+    }
+
+    public function Decline($bookingId) {
+        if($this->ChangeState($bookingId, -1)) {
+            $this->ShowConfirmedView("The reservation has been declined", "success");
+        } else {
+            $this->ShowInWaitView("There was an error trying to perform the action");
+        }        
     }
 }

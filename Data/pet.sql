@@ -151,7 +151,7 @@ CREATE TABLE `user` (
 CREATE TABLE `coupon` (
   `id` int(50) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `id_booking` int(50) NOT NULL,
-  `method` varchar(50) NOT NULL,
+  `method` varchar(50) NOT NULL DEFAULT 'NA',
   `isPayment` tinyint(1) NOT NULL,
   `discount` double DEFAULT 0,
   `total` double DEFAULT 0

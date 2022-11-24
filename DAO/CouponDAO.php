@@ -25,7 +25,7 @@ class CouponDAO implements ICouponDAO
     private function SetQuery($coupon, $query)
     {
         try {
-            $parameters["id_booking"] = $coupon->getBooking->GetId();
+            $parameters["id_booking"] = $coupon->getBooking()->GetId();
             $parameters["method"] = $coupon->getMethod();
             $parameters["isPayment"] = $coupon->getIsPayment();
             $parameters["discount"] = $coupon->getDiscount();
@@ -56,14 +56,15 @@ class CouponDAO implements ICouponDAO
             $coupon->setId($valuesArray[0]["id"]);
 
             $bookingDAO = new BookingDAO();
-            $booking = $bookingDAO->GetById($valuesArray[0]["id"]);
+            $booking = $bookingDAO->GetById($valuesArray[0]["id_booking"]);
 
-            $booking->setBooking($booking);
+            $coupon->setBooking($booking);
 
             $coupon->setMethod($valuesArray[0]["method"]);
             $coupon->setIsPayment($valuesArray[0]["isPayment"]);
             $coupon->setDiscount($valuesArray[0]["discount"]);
             $coupon->setTotal($valuesArray[0]["total"]);
+
         } catch (Exception $ex) {
             throw $ex;
         }
@@ -81,13 +82,18 @@ class CouponDAO implements ICouponDAO
         $this->GetAll($query);
     }
 
+    public function GetByBookingId($bookingId) {
+        $query = "SELECT * FROM $this->tableName WHERE id_booking = {$bookingId}";
+
+        return $this->GetQuery($query);
+    }
+
     private function GetAllQuery($query)
     {
         try {
             $this->connection = Connection::GetInstance();
-
-            $valuesArray = $this->connection->Execute($query);
-            foreach ($$resultSet as $valuesArray) {
+            $resultSet = $this->connection->Execute($query);
+            foreach ($resultSet as $valuesArray) {
                 $coupon = new Coupon();
                 $coupon->setId($valuesArray["id"]);
 

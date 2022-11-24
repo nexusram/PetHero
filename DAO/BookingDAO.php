@@ -15,7 +15,6 @@ class BookingDAO implements IBookingDAO
 
     public function Add(Booking $booking)
     {
-        $booking->setState(1); // it is true by default
         $this->Insert($booking);
     }
 
@@ -67,8 +66,16 @@ class BookingDAO implements IBookingDAO
         return $this->bookingList;
     }
 
-    public function GetInWaitByKeeperId($keeperId) {
-        $query = "SELECT * FROM $this->tableName WHERE id_keeper = {$keeperId} AND state = 0";
+    public function GetListByKeeperId($keeperId) {
+        $query = "SELECT * FROM $this->tableName WHERE id_keeper = {$keeperId}";
+
+        $this->RetrieveData($query);
+
+        return $this->bookingList;
+    }
+
+    public function GetListByKeeperIdAndState($keeperId, $state) {
+        $query = "SELECT * FROM $this->tableName WHERE id_keeper = {$keeperId} AND state = {$state}";
 
         $this->RetrieveData($query);
 
@@ -86,7 +93,7 @@ class BookingDAO implements IBookingDAO
     // Update a booking in the table
     private function Update(Booking $booking)
     {
-        $query = "UPDATE $this->tableName SET startDate = :startdate, endDate = :endDate, state = :state, validate = :validate, id_owner = :id_owner, id_keeper = :id_keeper, id_pet = :id_pet, total = :total WHERE id = {$booking->getId()};";
+        $query = "UPDATE $this->tableName SET startDate = :startDate, endDate = :endDate, state = :state, validate = :validate, id_owner = :id_owner, id_keeper = :id_keeper, id_pet = :id_pet, total = :total WHERE id = {$booking->getId()};";
         
         $this->SetAllQuery($query, $booking);
     }
