@@ -164,9 +164,11 @@ CREATE TABLE `coupon` (
 --
 CREATE TABLE `chat` (
   `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `name` varchar(200) DEFAULT NULL,
-  `message` text,
-  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `messenger_user_id` int NOT NULL,
+  `reciever_user_id` int NOT NULL,
+  `message` text NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  'status' int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
