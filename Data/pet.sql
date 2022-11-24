@@ -159,16 +159,17 @@ CREATE TABLE `coupon` (
 
 -- --------------------------------------------------------
 
---
+--`messenger_user_id` mensajero, 
+ -- `reciever_user_id` receptor,
 -- Estructura de tabla chat para chat de la pagina
 --
 CREATE TABLE `chat` (
   `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `messenger_user_id` int NOT NULL,
+  `messenger_user_id` int NOT NULL, 
   `reciever_user_id` int NOT NULL,
   `message` text NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  'status' int(1) NOT NULL
+  `status` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
