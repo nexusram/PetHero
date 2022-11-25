@@ -157,6 +157,18 @@ CREATE TABLE `coupon` (
   `total` double DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+-- Estructura de tabla chat para chat de la pagina
+--
+CREATE TABLE `chat` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `messenger_user_id` int NOT NULL, 
+  `reciever_user_id` int NOT NULL,
+  `message` text NOT NULL,
+  `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `status` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 --
 -- Índices para tablas volcadas
@@ -274,6 +286,9 @@ INSERT INTO `keeper` (`id_user`, `id_petSize`, `remuneration`, `description`, `s
 (1, 1, 2000, 'Trusted person. I have experience in the field. At the moment I only take care of small dogs. Check in time 11 a.m. Departure time 16 p.m', 0, 0),
 (2, 2, 5000, 'I have experience in the field. I like big dogs. I give special care, VIP category. Check in time 9 a.m. Departure time 19 p.m', 0, 1),
 (3, 3, 4500, 'I just started in the field. I love pets of all sizes and types, but right now I only care for the big ones. Check in time 7 a.m. Departure time 17 p.m', 0 , 1);
+
+INSERT into 'chat'(messenger_user_id, reciever_user_id, message, status) VALUES (1,2,"Hola", 1);
+
 
 --
 -- SP PET

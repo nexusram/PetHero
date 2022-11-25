@@ -164,7 +164,11 @@ class BookingController
             $couponDAO = new CouponDAO();
             $couponDAO->Add($coupon);
 
-            $this->ShowConfirmedView("The reservation has been confirmed", "success");
+            $chatController = new ChatController();
+
+            $chatController->ActiveChat($booking->getOwner(),"Tu reserva fue aceptada, se envio el cupon de pago a tu email");
+
+            $this->ShowInWaitView("The reservation has been confirmed", "success");
         } else {
             $this->ShowInWaitView("There was an error trying to perform the action");
         }        
