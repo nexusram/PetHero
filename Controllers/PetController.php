@@ -30,8 +30,6 @@ use DAO\PetDAO;
             require_once(VIEWS_PATH . "validate-session.php");
             $petTypeDAO = new PetTypeDAO();
             $petTypeList = $petTypeDAO->GetAll();
-            $petSizeDAO = new PetSizeDAO();
-            $petSizeList = $petSizeDAO->GetAll();
             require_once(VIEWS_PATH . "add-pet.php");
         }
 
@@ -48,6 +46,18 @@ use DAO\PetDAO;
 
             $pet = $this->petDAO->GetPetById($id);
             require_once(VIEWS_PATH . "modify-pet.php");
+        }
+
+        public function ShowSelectBreedView($name, $petType){
+            require_once(VIEWS_PATH . "validate-session.php");
+
+            $breedDAO = new BreedDAO();
+            $breedList = $breedDAO->GetListByPetType($petType);
+
+            $petSizeDAO = new PetSizeDAO();
+            $petSizeList = $petSizeDAO->GetAll();
+            
+            require_once(VIEWS_PATH. "select-breed.php");
         }
 
         // Añade un pet
@@ -70,9 +80,8 @@ use DAO\PetDAO;
                 $petTypeObj->setId(intval($petType));
                 $pet->setPetType($petTypeObj);
 
-                $breed_aux = new Breed();
-                $breed_aux->setId(1);
-                $breed_aux->setName("Ninguna");
+                $breedDAO = new BreedDAO();
+                $breed_aux = $breedDAO->GetById($breed);
                 $pet->setBreed($breed_aux);
 
                 $petSizeObj = new PetSize();

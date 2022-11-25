@@ -1,7 +1,9 @@
 <?php
-    namespace Controllers;
+namespace Controllers;
+
+use DAO\ChatDAO as ChatDAO;
 use Models\Chat;
-use DAO\ChatDAO;
+use DateTime;
 
     class ChatController{
         private $chatDAO;
@@ -25,7 +27,17 @@ use DAO\ChatDAO;
             $chat->setReciever_user_id($reciever_user_id);
             $chat->setMessage($message);
 
+            date_default_timezone_set("America/Argentina/Buenos_Aires");
+
+            $date = new DateTime();
+            $stringDate = $date->format('Y-m-d H:i:s');
+            $timestamp=strtotime($stringDate);
+            $ultima = date(('Y-m-d H:i:s'), $timestamp);
+           
+
+            $chat->setCreated_on($ultima);
             $chat->setStatus(1);
+            var_dump($chat);
 
             $this->chatDAO->Add($chat);
         }

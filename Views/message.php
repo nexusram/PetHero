@@ -1,5 +1,5 @@
 <?php
-if ($message != "") {
+if (isset($message)) {
 ?>
 <div class = "container">
     <div class='form-group text-center'>

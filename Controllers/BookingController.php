@@ -14,6 +14,7 @@ use Models\Booking;
 use Models\Coupon;
 use Models\Keeper;
 use Models\PetSize;
+use Controllers\ChatController;
 
 class BookingController
 {

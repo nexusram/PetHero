@@ -64,8 +64,8 @@
 
         private function Insert(Chat $chat)
         {
-        $query = "INSERT INTO  $this->tableName (messenger_user_id, reciever_user_id, message, status) 
-        VALUES (:messenger_user_id,:reciever_user_id,:message,:status);";
+        $query = "INSERT INTO  $this->tableName (messenger_user_id, reciever_user_id, message, created_on, status) 
+        VALUES (:messenger_user_id,:reciever_user_id,:message,:created_on,:status);";
         $this->SetAllquery($chat, $query);
         }
 

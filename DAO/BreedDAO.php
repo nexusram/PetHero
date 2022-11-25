@@ -16,7 +16,7 @@ class BreedDAO implements IBreedDAO
 
     public function Add(Breed $breed)
     {
-        $this->Add($breed);
+        $this->Insert($breed);
     }
 
     public function Modify(Breed $breed)
@@ -32,43 +32,99 @@ class BreedDAO implements IBreedDAO
 
     public function GetById($id)
     {
-        $this->RetrieveData();
+        //$this->RetrieveData();
 
-        $arrayBreed = array_filter($this->breedList, function ($breed) use ($id) {
-            return $breed->getId() == $id;
-        });
+        //$arrayBreed = array_filter($this->breedList, function ($breed) use ($id) {
+          //  return $breed->getId() == $id;
+        //});
 
-        $arrayBreed = array_values($arrayBreed);
+        //$arrayBreed = array_values($arrayBreed);
 
-        return (count($arrayBreed) > 0) ? $arrayBreed[0] : null;
+        //return (count($arrayBreed) > 0) ? $arrayBreed[0] : null;
+        $query = "SELECT * FROM $this->tableName 
+        WHERE id = {$id};";
+        return $this->GetResult($query);
     }
 
     public function GetListByPetType($petTypeId)
     {
-        $this->RetrieveData();
+        //$this->RetrieveData();
 
-        $array = array_filter($this->breedList, function ($breed) use ($petTypeId) {
-            return $breed->getPetType()->getId() == $petTypeId;
-        });
+        //$array = array_filter($this->breedList, function ($breed) use ($petTypeId) {
+          //  return $breed->getPetType()->getId() == $petTypeId;
+        //});
+        $query =  "SELECT * FROM $this->tableName 
+        WHERE id_petType = {$petTypeId}";   
+        $this->GetAllQuery($query);
+        return $this->breedList;
+        //return $array;
+    }
 
-        return $array;
+    private function GetResult($query)
+    {
+    try {
+        $this->connection = Connection::GetInstance();
+        $result = $this->connection->Execute($query);
+       
+        $breed = new Breed();
+        if (!empty($result)) {
+           
+            $breed->setId($result[0]["id"]);
+          
+            $breed->setName($result[0]["name"]);
+
+            // Set petType 
+            $petTypeDAO = new petTypeDAO();
+            $petType = $petTypeDAO->GetById($result[0]["id_petType"]);
+            $breed->setPetType($petType);
+            
+        }
+        } catch (Exception $ex) {
+        throw $ex;
+        }
+        return $breed;
+    }
+
+    private function GetAllQuery($query)
+    {
+        $this->petTypeList = array();
+        $this->connection = Connection::GetInstance();
+        $parameters = $this->connection->Execute($query);
+        foreach ($parameters as $valuesArray) {
+            $breed = new Breed();
+            $breed->setId($valuesArray["id"]);
+            $breed->setName($valuesArray["name"]);
+
+            // Set petType 
+            $petTypeDAO = new petTypeDAO();
+            $petType = $petTypeDAO->GetById($valuesArray["id_petType"]);
+            $breed->setPetType($petType);
+
+            array_push($this->breedList, $breed);
+        }
+        
     }
 
     // Insert a breed in the table
     private function Insert(Breed $breed) {
-        try {
+            $query = "INSERT INTO $this->tableName (id, name, id_petType) VALUES (:Id, :name, :petType);";
 
-            $query = "INSERT INTO $this->tableName (id,name,petType) VALUES (:Id,:name,:petType);";
-
-            $valuesArray["name"] = $breed->getName();
-            $valuesArray["petType"] = $breed->getPetType()->getId();
-
-            $this->connection = Connection::GetInstance();
-            $this->connection->ExecuteNonQuery($query, $valuesArray);
-        } catch (Exception $ex) {
-            throw $ex;
+            $this->SetAllquery($breed, $query);
         }
-    }
+
+        private function SetAllquery(Breed $breed, $query)
+        {
+            try {
+             
+                $parameters["name"] = $breed->getName();
+                $parameters["petType"] = $breed->getPetType()->getId();
+
+                $this->connection = Connection::GetInstance();
+                $this->connection->ExecuteNonQuery($query, $parameters);
+            } catch (Exception $ex) {
+                throw $ex;
+            }
+        }
 
     // Update a breed in the table
     private function Update(Breed $breed) {
