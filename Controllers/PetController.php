@@ -69,6 +69,7 @@ use DAO\PetDAO;
             $user = $_SESSION["loggedUser"];
 
             // Comprobamos que el pet que se desea agregar no exista(lo hacemos comparando el nombre y el id del usuario, ya que puede existir otro usuario con una mascota del mismo nombre)
+         
             if(!($this->petDAO->Exist($user->getId(), $name))) {
                 // Si no existe, instanciamos un pet y lo seteamos
                 $pet = new Pet();
@@ -131,69 +132,6 @@ use DAO\PetDAO;
                 $this->ShowPetListView("Successfully unsubscribed", "success");
             } else {
                 $this->ShowPetListView("There was an error trying to unsubscribe the pet");
-            }
-        }
-
-        public function Modify($id="", $name="", $petType="", $breed="", $petSize="", $observation="", $picture="", $vacunationPlan="", $video="") {
-            require_once(VIEWS_PATH . "validate-session.php");
-
-            $control = true;
-
-            $pet = $this->petDAO->GetPetById(intval($id));
-
-            if($pet != null) {
-
-                $pet->setName($name);
-
-                $petTypeObj = new PetType();
-                $petTypeObj->setId(intval($petType));
-                $pet->setPetType($petTypeObj);
-
-                $breedDAO = new BreedDAO();
-                $breedAux = $breedDAO->GetById($breed);
-                $pet->setBreed($breedAux);
-
-                $petSizeObj = new PetSize();
-                $petSizeObj->setId(intval($petSize));
-                $pet->setPetSize($petSizeObj);
-
-                $pet->setObservation($observation);
-                //Por defecto es 1, significa que esta activo
-
-                // Comprobamos que los archivos lleguen
-
-                if($picture["name"] != "") {
-                    if($this->ValidateImage($picture)) {
-                        unlink(base64_decode($pet->getPicture()));
-                        $pet->setPicture($this->Upload($picture));
-                    } else{ 
-                        $this->ShowModifyView($pet->getId(), "ERROR<br>The extension or the size of the image(s) is not correct.<br>Compatible formats: .jpg .jpeg, .gif and .png");
-                    }
-                }
-                if($vacunationPlan["name"] != "") {
-                    if($this->ValidateImage($vacunationPlan)) {
-                        unlink(base64_decode($pet->getVacunationPlan()));
-                        $pet->setVacunationPlan($this->Upload($vacunationPlan));
-                    }
-                    else {
-                        $this->ShowModifyView($pet->getId(), "ERROR<br>The extension or the size of the image(s) is not correct.<br>Compatible formats: .jpg .jpeg, .gif and .png");
-                    }
-                }
-                if($video["name"] != "") {
-                    if($this->ValidateVideo($video)) {
-                        unlink(base64_decode($pet->getVideo()));
-                        $pet->setVideo($this->Upload($video));
-                    } else {
-                        $this->ShowModifyView($pet->getId(), "ERROR<br>The extension or the size of the video is not correct.<br>Compatible formats: .mp4, .mkv, .mov and .avi");
-                    }
-                }
-                
-                if($control) {
-                    $this->petDAO->Modify($pet);
-                    $this->ShowPetListView("Successfully modified", "success");
-                }
-            } else {
-                $this->ShowPetListView("There was an error trying to modify the pet");
             }
         }
 

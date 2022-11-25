@@ -29,7 +29,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                                    <input class="form-control mb-3" type="date" name="expiration" placeholder="Enter expiration date" required>
 
                                    <label class="text-white">Cvc</label>
-                                   <input class='form-control mb-3' type="cvc" name="cvc" placeholder="Enter cvc of your card" required>
+                                   <input class='form-control mb-3' type="cvc" name="cvc" placeholder="Enter cvc of your card" minlength="3" maxlength="3" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" required>
 
                                    <label class="text-white">Name</label>
                                    <input class='form-control mb-3' type="text" name="name" placeholder="Enter name of owner it is card" required>

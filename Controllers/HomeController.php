@@ -23,6 +23,11 @@ class HomeController
         require_once(VIEWS_PATH . "login.php");
     }
 
+    public function ShowWelcomeView() {
+        require_once(VIEWS_PATH . "validate-session.php");
+        require_once(VIEWS_PATH . "welcome.php");
+    }
+
     public function ShowRegisterView($message = "", $type = "")
     {
         require_once(VIEWS_PATH . "register.php");
@@ -77,7 +82,7 @@ class HomeController
             $user = $this->userDAO->GetByUserName($userName);
             if (($user != null) && ($user->getPassword() === $password)) {
                 $_SESSION["loggedUser"] = $user;
-                $this->ShowPetListView();
+                $this->ShowWelcomeView();
             } else {
                 $this->Index("Wrong username and/or password");
             }
@@ -92,11 +97,6 @@ class HomeController
         $this->Index("session closed successfully", "success");
     }
 
-    public function ShowPetListView($message = "", $type = "")
-    {
-        $petController = new PetController();
-        $petController->ShowPetListView();
-    }
     public function ShowRememberPassword($message = "", $type = "")
     {
         require_once(VIEWS_PATH . "rememberPassword.php");

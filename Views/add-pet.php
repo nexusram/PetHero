@@ -21,8 +21,7 @@ $breedList = array();
                                    <input type="text" name="name" class="form-control" required>
 
                                    <label for="">Pet type</label>
-                                   <select class="form-control" name="petType" id="petType" onchange="sendPetType()" required>
-                                        <option hidden selected>Select the option</option>
+                                   <select class="form-control" name="petType" id="petType" required>
                                         <?php
                                         foreach ($petTypeList as $petType) {
                                         ?>

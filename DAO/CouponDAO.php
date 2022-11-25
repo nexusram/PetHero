@@ -125,6 +125,5 @@ class CouponDAO implements ICouponDAO
         } catch (Exception $ex) {
             throw $ex;
         }
-        return $coupon;
     }
 }

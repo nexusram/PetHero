@@ -28,13 +28,12 @@ class PetDAO implements IPetDAO
     public function Exist($userId, $name)
     {
         $rta = false;
-        $this->RetrieveData();
-
-        foreach ($this->petList as $pet) {
-            if ($pet->getUser()->getId() == $userId && $pet->getName() == $name) {
-                $rta = true;
-            }
+        $query = "SELECT * FROM $this->tableName WHERE id_user = {$userId} AND name = '{$name}'";
+      
+        if(!is_null($this->GetResult($query))) {
+            $rta = true;
         }
+
         return $rta;
     }
 
@@ -56,8 +55,9 @@ class PetDAO implements IPetDAO
             $this->connection = Connection::GetInstance();
             $result = $this->connection->Execute($query);
             
-            $pet = new Pet();
+            $pet = null;
             if (!empty($result)) {
+                $pet = new Pet();
                 $pet->setId($result[0]["id"]);
                 $pet->setName($result[0]["name"]);
                 $pet->setObservation($result[0]["observation"]);
