@@ -66,6 +66,14 @@ class BookingDAO implements IBookingDAO
         return $this->bookingList;
     }
 
+    public function GetListValidade($keeperId) {
+        $query = "SELECT * FROM $this->tableName WHERE id_keeper = {$keeperId} AND validate = 1";
+
+        $this->RetrieveData($query);
+
+        return $this->bookingList;
+    }
+
     public function GetListByKeeperId($keeperId) {
         $query = "SELECT * FROM $this->tableName WHERE id_keeper = {$keeperId}";
 

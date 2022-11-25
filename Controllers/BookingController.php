@@ -56,7 +56,7 @@ class BookingController
         require_once(VIEWS_PATH . "validate-session.php");
         include_once(VIEWS_PATH . "nav-user.php");
 
-        $bookingList = $this->bookingDAO->GetAllByUserId($_SESSION["loggedUser"]->getId());
+        $bookingList = $this->bookingDAO->GetListValidade($returnKeeper->getId());
         require_once(VIEWS_PATH . "booking-list-keeper.php");
     }
 
@@ -65,7 +65,6 @@ class BookingController
         include_once(VIEWS_PATH . "nav-user.php");
 
         $bookingList = $this->bookingDAO->GetListByKeeperIdAndState($returnKeeper->getId(), 1);
-
         require_once(VIEWS_PATH . "booking-list-keeper-confirmed.php");
     }
 
@@ -91,6 +90,15 @@ class BookingController
 
         $bookingList = $this->bookingDAO->GetListByKeeperId($returnKeeper->getId());
         require_once(VIEWS_PATH . "booking-list-keeper-history.php");
+    }
+
+    public function ShowDetailsView($bookingId) {
+        require_once(VIEWS_PATH . "validate-session.php");
+        include_once(VIEWS_PATH . "nav-user.php");
+
+        $booking = $this->bookingDAO->GetById($bookingId);
+
+        require_once(VIEWS_PATH . "booking-details.php");
     }
 
     public function FilterKeeper($idPet, $startDate, $endDate)
