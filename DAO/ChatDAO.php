@@ -17,8 +17,7 @@
         }
 
         public function GetUserChats($userId){
-            echo $this->tableName;
-          
+
             $query = "SELECT DISTINCT reciever_user_id FROM $this->tableName
             WHERE messenger_user_id = {$userId};";
            
