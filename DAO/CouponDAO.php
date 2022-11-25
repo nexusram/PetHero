@@ -16,10 +16,33 @@ class CouponDAO implements ICouponDAO
     {
         $this->Insert($coupon);
     }
+
+    public function Modify(Coupon $coupon) {
+        $this->Update($coupon);
+    }
+
     private function Insert(Coupon $coupon)
     {
         $query = "INSERT INTO $this->tableName (id_booking, method, isPayment, discount, total) VALUES (:id_booking, :method, :isPayment, :discount, :total);";
         $this->SetQuery($coupon, $query);
+    }
+
+    private function Update(Coupon $coupon)
+    {
+        try {
+            $query = "UPDATE $this->tableName SET id_booking = :id_booking, method = :method, isPayment = :isPayment, discount = :discount, total = :total WHERE id = {$coupon->getId()}";
+
+            $parameters["id_booking"] = $coupon->getBooking()->getId();
+            $parameters["method"] = $coupon->getMethod();
+            $parameters["isPayment"] = $coupon->getIsPayment();
+            $parameters["discount"] = $coupon->getDiscount();
+            $parameters["total"] = $coupon->getTotal();
+    
+            $this->connection = Connection::GetInstance();
+            $this->connection->ExecuteNonQuery($query, $parameters);
+        } catch(Exception $ex) {
+            throw $ex;
+        }
     }
 
     private function SetQuery($coupon, $query)

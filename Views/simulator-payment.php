@@ -10,6 +10,8 @@ include_once(VIEWS_PATH . "nav-user.php");
                          <div class="col-lg-2"></div>
                          <div class="col-lg-8">
                               <div class="form-group">
+                                   <input type="hidden" name="bookingId" value="<?php echo $booking->getId() ?>">
+
                                     <label>Pet</label>
                                     <input class='form-control mb-3' type="text" name="pet_name" value="<?php echo $booking->getPet()->getName() ?>" disabled required>
 

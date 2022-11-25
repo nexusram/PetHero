@@ -28,11 +28,11 @@
                </div>
                <div class="form-group">
                     <label for="">Password</label>
-                    <input type="password" name="password" class="form-control form-control-lg" placeholder="Enter your password" required>
+                    <input type="password" name="password" class="form-control form-control-lg" minlength="8" maxlength="8" placeholder="Enter your password" required>
                </div>
                <div class="form-group">
                     <label for="">Retry Password</label>
-                    <input type="password" name="password_two" class="form-control form-control-lg" placeholder="Enter your password" required>
+                    <input type="password" name="password_two" class="form-control form-control-lg" minlength="8" maxlength="8" placeholder="Enter your password" required>
                </div>
                <div class="form-group">
                     <label for="">Email</label>

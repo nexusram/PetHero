@@ -50,7 +50,7 @@ class KeeperController
         require_once(VIEWS_PATH . "validate-session.php");
 
         $bookingController= new BookingController();
-        $bookingController->ShowValidateView();
+        $bookingController->ShowPaymentView();
     }
 
     // Chequea que un usuario sea keeper
