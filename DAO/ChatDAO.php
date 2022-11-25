@@ -9,7 +9,7 @@
     class ChatDAO{
         //private $chatList = array();
         private $connection;
-        private $tableName = "Chat";
+        private $tableName = "chat";
 
         public function Add(Chat $chat)
         {

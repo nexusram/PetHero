@@ -13,9 +13,7 @@ use DAO\ChatDAO;
 
         public function ShowChatsView(){
             require_once(VIEWS_PATH. "validate-session.php");
-            echo 'Entre';
             $chatList = $this->chatDAO->GetUserChats($_SESSION["loggedUser"]->getId());
-
             require_once(VIEWS_PATH. "chats.php");
         }
 
