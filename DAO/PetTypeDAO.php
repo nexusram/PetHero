@@ -31,7 +31,7 @@ class PetTypeDAO implements IPetTypeDAO
         $result = $this->MaxPetType();
         $petType->setId(++$result); //seteo el id autoincremental
         $query = "INSERT INTO . $this->tableName . (id,name) VALUES (:id,:name);";
-        $this->SetAllQuery($query, $petType);
+        $this->SetQuery($query, $petType);
     }
 
     public function GetAll()
@@ -60,7 +60,7 @@ class PetTypeDAO implements IPetTypeDAO
     private function Update(PetType $petType)
     {
         $query = "UPDATE $this->tableName SET id = :id, name = :name WHERE id = {$petType->getId()};";
-        $this->SetAllQuery($query,$petType);
+        $this->SetQuery($query,$petType);
     }
 
     /*return Result of Query */
@@ -95,7 +95,7 @@ class PetTypeDAO implements IPetTypeDAO
         }
     }
 
-    private function SetAllQuery($query,PetType $petType)
+    private function SetQuery($query,PetType $petType)
     {
         try {
             $parameters["id"] = $petType->getId();

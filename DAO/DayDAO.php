@@ -61,6 +61,7 @@ class DayDAO implements IDayDAO
     public function GetActiveListByKeeper($keeperId)
     {
         $this->RetrieveData();
+
         $array = array_filter($this->dayList, function ($day) use ($keeperId) {
             return ($day->getKeeper()->getId() == $keeperId) && ($day->getIsAvailable());
         });
@@ -97,44 +98,27 @@ class DayDAO implements IDayDAO
 
     // Insert a day in the table
     private function Insert(Day $day) {
-        try {
-            $query = "INSERT INTO $this->tableName (date, id_keeper, isAvailable) VALUES (:date, :id_keeper, :isAvailable);";
-
-            $parameters["date"] = date(FORMAT_DATE, strtotime($day->getDate()));
-            $parameters["id_keeper"] = $day->getKeeper()->getId();
-            $parameters["isAvailable"] = $day->getIsAvailable();
-
-            $this->connection = Connection::GetInstance();
-            $this->connection->ExecuteNonQuery($query, $parameters);
-        } catch (Exception $ex) {
-            throw $ex;
-        }
+        $query = "INSERT INTO $this->tableName (date, id_keeper, isAvailable) VALUES (:date, :id_keeper, :isAvailable);";
+        $this->SetQuery($day, $query);
     }
 
     // Update a day in the table
     private function Update(Day $day) {
-        try {
-            $query = "UPDATE $this->tableName SET date = :date, id_keeper = :id_keeper, isAvailable = :isAvailable  WHERE id={$day->getId()};";
-
-            $parameters["date"] = date(FORMAT_DATE, strtotime($day->getDate()));
-            $parameters["id_keeper"] =  $day->getKeeper()->getId();
-            $parameters["isAvailable"] = $day->getIsAvailable();
-
-            $this->connection = Connection::GetInstance();
-            $this->connection->ExecuteNonQuery($query, $parameters);
-        } catch (Exception $ex) {
-            throw $ex;
-        }
+        $query = "UPDATE $this->tableName SET date = :date, id_keeper = :id_keeper, isAvailable = :isAvailable  WHERE id={$day->getId()};";
+    $this->SetQuery($day, $query);
     }
 
     // Set list day with info of table
     private function RetrieveData()
     {
+        $query = "SELECT * FROM $this->tableName";
+        $this->GetAllQuery($query);
+    }
+
+    private function GetAllQuery($query)
+    {
         $this->dayList = array();
         try {
-
-            $query = "SELECT * FROM $this->tableName";
-
             $this->connection = Connection::GetInstance();
 
             $resultSet = $this->connection->Execute($query);
@@ -156,4 +140,20 @@ class DayDAO implements IDayDAO
             throw $ex;
         }
     }
+
+    private function SetQuery($day, $query)
+    {
+        try {
+
+            $parameters["date"] = date(FORMAT_DATE, strtotime($day->getDate()));
+            $parameters["id_keeper"] =  $day->getKeeper()->getId();
+            $parameters["isAvailable"] = $day->getIsAvailable();
+
+            $this->connection = Connection::GetInstance();
+            $this->connection->ExecuteNonQuery($query, $parameters);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
 }

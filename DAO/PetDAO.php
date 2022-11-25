@@ -101,10 +101,10 @@ class PetDAO implements IPetDAO
     private function Insert(Pet $pet)
     {
         $query = "INSERT INTO  $this->tableName (id_user,name,id_petType,id_breed,id_petSize,observation,picture,vacunationPlan,video,active) VALUES (:id_user,:name,:id_petType,:id_breed,:id_petSize,:observation,:picture,:vacunationPlan,:video,:active);";
-        $this->SetAllquery($pet, $query);
+        $this->Setquery($pet, $query);
     }
 
-    private function SetAllquery(Pet $pet, $query)
+    private function Setquery(Pet $pet, $query)
     {
         try {
             $parameters["id_user"] = $pet->getUser()->getId();
@@ -128,19 +128,19 @@ class PetDAO implements IPetDAO
     private function Update(Pet $pet)
     {
         $query = "UPDATE this->tableName SET id_user = :id_user, name = :name, id_petType = :id_petType, id_breed = :id_breed, id_petSize = :id_petSize, observation = :observation, picture = :picture, vacunationPlan = :vacunationPlan, video = :video, active = :active WHERE id = {$pet->getId()};";
-        $this->SetAllquery($pet, $query);
+        $this->Setquery($pet, $query);
     }
 
     // Set list pet with info of table
     private function RetrieveData()
     {
         $query = "SELECT * FROM $this->tableName";
-        $this->petList = array();
         $this->GetAllQuery($query);
     }
 
     private function GetAllQuery($query)
     {
+        $this->petList = array();
         try {
             $this->connection = Connection::GetInstance();
             $resultSet = $this->connection->Execute($query);

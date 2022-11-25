@@ -14,8 +14,8 @@ class PetSizeDAO implements IPetSizeDAO
 
     public function MaxPetType()
     {
+        $query = "SELECT MAX(id) as cont FROM $this->tableName";
         try {
-            $query = "SELECT MAX(id) as cont FROM $this->tableName";
 
             $this->connection = Connection::GetInstance();
             $result = $this->connection->Execute($query);
@@ -30,10 +30,10 @@ class PetSizeDAO implements IPetSizeDAO
         $result = $this->MaxPetType();
         $petSize->setId(++$result); //seteo el id autoincremental
         $query = "INSERT INTO  $this->tableName (id,name) VALUES (:id,:name);";
-        $this->SetAllQuery($petSize, $query);
+        $this->SetQuery($petSize, $query);
     }
 
-    private function SetAllQuery(PetSize $petSize, $query)
+    private function SetQuery(PetSize $petSize, $query)
     {
         try {
             $valuesArray["id"] = $petSize->getId();
@@ -53,13 +53,13 @@ class PetSizeDAO implements IPetSizeDAO
 
     private function RetrieveData()
     {
-        $this->petSizeList = array();
         $query = "SELECT * FROM $this->tableName";
         $this->GetAllQuery($query);
     }
 
     private function GetAllQuery($query)
     {
+        $this->petSizeList = array();
         try {
             $this->connection = Connection::GetInstance();
 
@@ -75,13 +75,18 @@ class PetSizeDAO implements IPetSizeDAO
             throw $ex;
         }
     }
-
+    
     public function Modify(PetSize $petSize)
     {
+        $this->Update($petSize);
+    }
+
+    private function Update(PetSize $petSize)
+    {
         $query = "UPDATE $this->tableName SET id = :id, name = :name WHERE id = {$petSize->getId()};";
-        $this->SetAllQuery($petSize, $query);
-        $connection = $this->connection;
-        $connection->Execute($query);
+        $this->SetQuery($petSize, $query);
+        /*$connection = $this->connection;
+        $connection->Execute($query);*/
     }
 
     public function GetById($id)
@@ -89,22 +94,22 @@ class PetSizeDAO implements IPetSizeDAO
         $query = "SELECT * FROM $this->tableName where id = {$id};";
         return $this->GetResult($query);
     }
-      /*return Result of Query */
-      private function GetResult($query)
-      {
-          try {
-              $this->connection = Connection::GetInstance();
-              $result = $this->connection->Execute($query);
-              $petSize = null;
-              if (!empty($result)) {
-  
-                  $petSize = new PetSize();
-                  $petSize->setId($result[0]['id']);
-                  $petSize->setName($result[0]['name']);
-              }
-          } catch (Exception $ex) {
-              throw $ex;
-          }
-          return $petSize;
-      }
+    /*return Result of Query */
+    private function GetResult($query)
+    {
+        try {
+            $this->connection = Connection::GetInstance();
+            $result = $this->connection->Execute($query);
+            $petSize = null;
+            if (!empty($result)) {
+
+                $petSize = new PetSize();
+                $petSize->setId($result[0]['id']);
+                $petSize->setName($result[0]['name']);
+            }
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+        return $petSize;
+    }
 }

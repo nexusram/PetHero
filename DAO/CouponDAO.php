@@ -17,7 +17,8 @@ class CouponDAO implements ICouponDAO
         $this->Insert($coupon);
     }
 
-    public function Modify(Coupon $coupon) {
+    public function Modify(Coupon $coupon)
+    {
         $this->Update($coupon);
     }
 
@@ -29,20 +30,8 @@ class CouponDAO implements ICouponDAO
 
     private function Update(Coupon $coupon)
     {
-        try {
-            $query = "UPDATE $this->tableName SET id_booking = :id_booking, method = :method, isPayment = :isPayment, discount = :discount, total = :total WHERE id = {$coupon->getId()}";
-
-            $parameters["id_booking"] = $coupon->getBooking()->getId();
-            $parameters["method"] = $coupon->getMethod();
-            $parameters["isPayment"] = $coupon->getIsPayment();
-            $parameters["discount"] = $coupon->getDiscount();
-            $parameters["total"] = $coupon->getTotal();
-    
-            $this->connection = Connection::GetInstance();
-            $this->connection->ExecuteNonQuery($query, $parameters);
-        } catch(Exception $ex) {
-            throw $ex;
-        }
+        $query = "UPDATE $this->tableName SET id_booking = :id_booking, method = :method, isPayment = :isPayment, discount = :discount, total = :total WHERE id = {$coupon->getId()}";
+        $this->SetQuery($coupon, $query);
     }
 
     private function SetQuery($coupon, $query)
@@ -87,25 +76,26 @@ class CouponDAO implements ICouponDAO
             $coupon->setIsPayment($valuesArray[0]["isPayment"]);
             $coupon->setDiscount($valuesArray[0]["discount"]);
             $coupon->setTotal($valuesArray[0]["total"]);
-
         } catch (Exception $ex) {
             throw $ex;
         }
         return $coupon;
     }
+
     public function GetAll()
     {
         $this->RetrieveDate();
         return $this->couponList;
     }
+    
     private function RetrieveDate()
     {
-        $this->couponList = array();
         $query = "SELECT * FROM $this->tableName";
-        $this->GetAll($query);
+        $this->GetAllQuery($query);
     }
 
-    public function GetByBookingId($bookingId) {
+    public function GetByBookingId($bookingId)
+    {
         $query = "SELECT * FROM $this->tableName WHERE id_booking = {$bookingId}";
 
         return $this->GetQuery($query);
@@ -113,6 +103,7 @@ class CouponDAO implements ICouponDAO
 
     private function GetAllQuery($query)
     {
+        $this->couponList = array();
         try {
             $this->connection = Connection::GetInstance();
             $resultSet = $this->connection->Execute($query);

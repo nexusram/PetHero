@@ -65,27 +65,32 @@ class UserDAO implements IUserDAO
     private function Insert(User $user)
     {
         $query = "INSERT INTO  $this->tableName (userType, name, surname, userName, password, email, birthDay, cellphone, address) VALUES (:userType, :name, :surname, :userName, :password, :email, :birthDay, :cellphone, :address);";
-        $this->SetAllQuery($query,$user);
+        $this->SetQuery($query, $user);
     }
 
     // Update a user in the table
     private function Update(User $user)
     {
         $query = "UPDATE $this->tableName SET userType = :userType, name = :name, surname = :surname, userName = :userName, password = :password, email = :email, birthDay = :birthDay, cellphone = :cellphone, address = :address WHERE id = {$user->getId()};";
-        $this->SetAllQuery($query,$user);
+        $this->SetQuery($query, $user);
     }
 
     // Set list pet with info of table
     private function RetrieveData()
     {
+        $query = "SELECT * FROM $this->tableName";
+
+        $this->GetAllQuery($query);
+    }
+
+    private function GetAllQuery($query)
+    {
+        $this->userList = array();
         try {
 
-            $query = "SELECT * FROM $this->tableName";
-
             $this->connection = Connection::GetInstance();
-            $result = $this->connection->Execute($query);
-
-            foreach ($result as $valuesArray) {
+            $parameters = $this->connection->Execute($query);
+            foreach ($parameters as $valuesArray) {
                 $user = new User();
                 $user->setId($valuesArray["id"]);
                 $user->setUserType($valuesArray["userType"]);
@@ -98,15 +103,18 @@ class UserDAO implements IUserDAO
                 $user->setCellphone($valuesArray["cellphone"]);
                 $user->setAddress($valuesArray["address"]);
                 array_push($this->userList, $user);
+
             }
         } catch (Exception $ex) {
             throw $ex;
         }
     }
 
+
     /*return Result of Query */
     private function GetResult($query)
     {
+        
         try {
             $this->connection = Connection::GetInstance();
 
@@ -132,7 +140,7 @@ class UserDAO implements IUserDAO
         return $user;
     }
 
-    private function SetAllQuery($query,User $user)
+    private function SetQuery($query, User $user)
     {
         try {
             $parameters["userType"] = $user->getUserType();
