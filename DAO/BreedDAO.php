@@ -87,7 +87,7 @@ class BreedDAO implements IBreedDAO
 
     private function GetAllQuery($query)
     {
-        $this->petTypeList = array();
+        $this->breedList = array();
         $this->connection = Connection::GetInstance();
         $parameters = $this->connection->Execute($query);
         foreach ($parameters as $valuesArray) {
