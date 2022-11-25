@@ -2,9 +2,4 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 <script src="<?php echo JS_PATH . "bootstap.bundle.min.js"?>" type="text/javascript"></script>
-<div>
-    <a class="" href="https://translate.google.com.ar/?hl=es" target="_blank">
-        Power by Google Translate 
-    </a>
-</div>
 </body>
