@@ -7,14 +7,11 @@ use DAO\BookingDAO;
 use DAO\CouponDAO;
 use DAO\PetDAO;
 use DAO\KeeperDAO as KeeperDAO;
-use DAO\PetSizeDAO;
 use DAO\UserDAO;
 use DateTime;
 use Models\Booking;
 use Models\Coupon;
-use Models\Keeper;
-use Models\PetSize;
-use Controllers\ChatController;
+
 
 class BookingController
 {
@@ -172,10 +169,6 @@ class BookingController
 
             $couponDAO = new CouponDAO();
             $couponDAO->Add($coupon);
-
-            $chatController = new ChatController();
-
-            $chatController->ActiveChat($booking->getOwner(),"Tu reserva fue aceptada, se envio el cupon de pago a tu email");
 
             $this->ShowInWaitView("The reservation has been confirmed", "success");
         } else {
