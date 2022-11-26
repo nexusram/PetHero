@@ -281,13 +281,13 @@ INSERT INTO `keeper` (`id_user`, `id_petSize`, `remuneration`, `description`, `s
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `sp_filter_keeper` $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_filter_keeper` (in `petsize` int, in `startDate` date, in `endDate` date, in `id_user` int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_filter_keeper` (in `petsize` int, in `startDate` date, in `endDate` date, in `id_user` int, in `isAvailable` tinyint)
 begin 
     SELECT k.id, k.id_user, k.id_petSize, k.remuneration, k.description, k.score, k.active, count(d.date) as 'quantity'
     FROM `keeper` k
     JOIN `day` d on k.id = d.id_keeper
     WHERE k.id_petSize = `petsize`
-    AND d.isAvailable = true
+    AND d.isAvailable = `isAvailable`
     AND d.date between `startDate` and `endDate`
     AND k.id_user <> `id_user`
     group by k.id;

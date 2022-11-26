@@ -17,7 +17,6 @@ include_once(VIEWS_PATH . "nav-user.php");
 
                                    <label class="text-white">Type</label>
                                    <select class="form-control mb-3" name="type_card" required>
-                                        <option hidden selected>Select a option</option>
                                         <option value="visa">Visa</option>
                                         <option value="mastercard">Mastercard</option>
                                         <option value="naranja">Naranja</option>

@@ -29,7 +29,6 @@ include_once(VIEWS_PATH . "nav-user.php");
 
                                    <label>Method</label>
                                    <select class='form-control mb-3' name="method" required>
-                                        <option hidden selected>Select a option</option>
                                         <option value="effective">Effective</option>
                                         <option value="debit">Debit</option>
                                         <option value="credit">Credit</option>

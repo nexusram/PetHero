@@ -7,6 +7,7 @@
     interface IPetSizeDAO {
         function Add(PetSize $petSize);
         function GetAll();
+        function Modify(PetSize $petSize);
         function GetById($id);
     }
 ?>
