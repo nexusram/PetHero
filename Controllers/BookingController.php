@@ -5,6 +5,7 @@ namespace Controllers;
 
 use DAO\BookingDAO;
 use DAO\CouponDAO;
+use DAO\DayDAO;
 use DAO\PetDAO;
 use DAO\KeeperDAO as KeeperDAO;
 use DAO\UserDAO;
@@ -169,6 +170,9 @@ class BookingController
 
             $couponDAO = new CouponDAO();
             $couponDAO->Add($coupon);
+
+            $dayDAO = new DayDAO();
+            $dayDAO->SetNoAvailable($booking->getStartDate(),$booking->getEndDate(),$booking->getKeeper()->getId());
 
             $this->ShowInWaitView("The reservation has been confirmed", "success");
         } else {

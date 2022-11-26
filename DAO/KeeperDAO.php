@@ -116,7 +116,10 @@ class KeeperDAO implements IKeeperDAO
     private function FilterKeeper($pet, $startDate, $endDate)
     {
 
-        $keeperList = $this->FilterForDatesAvailables($pet, $startDate, $endDate);
+        $keeperList = $this->FilterForDates($pet, $startDate, $endDate, 1);
+        if(empty($keeperList)){
+            $keeperList = $this->FilterForDates($pet, $startDate, $endDate, 0);
+        }
 
         $bookingDAO = new BookingDAO();
         $keeperFilterList = array();
@@ -140,19 +143,20 @@ class KeeperDAO implements IKeeperDAO
         return $keeperFilterList;
     }
 
-    private function FilterForDatesAvailables($pet, $startDate, $endDate)
+    private function FilterForDates($pet, $startDate, $endDate, $isAvailable)
     {
         $keeperList = array();
         $diff = (new DateTime($startDate))->diff(new DateTime($endDate));
         $daysOfQuantity = $diff->format("%d") + 1;
 
         try {
-            $query = "CALL `sp_filter_keeper`(?, ? , ?, ?)";
+            $query = "CALL `sp_filter_keeper`(?, ? , ?, ?, ?)";
 
             $parameters["petSize"] = $pet->getPetSize()->getId();
             $parameters["startDate"] = $startDate;
             $parameters["endDate"] = $endDate;
             $parameters["id_user"] = $_SESSION["loggedUser"]->getId();
+            $parameters["isAvailable"] = $isAvailable;
 
             $this->connection = Connection::GetInstance();
             $resultSet = $this->connection->Execute($query, $parameters, QueryType::StoredProcedure);
@@ -168,6 +172,8 @@ class KeeperDAO implements IKeeperDAO
         }
         return $keeperList;
     }
+
+   
 
     private function SetKeeper($id, $id_user, $id_petSize, $remuneration, $description, $score, $active)
     {

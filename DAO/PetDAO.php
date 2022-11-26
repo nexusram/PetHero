@@ -29,7 +29,6 @@ class PetDAO implements IPetDAO
     {
         $rta = false;
         $query = "SELECT * FROM $this->tableName WHERE id_user = {$userId} AND name like '{$name}'";
-        
         if(!is_null($this->GetResult($query))) {
             $rta = true;
         }

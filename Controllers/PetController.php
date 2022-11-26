@@ -54,6 +54,7 @@
             $user = $_SESSION["loggedUser"];
 
             // Comprobamos que el pet que se desea agregar no exista(lo hacemos comparando el nombre y el id del usuario, ya que puede existir otro usuario con una mascota del mismo nombre)
+         
             if(!($this->petDAO->Exist($user->getId(), $name))) {
                 // Si no existe, instanciamos un pet y lo seteamos
                 $pet = new Pet();

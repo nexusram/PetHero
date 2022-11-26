@@ -78,6 +78,19 @@ class DayDAO implements IDayDAO
         return $array;
     }
 
+    public function SetNoAvailable($startDate, $endDate, $keeperId){
+        $query = "SELECT * FROM $this->tableName 
+        WHERE date BETWEEN '{$startDate}' AND '{$endDate}' AND id_keeper = {$keeperId}";
+        $this->GetAllQuery($query);
+
+        foreach($this->dayList as $day){
+            $day->setIsAvailable(0);
+            $this->Update($day);
+        }
+    }
+
+
+
     /*
     private function DesactiveOldDays() {
         $this->RetrieveData();

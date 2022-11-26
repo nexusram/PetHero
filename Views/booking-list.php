@@ -59,9 +59,10 @@ use Others\Utilities;
                                              <td>
                                                   <div>
                                                        <form action="<?php echo FRONT_ROOT . "Coupon/ShowMakePaymentView" ?>" method="post">
-                                                            <input type="hidden" name="id_booking" value="<?php echo $booking->getId() ?>">
-                                                            <?php
-                                                            if ($booking->getState() != 1) {
+                                                       <input type="hidden" name="id_booking" value="<?php echo $booking->getId() ?>">
+                                                       <?php
+                                                       if ($booking->getState() != 1 ||$booking->getValidate() == 1) {
+
                                                             ?>
                                                                  <button class="btn btn-warning" disabled>
                                                                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">

@@ -24,12 +24,11 @@ include_once(VIEWS_PATH . "nav-user.php");
                                     <label>Billing address</label>
                                     <input class='form-control mb-3' type="text" name="address" value="<?php echo $booking->getOwner()->getAddress() ?>" required>
 
-                                   <label>Total</label>
+                                   <label>Total (it's the 50% of total booking)</label>
                                    <input class='form-control mb-3' type="text" name="total" value="<?php echo $coupon->getTotal() ?>" disabled required>
 
                                    <label>Method</label>
                                    <select class='form-control mb-3' name="method" required>
-                                        <option hidden selected>Select a option</option>
                                         <option value="effective">Effective</option>
                                         <option value="debit">Debit</option>
                                         <option value="credit">Credit</option>

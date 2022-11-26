@@ -23,6 +23,11 @@ class HomeController
         require_once(VIEWS_PATH . "login.php");
     }
 
+    public function ShowWelcomeView() {
+        require_once(VIEWS_PATH . "validate-session.php");
+        require_once(VIEWS_PATH . "welcome.php");
+    }
+
     public function ShowRegisterView($message = "", $type = "")
     {
         require_once(VIEWS_PATH . "register.php");

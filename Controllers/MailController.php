@@ -24,7 +24,7 @@ class MailController
             $mail->Host       = 'smtp.gmail.com;smtp.live.com';                     //Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
             $mail->Username   = 'nahuelsuarez9797@gmail.com';                     //SMTP username
-            $mail->Password   = 'VA LA CONTRASENIA';                               //SMTP password
+            $mail->Password   = 'ACA VA la CONTRASENIA';                               //SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
             $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
@@ -50,8 +50,8 @@ class MailController
             $mail->Body    = "
             <table style='border: 8px groove orange;width: 600px;height: 300px;margin: 15px auto 0px auto; background-color:silver'>
             <tr>
-            <td style='text-align:center;font-size:50px;'>$mensaje</td> 
-            <td style='font-size:50px;'>$mensaje2</td>                
+            <td style='font-size:20px;'>$mensaje</td> 
+            <td style='font-size:20px;'>$mensaje2</td>                
             </tr>
             </table>
             ";
