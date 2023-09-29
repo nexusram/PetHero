@@ -2,67 +2,75 @@
 
 namespace Controllers;
 
-use DAO\BookingDAO;
 use DAO\KeeperDAO;
 use DAO\PetSizeDAO;
 use DAO\UserDAO;
 use Models\Keeper;
-use Models\PetSize;
 use Others\Utilities;
 
 class KeeperController
 {
     private $keeperDAO;
+    private $homeController;
 
     public function __construct()
     {
         $this->keeperDAO = new KeeperDAO();
+        $this->homeController = new HomeController();
     }
 
-    // Muestra vista de add keeper
-    public function ShowAddView()
+    //check if the session is started, if it is started you will see the Show List view if not the login to start
+    public function Index($message = "")
     {
-        require_once(VIEWS_PATH . "validate-session.php");
+        if (isset($_SESSION["loggedUser"])) {
+            $this->homeController->ShowWelcomeView();
+        } else if (!isset($_SESSION["loggedUser"])) {
+            $this->homeController->ShowLoginView();
+        }
+    }
 
+    //show the view to add a keeper
+    public function ShowAddView($message = "")
+    {
+        $this->homeController->ShowValidateSessionView();
+        //$this->homeController->NavUser();
+        $listEmpty = "";
         $petSizeDAO = new PetSizeDAO();
         $petSizeList = $petSizeDAO->GetAll();
-        $keeper = $this->CheckKeeper($_SESSION["loggedUser"]->getId());
+        $keeper = $this->keeperDAO->GetByUserId($_SESSION["loggedUser"]->getId());
         if ($keeper) {
             $this->SetActive($keeper, true);
         } else {
+            $listEmpty = "<div class= 'container'>
+               <div class='form-group text-center'>
+               <div class='alert alert-danger mt-3'>
+              <p>Sorry, currently we do not have user available at the moment</p>
+              </div></div></div>";
+
             require_once(VIEWS_PATH . "add-keeper.php");
         }
     }
 
-    // Muestra un listado de keepers
-    public function ShowListView()
+    //show keepers list view
+    public function ShowListView($message = "")
     {
-        require_once(VIEWS_PATH . "validate-session.php");
-
+        $this->homeController->ShowValidateSessionView();
+        $this->homeController->NavUser();
+        $listEmpy = "";
         $utilities = new Utilities();
         $keeperList = $this->keeperDAO->GetAll();
-
+            $listEmpy = "<div class= 'container'>
+    <div class='form-group text-center'>
+    <div class='alert alert-warning mt-3'>
+   <p>Sorry, currently no keeper available at this time</p>
+   </div></div></div>";
         require_once(VIEWS_PATH . "keeper-list.php");
     }
 
-    public function ShowValidateView()
-    {
-        require_once(VIEWS_PATH . "validate-session.php");
-
-        $bookingController= new BookingController();
-        $bookingController->ShowPaymentView();
-    }
-
-    // Chequea que un usuario sea keeper
-    public function CheckKeeper($userId)
-    {
-        return $this->keeperDAO->GetByUserId($userId);
-    }
-
-    // Agrega un keeper
+    //add a keeper and it takes you to the profile view, as parameters would be the renumbering, the size of the animal and description
     public function Add($remuneration, $petSize, $description)
     {
-        require_once(VIEWS_PATH . "validate-session.php");
+        $this->homeController->ShowValidateSessionView();
 
         $keeper = new Keeper();
 
@@ -83,23 +91,32 @@ class KeeperController
         $this->keeperDAO->Add($keeper);
 
         $userController = new UserController();
-        $userController->ShowProfileView();
+        $message="<div class= 'container'>
+        <div class='form-group text-center'>
+        <div class='alert alert-success mt-3'>
+       <p>Success, keeper created</p>
+       </div></div></div>";
+        $userController->ShowProfileView($message);
     }
 
+    //modify a keeper and save the changes in the database, how the keeper has parameters and if it is active
     private function SetActive(Keeper $keeper, $active)
     {
-        require_once(VIEWS_PATH . "validate-session.php");
+        $this->homeController->ShowValidateSessionView();
 
         $keeper->setActive($active);
 
         $this->keeperDAO->Modify($keeper);
 
-        $this->ShowValidateView();
+        $bookingController = new BookingController();
+        $bookingController->ShowPaymentView();
     }
 
+    //return to owner view
     public function ReturnOwner()
     {
-        require_once(VIEWS_PATH . "validate-session.php");
+        $this->homeController->ShowValidateSessionView();
+        //$this->homeController->NavUser();
         $keeper = $this->keeperDAO->GetByUserId($_SESSION["loggedUser"]->getId());
 
         $keeper->setActive(0);

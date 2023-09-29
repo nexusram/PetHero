@@ -12,7 +12,8 @@ class PetSizeDAO implements IPetSizeDAO
     private $connection;
     private $tableName = "PetSize";
 
-    public function MaxPetType()
+    //return max id petSize
+    public function MaxSize()
     {
         $query = "SELECT MAX(id) as cont FROM $this->tableName";
         try {
@@ -25,14 +26,16 @@ class PetSizeDAO implements IPetSizeDAO
         return $result;
     }
 
+//add petSize
     public function Add(PetSize $petSize)
     {
-        $result = $this->MaxPetType();
-        $petSize->setId(++$result); //seteo el id autoincremental
+        $result = $this->MaxSize();
+        $petSize->setId(++$result);
         $query = "INSERT INTO  $this->tableName (id,name) VALUES (:id,:name);";
         $this->SetQuery($petSize, $query);
     }
 
+//Insert a petSizee in the Query//
     private function SetQuery(PetSize $petSize, $query)
     {
         try {
@@ -45,18 +48,21 @@ class PetSizeDAO implements IPetSizeDAO
         }
     }
 
+//return all results query
     public function GetAll()
     {
         $this->RetrieveData();
         return $this->petSizeList;
     }
 
+//return all results query
     private function RetrieveData()
     {
         $query = "SELECT * FROM $this->tableName";
         $this->GetAllQuery($query);
     }
 
+ /*return all Result of Query */
     private function GetAllQuery($query)
     {
         $this->petSizeList = array();
@@ -75,25 +81,27 @@ class PetSizeDAO implements IPetSizeDAO
             throw $ex;
         }
     }
-    
+
+    //modify petSize
     public function Modify(PetSize $petSize)
     {
         $this->Update($petSize);
     }
 
+//modify petSize
     private function Update(PetSize $petSize)
     {
         $query = "UPDATE $this->tableName SET id = :id, name = :name WHERE id = {$petSize->getId()};";
         $this->SetQuery($petSize, $query);
-        /*$connection = $this->connection;
-        $connection->Execute($query);*/
     }
 
+//return petSize for id
     public function GetById($id)
     {
         $query = "SELECT * FROM $this->tableName where id = {$id};";
         return $this->GetResult($query);
     }
+
     /*return Result of Query */
     private function GetResult($query)
     {

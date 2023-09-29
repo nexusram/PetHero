@@ -1,11 +1,4 @@
-<?php
 
-use Models\Booking;
-use Others\Utilities;
-
-include_once(VIEWS_PATH . "validate-session.php");
-include_once(VIEWS_PATH . "nav-user.php");
-?>
 <main class="py-5">
      <section id="listado" class="mb-5">
           <div class="container">
@@ -21,7 +14,8 @@ include_once(VIEWS_PATH . "nav-user.php");
                          <th>Total</th>
                          <th>State</th>
                          <th>isPayment</th>
-                         <th>Actions</th>
+                         <th>Info</th>
+                         <th>Message</th>
                     </thead>
                     <tbody>
                          <?php
@@ -34,19 +28,17 @@ include_once(VIEWS_PATH . "nav-user.php");
                                         <td><?php echo $booking->getStartDate(); ?></td>
                                         <td><?php echo $booking->getEndDate(); ?></td>
                                         <td><?php echo $booking->getKeeper()->getRemuneration() ?></td>
-                                        <td><?php $date = new Utilities();
-                                             echo $date->getDiference($booking->getStartDate(), $booking->getEndDate()) ?></td>
+                                        <td><?php echo $date->getDiference($booking->getStartDate(), $booking->getEndDate()) ?></td>
                                         <td><?php echo $booking->getTotal() ?></td>
                                         <td>
                                              <?php
-                                             if ($booking->getState() == 1) {
-                                                  echo "<span class='badge bg-success p-2'>Confirm</span>";
-                                             } else if ($booking->getState() == 0) {
-                                                  echo "<span class='badge bg-warning p-2'>In wait</span>";
-                                             } else {
-                                                  echo "<span class='badge bg-danger p-2'>Declined</span>";
-                                             }
-                                             ?>
+                                             if ($booking->getState() == 1) { ?>
+                                                  <span class='badge bg-success p-2'>Confirm</span>
+                                            <?php } else if ($booking->getState() == 0) { ?>
+                                                  <span class='badge bg-warning p-2'>In wait</span>
+                                             <?php } else { ?>
+                                                  <span class='badge bg-danger p-2'>Declined</span>
+                                            <?php } ?>
                                         </td>
                                         <td><?php echo ($booking->getValidate()) ? "Yes" : "No"; ?></td>
                                         <td>
@@ -60,6 +52,17 @@ include_once(VIEWS_PATH . "nav-user.php");
                                                   </button>
                                              </form>
                                         </td>
+                                        <td>
+                                             <form action="<?php echo FRONT_ROOT . "Message/getMessage" ?>" method="post">
+                                                  <input type="hidden" name="user" value="<?php echo $booking->getOwner()->getId()?>">
+                                                  <input type="hidden" name="keeper" value="<?php echo  $booking->getKeeper()->getUser()->getId()?>">
+                                                  <button class="btn btn-info">
+                                                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chat-left" viewBox="0 0 16 16">
+                                                            <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                                                       </svg>
+                                                  </button>
+                                             </form>
+                                        </td>
                                    </tr>
                          <?php
                               }
@@ -67,18 +70,19 @@ include_once(VIEWS_PATH . "nav-user.php");
                          ?>
                     </tbody>
                </table>
-
                <?php
-               require_once(VIEWS_PATH . "menu-list.php");
+               if (!empty($listEmpy)){
+                      echo $listEmpy;
+                 }
+               if(isset($list))
+               {
+                    echo $list;
+               }
                ?>
           </div>
           <div class="mt-3">
-               <?php
-               require_once(VIEWS_PATH . "message.php");
-               ?>
+               <?php if(isset($message))
+               echo $message ?>
           </div>
      </section>
 </main>
-<?php
-include('footer.php')
-?>

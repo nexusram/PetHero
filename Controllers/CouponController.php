@@ -1,59 +1,93 @@
 <?php
 
-    namespace Controllers;
+namespace Controllers;
 
 use DAO\BookingDAO;
 use DAO\CouponDAO;
 
-    class CouponController {
-        private $couponDAO;
+class CouponController
+{
+    private $couponDAO;
+    private $homeController;
 
-        public function __construct() {
-            $this->couponDAO = new CouponDAO();
+    public function __construct()
+    {
+        $this->couponDAO = new CouponDAO();
+        $this->homeController = new HomeController();
+    }
+
+     //check if the session is started, if it is started you will see the welcome view if not the login to start/ 
+    public function Index($message = "")
+    {
+        if (isset($_SESSION["loggedUser"])) {
+            $this->homeController->ShowWelcomeView();
+        } else if (!isset($_SESSION["loggedUser"])) {
+            $this->homeController->ShowLoginView();
         }
-
-        public function ShowMakePaymentView($id_booking) {
-            require_once(VIEWS_PATH . "validate-session.php");
-
-            $coupon = $this->couponDAO->GetByBookingId($id_booking);
-
-            $bookingDAO = new BookingDAO();
-            $booking = $bookingDAO->GetById($id_booking);
-
-            require_once(VIEWS_PATH . "simulator-payment.php");
+    }
+    
+    //show the view to simulate a payment, using the booking id find the invoice
+    public function ShowMakePaymentView($id_booking)
+    {
+        $this->homeController->ShowValidateSessionView();
+        $this->homeController->NavUser();
+        $coupon = $this->couponDAO->GetByBookingId($id_booking);
+        $listEmpty = "";
+        $bookingDAO = new BookingDAO();
+        $booking = $bookingDAO->GetById($id_booking);
+        if (empty($bookingList)) {
+            $listEmpty = "<div class= 'container'>
+           <div class='form-group text-center'>
+           <div class='alert alert-danger mt-3'>
+          <p>Sorry, currently we do not have booking available at the moment</p>
+          </div></div></div>";
         }
+        require_once(VIEWS_PATH . "simulator-payment.php");
+    }
 
-        public function ShowPaymentView($bookingId, $address="", $method="") {
-            require_once(VIEWS_PATH . "validate-session.php");
+    //shows the payment method view, it has the booking id, method and address as parameters
+    public function ShowPaymentView($bookingId, $address = "", $method = "")
+    {
+        $this->homeController->ShowValidateSessionView();
 
-            if($method != "effective") {
-                $this->ShowCardPaymentView($bookingId);
-            } else {
-                $this->ShowEffectiveView($bookingId);
-            }
+        if ($method != "effective") {
+            $this->ShowCardPaymentView($bookingId);
+        } else {
+            $this->ShowEffectiveView($bookingId);
         }
+    }
 
-        public function ShowPaymentResult($message="", $type="") {
-            require_once(VIEWS_PATH . "validate-session.php");
-            include_once(VIEWS_PATH . "nav-user.php");
+    //show payment results view
+    public function ShowPaymentResult($message = "")
+    {
+        $this->homeController->ShowValidateSessionView();
+        $this->homeController->NavUser();
 
-            require_once(VIEWS_PATH . "payment-result.php");
-        }
+        require_once(VIEWS_PATH . "payment-result.php");
+    }
 
-        public function ShowEffectiveView($bookingId) {
-            $this->ShowPaymentResult("The coupon has been sent to your email.
-            Means enabled to pay: Pago facil, Rapipago y Ripsa");
-            $mailcontroller = new MailController();
-            $bookingDAO = new BookingDAO();
-            $booking = $bookingDAO->GetById($bookingId);
-            $code = rand(1, 500000000);
+    //create the ticket to be sent by mail, using booking id as parameter
+    public function ShowEffectiveView($bookingId)
+    {
+        $this->homeController->ShowValidateSessionView();
 
-            $namePet = $booking->getPet()->getName();
-            $nameKeeper = $booking->getKeeper()->getUser()->getName();
-            $nameKeeperLast = $booking->getKeeper()->getUser()->getSurname();
+        $this->ShowPaymentResult("<div class= 'container'>
+            <div class='form-group text-center'>
+            <div class='alert alert-success mt-3'>
+                      <p>The coupon has been sent to your email.
+                      Means enabled to pay: Pago facil, Rapipago y Ripsa</p>
+                      </div></div></div>");
+        $mailcontroller = new MailController();
+        $bookingDAO = new BookingDAO();
+        $booking = $bookingDAO->GetById($bookingId);
+        $code = rand(1, 500000000);
 
-            $total = $booking->getTotal();
-            $mailcontroller->sendMail($_SESSION["loggedUser"]->getEMail(),"Coupon-PetHero-$namePet", "
+        $namePet = $booking->getPet()->getName();
+        $nameKeeper = $booking->getKeeper()->getUser()->getName();
+        $nameKeeperLast = $booking->getKeeper()->getUser()->getSurname();
+
+        $total = $booking->getTotal();
+        $mailcontroller->sendMail($_SESSION["loggedUser"]->getEMail(), "Coupon-PetHero-$namePet", "
             <div>
             <h1>BOOKING COUPON</h1>
 
@@ -62,7 +96,7 @@ use DAO\CouponDAO;
             <p><strong>Keeper: </strong>$nameKeeper $nameKeeperLast</p>
             <br>
             </div>
-            ","
+            ", "
             <div>
             <p><strong>Total: </strong> $total</p>
             <br>
@@ -70,58 +104,66 @@ use DAO\CouponDAO;
             <br>
             <p><strong>Present this code in the payment entity</strong></p>
             </div>");
+    }
 
-        }
+    //shows the card payment view, using the booking id
+    public function ShowCardPaymentView($bookingId, $message = "")
+    {
+        $this->homeController->ShowValidateSessionView();
+        $this->homeController->NavUser();
 
-        public function ShowCardPaymentView($bookingId, $message="", $type="") {
-            require_once(VIEWS_PATH . "validate-session.php");
-            include_once(VIEWS_PATH . "nav-user.php");
+        require_once(VIEWS_PATH . "card-payment.php");
+    }
 
-            require_once(VIEWS_PATH . "card-payment.php");
-        }
+    //Create the ticket to be sent by mail, paid with credit card, as parameters bookingId, numbers, type_card, expiration, cvc, name and ID
+    public function PayWithCard($bookingId, $numbers, $type_card, $expiration, $cvc, $name, $dni, $message = "")
+    {
+        $this->homeController->ShowValidateSessionView();
+        $expiration = date(FORMAT_DATE, strtotime($expiration));
 
-        public function PayWithCard($bookingId, $numbers, $type_card, $expiration, $cvc, $name, $dni, $message="", $type="") {
-            $expiration = date(FORMAT_DATE, strtotime($expiration));
+        $card = array();
+        $card["numbers"] = $numbers;
+        $card["type"] = $type_card;
+        $card["expiration"] = $expiration;
+        $card["cvc"] = $cvc;
+        $card["title"] = $name;
+        $card["ide"] = $dni;
 
-            $card = array();
-            $card["numbers"] = $numbers;
-            $card["type"] = $type_card;
-            $card["expiration"] = $expiration;
-            $card["cvc"] = $cvc;
-            $card["title"] = $name;
-            $card["ide"] = $dni;
+        if ($card["expiration"] < date(FORMAT_DATE)) {
+            $this->ShowCardPaymentView($bookingId,"<div class= 'container'>
+            <div class='form-group text-center'>
+            <div class='alert alert-success mt-3'>
+                      <p>Your card has expired</p>
+                      </div></div></div>");
+        } else {
+            $couponDAO = new CouponDAO();
+            $coupon = $couponDAO->GetByBookingId($bookingId);
+            $bookingDAO = new BookingDAO();
+            $booking = $bookingDAO->GetById($bookingId);
 
-            if($card["expiration"] < date(FORMAT_DATE)) {
-                $this->ShowCardPaymentView($bookingId, "Your card has expired");
-            } else {
-                $couponDAO = new CouponDAO();
-                $coupon = $couponDAO->GetByBookingId($bookingId);
-                $bookingDAO = new BookingDAO();
-                $booking = $bookingDAO->GetById($bookingId);
+            $coupon->setIsPayment(1);
+            $booking->setValidate(1);
 
-                $coupon->setIsPayment(1);
-                $booking->setValidate(1);
+            $bookingDAO->Modify($booking);
+            $couponDAO->Modify($coupon);
 
-                $bookingDAO->Modify($booking);
-                $couponDAO->Modify($coupon);
+            $mailcontroller = new MailController();
+            $bookingDAO = new BookingDAO();
+            $booking = $bookingDAO->GetById($bookingId);
 
-                $mailcontroller = new MailController();
-                $bookingDAO = new BookingDAO();
-                $booking = $bookingDAO->GetById($bookingId);
 
-    
-                $namePet = $booking->getPet()->getName();
-                $nameKeeper = $booking->getKeeper()->getUser()->getName();
-                $nameKeeperLast = $booking->getKeeper()->getUser()->getSurname();
-    
-                $total = $booking->getTotal();
+            $namePet = $booking->getPet()->getName();
+            $nameKeeper = $booking->getKeeper()->getUser()->getName();
+            $nameKeeperLast = $booking->getKeeper()->getUser()->getSurname();
 
-                $now = date(FORMAT_DATE);
-                $cardUlt = substr($card["numbers"], 12, strlen($card["numbers"]));
-                
-                $addressOwner = $booking->getOwner()->getAddress();
+            $total = $booking->getTotal();
 
-                $mailcontroller->sendMail($_SESSION["loggedUser"]->getEMail(),"Coupon-PetHero-$namePet", "
+            $now = date(FORMAT_DATE);
+            $cardUlt = substr($card["numbers"], 12, strlen($card["numbers"]));
+
+            $addressOwner = $booking->getOwner()->getAddress();
+
+            $mailcontroller->sendMail($_SESSION["loggedUser"]->getEMail(), "Coupon-PetHero-$namePet", "
                 <div>
                 <h1>Bill Booking</h1>
                 <p><strong>Date: </strong>$now </p>
@@ -134,12 +176,16 @@ use DAO\CouponDAO;
                 <p><strong>Keeper: </strong>$nameKeeper $nameKeeperLast</p>
                 <br>
                 </div>
-                ","
+                ", "
                 <div>
                 <p><strong>Total: </strong> $total</p>
                 </div>");
-    
-                $this->ShowPaymentResult("Your payment has been made successfully. The invoice has been sent to your email", "success");
-            }
+
+            $this->ShowPaymentResult("<div class= 'container'>
+            <div class='form-group text-center'>
+            <div class='alert alert-success mt-3'>
+                      <p>Your payment has been made successfully. The invoice has been sent to your email</p>
+                      </div></div></div>");
         }
     }
+}

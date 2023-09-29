@@ -1,7 +1,4 @@
-<?php
-include_once(VIEWS_PATH . "validate-session.php");
-include_once(VIEWS_PATH . "nav-user.php");
-?>
+
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container">
@@ -15,13 +12,9 @@ include_once(VIEWS_PATH . "nav-user.php");
 
                             <label>Size of pet to care*</label>
                             <select class="form-control mb-3" name="petSize" id="petSize" required>
-                                <?php
-                                foreach ($petSizeList as $petSize) {
-                                    echo "<option value=" . $petSize->getId() . ">
-                                                " . $petSize->getName() . "
-                                            </option>";
-                                }
-                                ?>
+                                <?php foreach ($petSizeList as $petSize) { ?>
+                                    <option value=<?php echo $petSize->getId() ?>><?php echo $petSize->getName() ?></option>
+                                    <?php } ?>
                             </select>
                             <label>Description*</label>
                             <input type="text" name="Description" class="form-control mb-3" placeholder="description of the animal" required>

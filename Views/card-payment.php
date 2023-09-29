@@ -1,6 +1,4 @@
-<?php
-include_once(VIEWS_PATH . "nav-user.php");
-?>
+
 <main class="py-5">
      <section id="listado" class="mb-5">
           <div class="container ">
@@ -36,15 +34,15 @@ include_once(VIEWS_PATH . "nav-user.php");
                                    <label class="text-white">Dni</label>
                                    <input class='form-control mb-3' type="text" name="dni" placeholder="Enter dni of owner it is card" required>
 
-                                   <button type="submit" name="btn" class="btn btn-success ml-auto mr-auto d-block text-center p-3 text-white">
+                                   <a class="btn btn-danger" href="<?php echo FRONT_ROOT . "Booking/ShowListView" ?>">Cancel</a>
+                                  
+                                   <button type="submit" name="btn" class="btn btn-success">
                                         Pay
                                    </button>
 
-                                   <a class="btn btn-danger ml-auto mr-auto d-block text-center mt-3 p-3" href="<?php echo FRONT_ROOT . "Booking/ShowListView" ?>">Cancel</a>
-
                                    <div class="mt-3">
-                                        <?php
-                                        require_once(VIEWS_PATH . "message.php");
+                                        <?php if(isset($message))
+                                        echo $message
                                         ?>
                                    </div>
                               </div>

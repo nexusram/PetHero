@@ -12,22 +12,23 @@ class UserDAO implements IUserDAO
     private $connection;
     private $tableName = "User";
 
+    //ad user
     public function Add(User $user)
     {
         $this->Insert($user);
     }
-
+    //modify user
     public function Modify(User $user)
     {
         $this->Update($user);
     }
-
+    //return all users
     public function GetAll()
     {
         $this->RetrieveData();
         return $this->userList;
     }
-
+    //user count
     public function CountUser()
     {
         try {
@@ -41,19 +42,20 @@ class UserDAO implements IUserDAO
         return $result;
     }
 
+    //return user for id
     public function GetById($id)
     {
         $query = "SELECT * FROM $this->tableName WHERE id like '$id'";
         return $this->GetResult($query);
     }
-
+    //return user for name
     public function GetByUserName($userName)
     {
         $query = "SELECT * FROM $this->tableName WHERE userName like '$userName'";
 
         return $this->GetResult($query);
     }
-
+    //return user for mail
     public function GetByEmail($email)
     {
         $query = "SELECT * FROM $this->tableName WHERE email like '$email'";
@@ -61,28 +63,28 @@ class UserDAO implements IUserDAO
         return $this->GetResult($query);
     }
 
-    // Insert a user in the table
+    // Insert a user
     private function Insert(User $user)
     {
         $query = "INSERT INTO  $this->tableName (userType, name, surname, userName, password, email, birthDay, cellphone, address) VALUES (:userType, :name, :surname, :userName, :password, :email, :birthDay, :cellphone, :address);";
         $this->SetQuery($query, $user);
     }
 
-    // Update a user in the table
+    // Update a user
     private function Update(User $user)
     {
         $query = "UPDATE $this->tableName SET userType = :userType, name = :name, surname = :surname, userName = :userName, password = :password, email = :email, birthDay = :birthDay, cellphone = :cellphone, address = :address WHERE id = {$user->getId()};";
         $this->SetQuery($query, $user);
     }
 
-    // Set list pet with info of table
+    //return all users
     private function RetrieveData()
     {
         $query = "SELECT * FROM $this->tableName";
 
         $this->GetAllQuery($query);
     }
-
+    //return all results query
     private function GetAllQuery($query)
     {
         $this->userList = array();
@@ -103,7 +105,6 @@ class UserDAO implements IUserDAO
                 $user->setCellphone($valuesArray["cellphone"]);
                 $user->setAddress($valuesArray["address"]);
                 array_push($this->userList, $user);
-
             }
         } catch (Exception $ex) {
             throw $ex;
@@ -114,7 +115,7 @@ class UserDAO implements IUserDAO
     /*return Result of Query */
     private function GetResult($query)
     {
-        
+
         try {
             $this->connection = Connection::GetInstance();
 
@@ -139,7 +140,8 @@ class UserDAO implements IUserDAO
         }
         return $user;
     }
-
+    
+ //Insert a user in the Query//
     private function SetQuery($query, User $user)
     {
         try {

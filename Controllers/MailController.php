@@ -9,6 +9,16 @@ use PHPMailer\PHPMailer\Exception;
 class MailController
 {
 
+//check if the session is started, if it is started you will see the Show Pet view if not the login to start
+    public function Index($message = "")
+    {
+        if (isset($_SESSION["loggedUser"])) {
+            require_once(VIEWS_PATH . "welcome.php");
+        } else if (!isset($_SESSION["loggedUser"])) {
+            require_once(VIEWS_PATH . "login.php");
+        }
+    }
+//send mail,parameters the user,s mail,tittle,message,message2
     public function sendMail($mailUser,$titulo,$mensaje,$mensaje2)
     {
         require_once(ROOT . 'PHPMailer/PHPMailer.php');
@@ -18,34 +28,19 @@ class MailController
         $mail = new PHPMailer(true);
 
         try {
-            //Server settings
-            $mail->SMTPDebug = 0;                      //Enable verbose debug output
-            $mail->isSMTP();                                            //Send using SMTP
-            $mail->Host       = 'smtp.gmail.com;smtp.live.com';                     //Set the SMTP server to send through
-            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-            $mail->Username   = 'nahuelsuarez9797@gmail.com';                     //SMTP username
-            $mail->Password   = 'ACA VA la CONTRASENIA';                               //SMTP password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-            $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+            $mail->SMTPDebug = 0;                    
+            $mail->isSMTP();                                          
+            $mail->Host       = 'smtp.gmail.com;smtp.live.com';                  
+            $mail->SMTPAuth   = true;                                  
+            $mail->Username   = '';                    
+            $mail->Password   = '';                             
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            
+            $mail->Port       = 465;                                   
 
-            //Recipients
-            $mail->setFrom('nahuelsuarez9797@gmail.com','Pet');
+            $mail->setFrom('','Pet');
             $mail->addAddress($mailUser);
-            //$mail->addAddress('lucreciadenisebazan@gmail.com');  //Add a recipient
-
-            ///RECIBIR EL LISTADO DE MAILS
-            /*
-            $emails = $array;
-            for($i = 0; $i < count($emails); $i++){
-                $mail->AddAddress($emails[$i]);
-            }
-            /*
-            //Attachments
-            $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-            $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
-            */
-            //Content
-            $mail->isHTML(true);                                  //Set email format to HTML
+          
+            $mail->isHTML(true);                                 
             $mail->Subject = $titulo;
             $mail->Body    = "
             <table style='border: 8px groove orange;width: 600px;height: 300px;margin: 15px auto 0px auto; background-color:silver'>

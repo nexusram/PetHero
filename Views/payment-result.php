@@ -1,3 +1,4 @@
+
 <main class="py-5">
     <section id="listado" class="mb-5">
         <div class="container ">
@@ -9,9 +10,8 @@
                         <div class="form-group">
                             <h2 class="text-center">Thank you for using Fast Pay!</h2>
                             <?php
-                            require_once(VIEWS_PATH . "message.php");
+                            echo $message;
                             ?>
-
                             <div>
                                 <a class="btn btn-primary ml-auto mr-auto d-block text-center mt-3 p-3" href="<?php echo FRONT_ROOT . "Booking/ShowListView" ?>">Back</a>
                             </div>
