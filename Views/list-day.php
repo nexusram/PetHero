@@ -1,9 +1,3 @@
-<?php
-
-
-include_once(VIEWS_PATH . "validate-session.php");
-include_once(VIEWS_PATH . "nav-user.php");
-?>
 <main class="py-5">
      <section id="listado" class="mb-5">
           <div class="container">
@@ -18,41 +12,33 @@ include_once(VIEWS_PATH . "nav-user.php");
                     </div>
                </div>
                <h2 class="mb-4">Available day's</h2>
-               <?php
-               if (!empty($dayList)) {
-               ?>
-                    <table class="table table-dark text-center">
-                         <thead>
-                              <th>Day</th>
-                              <th>Month</th>
-                              <th>Year</th>
-                              <th>Date</th>
-                              <th>Available</th>
-                              <th>Actions</th>
-                         </thead>
-                         <tbody>
+               <table class="table table-dark text-center">
+                    <thead>
+                         <th>Day</th>
+                         <th>Month</th>
+                         <th>Year</th>
+                         <th>Date</th>
+                         <th>Available</th>
+                         <th>Actions</th>
+                    </thead>
+                    <tbody>
                          <?php
-                    }
-                         ?>
-                         <?php
-                         if (!empty($dayList)) {
-                              foreach ($dayList as $day) {
-                                  
-                         ?>
+                         if (isset($dayList)) {
+                              foreach ($dayList as $day) { ?>
                                    <form action="<?php echo FRONT_ROOT . "Day/NotAvailable" ?>" method="post">
                                         <tr>
                                              <td><?php echo date("l", strtotime($day->getDate())) ?></td>
                                              <td><?php echo date("F", strtotime($day->getDate())) ?></td>
-                                             <td><?php echo date("Y", strtotime($day->getDate()))?></td>
+                                             <td><?php echo date("Y", strtotime($day->getDate())) ?></td>
                                              <td><?php echo $day->getDate() ?></td>
                                              <td>
-                                                <?php
-                                                    if($day->getIsAvailable()) {
-                                                        echo "<span class='badge bg-success'>Yes</span>";
-                                                    } else {
-                                                        echo "<span class='badge bg-danger'>No</span>";
-                                                    }
-                                                ?>
+                                                  <?php
+                                                  if ($day->getIsAvailable()) { ?>
+                                                       <span class='badge bg-success'>Yes</span>
+                                                  <?php } else { ?>
+                                                       <span class='badge bg-danger'>No</span>
+                                                  <?php  }
+                                                  ?>
                                              </td>
                                              <td>
                                                   <button type="submit" name="btnNotAvailable" class="btn btn-danger" value="<?php echo $day->getId() ?>">X</button>
@@ -61,27 +47,23 @@ include_once(VIEWS_PATH . "nav-user.php");
                                    </form>
                          <?php
                               }
-                         } else {
-                              echo "<div class='container alert alert-warning'>
-                         <div class='content text-center'>
-                              <p><strong>You have no added days. to start add with the #Add button</strong></p>
-                         </div>
-                    </div>";
                          }
                          ?>
-                         </tbody>
-                    </table>
-                    <div>
-                         <a class="btn btn-secondary" href="<?php echo FRONT_ROOT . "Day/ShowNotAvailableView"?>">
-                              Not Available Days
-                         </a>
-                    </div>
-          </div>
-          <?php
-               include_once(VIEWS_PATH . "message.php");
-          ?>
+                    </tbody>
+               </table>
+               <?php
+               if (!empty($listEmpty)) {
+                    echo $listEmpty;
+               }
+               if (!empty($message)) {
+                    echo $message;
+               }
+               ?>
+               <div>
+                    <a class="btn btn-secondary" href="<?php echo FRONT_ROOT . "Day/ShowNotAvailableView" ?>">
+                         Not Available Days
+                    </a>
                </div>
-          <?php
-          ?>
+          </div>
      </section>
 </main>

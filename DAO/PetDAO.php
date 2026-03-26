@@ -15,45 +15,52 @@ class PetDAO implements IPetDAO
     private $connection;
     private $tableName = "Pet";
 
+    //add pet
     public function Add(Pet $pet)
     {
         $this->Insert($pet);
     }
 
+    //modify pet
     public function Modify(Pet $pet)
     {
         $this->Update($pet);
     }
 
+    //return if exist pet
     public function Exist($userId, $name)
     {
         $rta = false;
-        $query = "SELECT * FROM $this->tableName WHERE id_user = {$userId} AND name like '{$name}'";
-        if(!is_null($this->GetResult($query))) {
+        $query = "SELECT * FROM $this->tableName WHERE id_user = {$userId} AND name like '{$name}' AND active = 1";
+        if (!is_null($this->GetResult($query))) {
             $rta = true;
         }
 
         return $rta;
     }
 
+    //return pets active
     public function GetActivePetsOfUser($userId)
     {
         $query = "SELECT * FROM $this->tableName where id_user = {$userId} AND active = 1;";
-        return $this->GetAllQuery($query);
+        $this->GetAllQuery($query);
+        return $this->petList;
     }
 
+    //return pet for id
     public function GetPetById($id)
     {
         $query = "SELECT * FROM $this->tableName where id = {$id};";
         return $this->GetResult($query);
     }
 
+    /*return Result of Query */
     private function GetResult($query)
     {
         try {
             $this->connection = Connection::GetInstance();
             $result = $this->connection->Execute($query);
-            
+
             $pet = null;
             if (!empty($result)) {
                 $pet = new Pet();
@@ -90,19 +97,21 @@ class PetDAO implements IPetDAO
         return $pet;
     }
 
+    //return all pet
     public function GetAll()
     {
         $this->RetrieveData();
         return $this->petList;
     }
 
-    // Insert a pet in the table
+    //add pet
     private function Insert(Pet $pet)
     {
         $query = "INSERT INTO  $this->tableName (id_user,name,id_petType,id_breed,id_petSize,observation,picture,vacunationPlan,video,active) VALUES (:id_user,:name,:id_petType,:id_breed,:id_petSize,:observation,:picture,:vacunationPlan,:video,:active);";
         $this->Setquery($pet, $query);
     }
 
+    //Insert a petSizee in the Query//
     private function Setquery(Pet $pet, $query)
     {
         try {
@@ -123,20 +132,21 @@ class PetDAO implements IPetDAO
             throw $ex;
         }
     }
-    // Update a pet in the table
+    // Update pet
     private function Update(Pet $pet)
     {
-        $query = "UPDATE this->tableName SET id_user = :id_user, name = :name, id_petType = :id_petType, id_breed = :id_breed, id_petSize = :id_petSize, observation = :observation, picture = :picture, vacunationPlan = :vacunationPlan, video = :video, active = :active WHERE id = {$pet->getId()};";
+        $query = "UPDATE $this->tableName SET id_user = :id_user, name = :name, id_petType = :id_petType, id_breed = :id_breed, id_petSize = :id_petSize, observation = :observation, picture = :picture, vacunationPlan = :vacunationPlan, video = :video, active = :active WHERE id = {$pet->getId()};";
         $this->Setquery($pet, $query);
     }
 
-    // Set list pet with info of table
+    //return all pet
     private function RetrieveData()
     {
         $query = "SELECT * FROM $this->tableName";
         $this->GetAllQuery($query);
     }
 
+    /*return all Result of Query */
     private function GetAllQuery($query)
     {
         $this->petList = array();
@@ -144,8 +154,6 @@ class PetDAO implements IPetDAO
             $this->connection = Connection::GetInstance();
             $resultSet = $this->connection->Execute($query);
 
-            $petList = array();
-            
             foreach ($resultSet as $value) {
                 $pet = new Pet();
                 $pet->setId($value["id"]);
@@ -175,11 +183,10 @@ class PetDAO implements IPetDAO
                 $petSize = $petSizeDAO->GetById($value["id_petSize"]);
                 $pet->setPetSize($petSize);
 
-                array_push($petList, $pet);
+                array_push($this->petList, $pet);
             }
         } catch (Exception $ex) {
             throw $ex;
         }
-        return $petList;
     }
 }

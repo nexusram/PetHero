@@ -1,7 +1,3 @@
-<?php
-include_once(VIEWS_PATH . "validate-session.php");
-include_once(VIEWS_PATH . "nav-user.php");
-?>
 <main class="py-5">
      <section id="listado" class="mb-5">
           <div class="container">
@@ -19,13 +15,15 @@ include_once(VIEWS_PATH . "nav-user.php");
                                    ?>
                                         <label for="">Select your keeper</label>
                                         <select class="form-control mb-3" name="keeper" required>
-                                             <?php
-                                             foreach($keeperList as $keeper) {
-                                                  echo "<option value=". $keeper->getId() .">
-                                                       ". $keeper->getUser()->getName() ." / $ ". $keeper->getRemuneration() . " for day
-                                                  </option>";
-                                             }
+                                             <?php foreach ($keeperList as $keeper) {
+                                                  if ($keeper->getUser()->getId() != $_SESSION["loggedUser"]->getId()) {
                                              ?>
+                                                       <option value=<?php echo $keeper->getId() ?>>
+                                                            <?php echo $keeper->getUser()->getName() . " / $ " . $keeper->getRemuneration() . " for day " ?>
+                                                       </option>
+
+                                             <?php }
+                                             } ?>
                                         </select>
                                         <button type="submit" name="button" class="btn btn-success ml-auto d-block text-center">
                                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
@@ -36,11 +34,12 @@ include_once(VIEWS_PATH . "nav-user.php");
                               </div>
                          </div>
                     <?php
-                         }
+                                   }
                     ?>
                </form>
                <?php
-                    include_once(VIEWS_PATH . "message.php");
+               if (isset($message))
+                    echo $message;
                ?>
           </div>
           <div class="container">

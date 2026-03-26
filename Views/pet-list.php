@@ -1,8 +1,4 @@
-<?php
 
-include_once(VIEWS_PATH . "validate-session.php");
-include_once(VIEWS_PATH . "nav-user.php");
-?>
 <main class="py-5">
      <section id="listado" class="mb-5">
           <div class="container">
@@ -17,34 +13,28 @@ include_once(VIEWS_PATH . "nav-user.php");
                     </div>
                </div>
                <h2 class="mb-4">My Pet´s</h2>
-               <?php
-               if (!empty($petList)) {
-               ?>
-                    <table class="table table-dark text-center">
-                         <thead>
-                              <th>Name</th>
-                              <th>PetType</th>
-                              <th>Breed</th>
-                              <th>PetSize</th>
-                              <th>Observation</th>
-                              <th>Picture</th>
-                              <th>Vacunation</th>
-                              <th>Video</th>
-                              <th>Actions</th>
-                         </thead>
-                         <tbody>
+               <table class="table table-dark text-center">
+                    <thead>
+                         <th>Name</th>
+                         <th>PetType</th>
+                         <th>Breed</th>
+                         <th>PetSize</th>
+                         <th>Observation</th>
+                         <th>Picture</th>
+                         <th>Vacunation</th>
+                         <th>Video</th>
+                         <th>Actions</th>
+                    </thead>
+                    <tbody>
                          <?php
-                    }
-                         ?>
-                         <?php
-                         if (!empty($petList)) {
+                         if (isset($petList)) {
                               foreach ($petList as $pet) {
                          ?>
                                    <form action="<?php echo FRONT_ROOT . "Pet/Unsubscribe" ?>" method="post">
                                         <tr>
                                              <td><?php echo $pet->getName() ?></td>
                                              <td><?php echo $pet->getPetType()->getName() ?></td>
-                                             <td><?php echo $pet->getBreed()->getName()?></td>
+                                             <td><?php echo $pet->getBreed()->getName() ?></td>
                                              <td><?php echo $pet->getPetSize()->getName() ?></td>
                                              <td><?php echo $pet->getObservation() ?></td>
                                              <td>
@@ -94,19 +84,18 @@ include_once(VIEWS_PATH . "nav-user.php");
                                    </form>
                          <?php
                               }
-                         } else {
-                              echo "<div class='container alert alert-warning'>
-                         <div class='content text-center'>
-                              <p><strong>You do not have pets, to start add one with the #Add Pet button</strong></p>
-                         </div>
-                    </div>";
+                         } ?>
+                    </tbody>
+               </table>
+               <?php
+               if(!empty($listEmpty)){
+                              echo $listEmpty;
                          }
                          ?>
-                         </tbody>
-                    </table>
           </div>
           <?php
-               include_once(VIEWS_PATH . "message.php");
+          if(isset($message))
+         echo $message;
           ?>
      </section>
 </main>
