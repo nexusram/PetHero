@@ -4,8 +4,8 @@
 
     class Keeper {
         private $id;
-        private $user;
-        private $petSize;
+        private User $user;
+        private PetSize $petSize;
         private $remuneration;
         private $description;
         private $score;

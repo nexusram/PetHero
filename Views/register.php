@@ -3,10 +3,7 @@
           <header class="text-center">
                <h2>Sign up in to Pet Hero</h2>
           </header>
-          <form action="<?php
-
-
- echo FRONT_ROOT . "Home/Register"?>" method="post" class="register-form bg-dark p-5 text-white">
+          <form action="<?php echo FRONT_ROOT . "Home/Register" ?>" method="post" class="register-form bg-dark p-5 text-white">
                <div class="form-group text-center">
                     <h1>Register</h1>
                </div>
@@ -28,11 +25,11 @@
                </div>
                <div class="form-group">
                     <label for="">Password</label>
-                    <input type="password" name="password" class="form-control form-control-lg" minlength="8" maxlength="8" placeholder="Enter your password" required>
+                    <input type="password" name="password" class="form-control form-control-lg" minlength="8" maxlength="20" placeholder="Enter your password" required>
                </div>
                <div class="form-group">
                     <label for="">Retry Password</label>
-                    <input type="password" name="password_two" class="form-control form-control-lg" minlength="8" maxlength="8" placeholder="Enter your password" required>
+                    <input type="password" name="password_two" class="form-control form-control-lg" minlength="8" maxlength="20" placeholder="Enter your password" required>
                </div>
                <div class="form-group">
                     <label for="">Email</label>
@@ -51,7 +48,10 @@
                     <a href="<?php echo FRONT_ROOT . "Home/Index" ?>">Register? Sign in!</a>
                </div>
                <?php
-                    include_once(VIEWS_PATH . "message.php");
+              if(isset($message))
+              {
+               echo $message;
+              }
                ?>
           </form>
      </div>

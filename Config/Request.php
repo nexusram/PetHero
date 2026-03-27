@@ -42,13 +42,17 @@
             elseif ($_POST)
                 $this->parameters = $_POST;
             
+            if(isset($this->parameters["btn"]))
+                unset($this->parameters["btn"]);
+
+            if(isset($this->parameters["button"]))
+                unset($this->parameters["button"]);
+            
             if($_FILES)
             {
-                unset($this->parameters["button"]);
-                
-                foreach($_FILES as $file)
+                foreach($_FILES as $key => $file)
                 {
-                    array_push($this->parameters, $file);
+                    $this->parameters[$key] = $file;
                 }
             }
         }

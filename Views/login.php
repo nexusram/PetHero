@@ -1,11 +1,10 @@
+
 <main class="d-flex align-items-center justify-content-center height-100">
      <div class="content">
           <header class="text-center">
                <h2>WELCOME!</h2>
           </header>
-          <form action="<?php
-
-                         echo FRONT_ROOT . "Home/Login" ?>" method="post" class="login-form bg-dark p-5 text-white">
+          <form action="<?php echo FRONT_ROOT . "Home/Login" ?>" method="post" class="login-form bg-dark p-5 text-white">
                <div class="form-group text-center">
                     <h1>Login</h1>
                </div>
@@ -23,10 +22,11 @@
                </div>
                <div class="form-group mt-3 mb-0 text-center">
                     <a href="<?php echo FRONT_ROOT . "Home/ShowRememberPassword" ?>">Do you not remember password?</a>
+                    <?php
+                    if (isset($message))
+                         echo ($message);
+                    ?>
                </div>
-               <?php
-                    include_once(VIEWS_PATH . "message.php");
-               ?>
           </form>
      </div>
 </main>
