@@ -27,34 +27,34 @@
 ## 📸 Galería del Sistema
 
 1. **Login:** Inicio de sesión que valida el nombre de usuario y contraseña en la base de datos.
-![Login](docs/login.webp)
+![Login](/PetHero/docs/login.webp)
 
 2. **Pantalla de Inicio:** Landing page al ingresar como usuario registrado.
-![Inicio](docs/inicio.webp)
+![Inicio](/PetHero/docs/inicio.webp)
 
 3. **Registro de Keeper:** Activación de perfil como cuidador, definiendo paga diaria, tamaño de animal aceptado y descripción.
-![Registro Keeper](docs/registro-keeper.webp)
+![Registro Keeper](/PetHero/docs/registro-keeper.webp)
 
 4. **Historial de Reservas (Booking History):** Panel para ver el estado de las reservas (en espera, aceptadas, rechazadas, etc).
-![Historial Reservas](docs/booking-history.webp)
+![Historial Reservas](/PetHero/docs/booking-history.webp)
 
 5. **Disponibilidad del Keeper:** Calendario para configurar los días en los que el Keeper va a trabajar.
-![Disponibilidad Keeper](docs/disponibilidad-keeper.webp)
+![Disponibilidad Keeper](/PetHero/docs/disponibilidad-keeper.webp)
 
 6. **Lista de Mascotas:** Sección de un usuario Dueño (Owner) para ver a sus mascotas activas.
-![Mascotas de Usuario](docs/agregar-animal.webp)
+![Mascotas de Usuario](/PetHero/docs/agregar-animal.webp)
 
 7. **Registro de Mascota:** Formulario para agregar un animal indicando nombre, tamaño, raza y observaciones.
-![Registro Mascota](docs/registro-animal.webp)
+![Registro Mascota](/PetHero/docs/registro-animal.webp)
 
 8. **Detalle de Mascota:** Vista en detalle de los datos y documentos (foto, vacunación) de un animal registrado.
-![Detalle Mascota](docs/detalle-animal.webp)
+![Detalle Mascota](/PetHero/docs/detalle-animal.webp)
 
 9. **Detalle de la Reserva:** Vista resumen de una solicitud de cuidado mostrando información sobre el Keeper, la mascota, las fechas y el precio total.
-![Detalle Reserva](docs/detalle-reserva.webp)
+![Detalle Reserva](/PetHero/docs/detalle-reserva.webp)
 
 10. **Keepers Disponibles:** Listado de búsqueda que muestra a todos los cuidadores disponibles para unas fechas y tipo de mascota determinados por el usuario.
-![Keepers Disponibles](docs/keepers-disponibles.webp)
+![Keepers Disponibles](/PetHero/docs/keepers-disponibles.webp)
 
 ---
 *Proyecto académico para la Tecnicatura Superior en Programación (UTN) - 2022.*
