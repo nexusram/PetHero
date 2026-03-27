@@ -1,7 +1,4 @@
-<?php
-include_once(VIEWS_PATH . "validate-session.php");
-include_once(VIEWS_PATH . "nav-user.php");
-?>
+
 <main class="py-5">
      <section id="listado" class="mb-5">
           <div class="container">
@@ -21,16 +18,14 @@ include_once(VIEWS_PATH . "nav-user.php");
                                    <th>Birthday</th>
                                    <td><input type="Date" name="birthday" value="<?php echo $_SESSION["loggedUser"]->getBirthday() ?>" class="form-control text-white" style="background-color:transparent" required>
                               </tr>
-                              <!-- 
                               <tr>
-                                   <th>Username</th>
-                                   <td><input type="text" name="username" value="<?php echo $_SESSION["loggedUser"]->getUserName() ?>" class="form-control text-white" style="background-color:grey" disabled required>
+                                   <th>UseerName</th>
+                                   <td><?php echo $_SESSION["loggedUser"]->getUserName() ?></td>
                               </tr>
                               <tr>
                                    <th>Email</th>
-                                   <td><input type="email" name="email" value="<?php echo $_SESSION["loggedUser"]->getEmail() ?>" class="form-control text-white" style="background-color:grey" disabled required></td>
+                                   <td><?php echo $_SESSION["loggedUser"]->getEmail() ?></td>
                               </tr>
-                              --->
                               <tr>
                                    <th>Cellphone</th>
                                    <td><input type="num" name="cellphone" value="<?php echo $_SESSION["loggedUser"]->getCellphone() ?>" class="form-control text-white" style="background-color:transparent" required></td>

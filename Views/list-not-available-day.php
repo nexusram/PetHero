@@ -1,28 +1,17 @@
-<?php
-
-include_once(VIEWS_PATH . "validate-session.php");
-include_once(VIEWS_PATH . "nav-user.php");
-?>
 <main class="py-5">
      <section id="listado" class="mb-5">
           <div class="container">
                <h2 class="mb-4">Not available day's</h2>
-               <?php
-               if (!empty($dayList)) {
-               ?>
-                    <table class="table table-dark text-center">
-                         <thead>
-                              <th>Day</th>
-                              <th>Month</th>
-                              <th>Year</th>
-                              <th>Date</th>
-                              <th>Available</th>
-                              <th>Actions</th>
-                         </thead>
-                         <tbody>
-                         <?php
-                    }
-                         ?>
+               <table class="table table-dark text-center">
+                    <thead>
+                         <th>Day</th>
+                         <th>Month</th>
+                         <th>Year</th>
+                         <th>Date</th>
+                         <th>Available</th>
+                         <th>Actions</th>
+                    </thead>
+                    <tbody>
                          <?php
                          if (!empty($dayList)) {
                               foreach ($dayList as $day) {
@@ -51,6 +40,11 @@ include_once(VIEWS_PATH . "nav-user.php");
                                                   if ($today < $date) {
                                                   ?>
                                                        <button class="btn btn-success">
+                                                            <input type="hidden" name="message" value="<?php echo $message = "<div class= 'container'>
+            <div class='form-group text-center'>
+            <div class='alert alert-success mt-3'>
+                      <p>Successfully</p>
+                      </div></div></div>" ?>">
                                                        <?php
                                                   } else {
                                                        ?>
@@ -68,21 +62,21 @@ include_once(VIEWS_PATH . "nav-user.php");
                                    </form>
                          <?php
                               }
-                         } else {
-                              echo "<div class='container alert alert-warning'>
-                         <div class='content text-center'>
-                              <p><strong>You haven't days disabled.</strong></p>
-                         </div>
-                    </div>";
                          }
                          ?>
-                         </tbody>
-                    </table>
-                    <a class="btn btn-dark" href="<?php echo FRONT_ROOT . "Day/ShowListView" ?>">Back</a>
-          </div>
+                    </tbody>
+               </table>
                <?php
-                    include_once(VIEWS_PATH . "message.php");
+               if (!empty($listEmpty)) {
+                    echo $listEmpty;
+               }
                ?>
+               <a class="btn btn-dark" href="<?php echo FRONT_ROOT . "Day/ShowListView" ?>" value="<?php echo $message = " " ?>">Back</a>
+          </div>
+          <?php
+          if (isset($message))
+               echo $message;
+          ?>
           </div>
           <?php
           ?>

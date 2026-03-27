@@ -13,6 +13,7 @@ class PetTypeDAO implements IPetTypeDAO
     private $connection;
     private $tableName = "PetType";
 
+    //return max id petType
     public function MaxPetType()
     {
         try {
@@ -26,37 +27,43 @@ class PetTypeDAO implements IPetTypeDAO
         return $result;
     }
 
+    //add petType
     public function Add(PetType $petType)
     {
         $result = $this->MaxPetType();
-        $petType->setId(++$result); //seteo el id autoincremental
+        $petType->setId(++$result);
         $query = "INSERT INTO . $this->tableName . (id,name) VALUES (:id,:name);";
         $this->SetQuery($query, $petType);
     }
 
+    //return all petType
     public function GetAll()
     {
         $this->RetrieveData();
         return $this->petTypeList;
     }
 
+    //return all petType
     private function RetrieveData()
     {
         $query = "SELECT * FROM $this->tableName";
         $this->GetAllQuery($query);
     }
 
+//modify petType
     public function Modify(petType $petType)
     {
         $this->Update($petType);
     }
 
+//return all petType for id
     public function GetById($id)
     {
         $query = "SELECT * FROM $this->tableName where id = {$id};";
         return $this->GetResult($query);
     }
 
+//modify petType
     private function Update(PetType $petType)
     {
         $query = "UPDATE $this->tableName SET id = :id, name = :name WHERE id = {$petType->getId()};";
@@ -82,6 +89,7 @@ class PetTypeDAO implements IPetTypeDAO
         return $petType;
     }
 
+    /*return all Result of Query */
     private function GetAllQuery($query)
     {
         $this->petTypeList = array();
@@ -95,12 +103,12 @@ class PetTypeDAO implements IPetTypeDAO
         }
     }
 
+    //Insert a petType in the Query//
     private function SetQuery($query,PetType $petType)
     {
         try {
             $parameters["id"] = $petType->getId();
             $parameters["name"] = $petType->getName();
-            var_dump($petType->getId());
             $this->connection = Connection::GetInstance();
             $this->connection->ExecuteNonQuery($query, $parameters);
         } catch (Exception $ex) {

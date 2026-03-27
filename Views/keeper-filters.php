@@ -1,7 +1,4 @@
-<?php
-include_once(VIEWS_PATH . "validate-session.php");
-include_once(VIEWS_PATH . "nav-user.php");
-?>
+
 <main class="py-5">
      <section id="listado" class="mb-5">
           <div class="container">
@@ -17,17 +14,17 @@ include_once(VIEWS_PATH . "nav-user.php");
                                         <select class="form-control" name="idPet" required>
                                              <?php
                                              foreach ($petList as $pet) {
-                                                  echo "<option value=" . $pet->getId() . ">
-                                                       " . $pet->getName() . "
-                                                  </option>";
+                                                  ?>
+                                                  <option value="<?php echo $pet->getId()?>"><?php echo $pet->getName();?></option>
+                                                  <?php
                                              }
                                              ?>
                                         </select>
                                    <label>Start Date</label>
-                                   <?php echo "<input class='form-control mb-3' type='date' name='startDate' min='" . date(FORMAT_DATE) . "'required>"; ?>
+                                   <input class='form-control mb-3' type='date' name='startDate' min=<?php echo date(FORMAT_DATE) ?> required>
 
                                    <label>End Date</label>
-                                   <?php echo "<input class='form-control mb-3' type='date' name='endDate' min='" . date(FORMAT_DATE) . "'required>"; ?>
+                                   <input class='form-control mb-3' type='date' name='endDate' min=<?php echo date(FORMAT_DATE) ?> required>
 
                                    <button type="submit" name="button" class="btn btn-success ml-auto d-block text-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
@@ -37,12 +34,8 @@ include_once(VIEWS_PATH . "nav-user.php");
                                    </button>
                               </div>
                               <?php
-                                   } else {
-                                        ?>
-                                        <div class="alert alert-danger text-center">
-                                             <p><strong>Currently, you do not have registered pets</strong></p>
-                                        </div>
-                                        <?php
+                                   } if(!empty($listEmpy)) {
+                                      echo $listEmpy;
                                    }
                               ?>
                               <a class="btn btn-danger" href="<?php echo FRONT_ROOT . "Pet/ShowPetListView" ?>">Cancel</a>

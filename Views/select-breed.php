@@ -1,8 +1,3 @@
-<?php
-include_once(VIEWS_PATH . "validate-session.php");
-include_once(VIEWS_PATH . "nav-user.php");
-
-?>
 <main class="py-5">
      <section id="listado" class="mb-5">
           <div class="container">
@@ -12,12 +7,11 @@ include_once(VIEWS_PATH . "nav-user.php");
                          <div class="col-lg-2"></div>
                          <div class="col-lg-8">
                               <div class="form-group">
-                                    <input type="hidden" name="name" value="<?php echo $name;?>">
-                                    <input type="hidden" name="petType" value="<?php echo $petType;?>">
+                                   <input type="hidden" name="name" value="<?php echo $name; ?>">
+                                   <input type="hidden" name="petType" value="<?php echo $petType; ?>">
 
                                    <label for="">Breed</label>
                                    <select class="form-control" name="breed" id="breed" required>
-                                   <option hidden selected>Select the option</option>
                                         <?php
                                         foreach ($breedList as $breed) {
                                         ?>
@@ -33,11 +27,9 @@ include_once(VIEWS_PATH . "nav-user.php");
                                    <select class="form-control" name="petSize" id="petSize" required>
                                         <?php
                                         foreach ($petSizeList as $petSize) {
-                                             echo "<option value=" . $petSize->getId() . ">
-                                                       " . $petSize->getName() . "
-                                                  </option>";
-                                        }
                                         ?>
+                                             <option value=<?php echo $petSize->getId() ?>><?php echo $petSize->getName() ?></option>
+                                        <?php } ?>
                                    </select>
 
                                    <label for="">Observation</label>
@@ -61,7 +53,7 @@ include_once(VIEWS_PATH . "nav-user.php");
                          Add
                     </button>
                     <?php
-                         include_once(VIEWS_PATH . "message.php");
+
                     ?>
                </form>
           </div>
