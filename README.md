@@ -27,7 +27,7 @@
 ## 📸 Galería del Sistema
 
 1. **Login:** Inicio de sesión que valida el nombre de usuario y contraseña en la base de datos.
-![Login](/PetHero/blob/main/docs/login.webp)
+![Login](login.webp)
 
 2. **Pantalla de Inicio:** Landing page al ingresar como usuario registrado.
 ![Inicio](/PetHero/blob/main/docs/inicio.webp)
