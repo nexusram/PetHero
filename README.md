@@ -26,7 +26,7 @@
 
 ## 📸 Galería del Sistema
 
-1. **Login:** Inicio de sesión que valida el nombre de usuario y contraseña en la base de datos.
+1. **Login:** Inicio de sesión que valida el nombre de usuario y contraseña en la base de datos.La funcionalidad de envío de emails está desactivada en este entorno de demo por políticas de seguridad del hosting gratuito y protección de credenciales SMTP.
 ![Login](docs/login.webp)
 
 2. **Pantalla de Inicio:** Landing page al ingresar como usuario registrado.
