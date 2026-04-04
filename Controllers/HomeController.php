@@ -157,9 +157,9 @@ class HomeController
 
     /*the method obtains the username and checks if it exists, if it exists it sends an email to recover the password,
      otherwise it directs it again to the remember password view*/
-    public function RememberPassword($username)
+    public function RememberPassword($userName)
     {
-        $user = $this->userDAO->GetByUserName($username);
+        $user = $this->userDAO->GetByUserName($userName);
         if (!is_null($user)) {
             $mail = new MailController();
             $mail->sendMail($user->getEmail(), "I forgot my password", "your password is", $user->getPassword());

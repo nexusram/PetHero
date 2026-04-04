@@ -10,7 +10,7 @@ class PetSizeDAO implements IPetSizeDAO
 {
     private $petSizeList = array();
     private $connection;
-    private $tableName = "PetSize";
+    private $tableName = "petSize";
 
     //return max id petSize
     public function MaxSize()

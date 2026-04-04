@@ -17,9 +17,9 @@
                          echo $message;
                 ?>
                <div class="container">
+                   <input name="id_user" type="hidden" value="<?php echo $user->getId() ?>" />
+					<input name="id_user_keeper" type="hidden" value="<?php echo $keeper->getUser()->getId() ?>" />
                     <input name="author" type="hidden" value=<?php echo $_SESSION["loggedUser"]->getUserName() ?> />
-                    <input name="user" type="hidden" value=<?php echo $user->getId() ?> />
-                    <input name="keeper" type="hidden" value=<?php echo $keeper->getUser()->getId() ?> />
                     <textarea name="messageSend" class="mb-4 btn-block btn-lg" placeholder="into Message" required></textarea>
                     <button class="btn btn-warning btn-block btn-lg" type="submit">Send</button>
                     <!--<a class="btn btn-danger btn-block btn-lg" href="<?php // echo FRONT_ROOT . "Booking/ShowConfirmedView" ?>">cancel</a> -->

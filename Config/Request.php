@@ -9,10 +9,12 @@
         
         public function __construct()
         {
-            $url = filter_input(INPUT_GET, "url", FILTER_SANITIZE_URL);
-
+          	// $url = filter_input(INPUT_GET, "url", FILTER_SANITIZE_URL);
+            // 1. Capturamos la URL. Si no existe (estás en la home), le asignamos un string vacío ""
+    		// El operador ?? "" es la clave para que no explote en PHP 8
+			$url = filter_input(INPUT_GET, "url", FILTER_SANITIZE_URL) ?? "";
             $urlArray = explode("/", $url);
-         
+       
             $urlArray = array_filter($urlArray);
 
             if(empty($urlArray))
