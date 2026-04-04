@@ -25,15 +25,15 @@ class MailController
         require_once(ROOT . 'PHPMailer/SMTP.php');
         require_once(ROOT . 'PHPMailer/Exception.php');
 
-        $mail = new PHPMailer(true);
-
         try {
+            /*
+             $mail = new PHPMailer(true);
             $mail->SMTPDebug = 0;                    
             $mail->isSMTP();                                          
             $mail->Host       = 'smtp.gmail.com;smtp.live.com';                  
             $mail->SMTPAuth   = true;                                  
             $mail->Username   = 'nahuelsuarez9797@gmail.com';                    
-            $mail->Password   = 'kutr zocc xswc dijp';                             
+            $mail->Password   = '';                             
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            
             $mail->Port       = 465;                                   
 
@@ -52,7 +52,8 @@ class MailController
             ";
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
-            $mail->send();
+            $mail->send();*/
+             return true;
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }

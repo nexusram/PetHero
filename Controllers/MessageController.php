@@ -5,7 +5,7 @@ namespace Controllers;
 use DAO\KeeperDAO;
 use DAO\MessageDAO;
 use DAO\UserDAO;
-use Models\message;
+use Models\Message;
 
 class MessageController
 {

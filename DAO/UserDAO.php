@@ -10,7 +10,7 @@ class UserDAO implements IUserDAO
 {
     private $userList = array();
     private $connection;
-    private $tableName = "User";
+    private $tableName = "user";
 
     //ad user
     public function Add(User $user)

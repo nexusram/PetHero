@@ -6,3 +6,15 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-l
 
 RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+
+Options -Indexes
+
+RewriteEngine On
+
+# Si el archivo o carpeta existe, lo abre normalmente (para CSS, JS, imágenes)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Si no existe, manda todo al index.php pasándole la ruta en la variable 'url'
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]

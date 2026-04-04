@@ -11,7 +11,7 @@ class PetTypeDAO implements IPetTypeDAO
 {
     private $petTypeList = array();
     private $connection;
-    private $tableName = "PetType";
+    private $tableName = "petType";
 
     //return max id petType
     public function MaxPetType()

@@ -13,7 +13,7 @@ class PetDAO implements IPetDAO
 {
     private $petList = array();
     private $connection;
-    private $tableName = "Pet";
+    private $tableName = "pet";
 
     //add pet
     public function Add(Pet $pet)
